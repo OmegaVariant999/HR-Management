@@ -1,0 +1,137 @@
+/* ====================================================
+   PROFILE – Formal Office Theme
+   ==================================================== */
+:host { display: block; }
+
+.page {
+  min-height: 100vh;
+  background: #111827;
+  padding: 28px 32px;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: #e8f0fe;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-title   { font-size: 24px; font-weight: 700; color: #e8f0fe; margin: 0; }
+.page-subtitle{ font-size: 13px; color: #6b8ec7; margin: 4px 0 0; }
+
+/* ---- Layout ---- */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) { .profile-layout { grid-template-columns: 1fr; } }
+
+/* ---- Cards ---- */
+.card {
+  background: #1a2236;
+  border: 1px solid #243050;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* ---- Profile Avatar Card ---- */
+.avatar-card { padding: 32px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.avatar-wrap { position: relative; display: inline-block; }
+
+.avatar-circle {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border: 3px solid #2d4f96;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 700; color: #e0ecff;
+  box-shadow: 0 0 0 5px rgba(59,130,246,0.12);
+}
+
+.avatar-edit-btn {
+  position: absolute; bottom: 2px; right: 2px;
+  width: 28px; height: 28px;
+  background: #2563eb; border: 2px solid #1a2236;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.15s;
+  color: #e0ecff;
+}
+.avatar-edit-btn:hover { background: #1d4ed8; }
+.avatar-edit-btn svg { width: 13px; height: 13px; }
+
+.profile-name { font-size: 17px; font-weight: 700; color: #e8f0fe; margin: 0; }
+.profile-role { font-size: 10.5px; font-weight: 700; color: #3b82f6; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+.profile-since { font-size: 11.5px; color: #4a6899; margin: 4px 0 0; }
+
+/* ---- Settings Panel ---- */
+.settings-label {
+  padding: 12px 20px;
+  font-size: 9.5px; font-weight: 700; color: #4a6899;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  background: #0f1928;
+  border-bottom: 1px solid #243050;
+}
+
+.settings-nav { display: flex; flex-direction: column; }
+.settings-btn {
+  display: flex; align-items: center;
+  padding: 13px 20px;
+  background: none; border: none; border-left: 3px solid transparent;
+  color: #8aabdb; font-size: 13px; font-weight: 500;
+  cursor: pointer; text-align: left;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  border-bottom: 1px solid #1e2d48;
+}
+.settings-btn:last-child { border-bottom: none; }
+.settings-btn:hover { background: #1e2d48; color: #c5d9f8; border-left-color: #3b82f6; }
+.settings-btn.danger { color: #9b7a8a; }
+.settings-btn.danger:hover { background: #2d1a22; color: #f87171; border-left-color: #ef4444; }
+
+/* ---- Form Card ---- */
+.form-card { padding: 28px 32px; display: flex; flex-direction: column; gap: 28px; }
+
+.form-section-title {
+  font-size: 10.5px; font-weight: 700; color: #3b82f6;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  padding-bottom: 10px; border-bottom: 1px solid #243050;
+  margin: 0;
+}
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px; }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 10px; font-weight: 700; color: #4a6899; text-transform: uppercase; letter-spacing: 0.9px; }
+
+.field input {
+  padding: 10px 14px;
+  background: #111827; border: 1px solid #243050; border-radius: 8px;
+  color: #c5d9f8; font-size: 13px; outline: none;
+  transition: border-color 0.15s;
+}
+.field input::placeholder { color: #4a6899; }
+.field input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+.field input:read-only { background: #0f1928; color: #6b8ec7; cursor: default; }
+
+.static-field {
+  padding: 10px 14px;
+  background: #0f1928; border: 1px solid #1e2d48; border-radius: 8px;
+  color: #6b8ec7; font-size: 13px; font-weight: 600;
+}
+
+.form-footer {
+  display: flex; justify-content: flex-end;
+  padding-top: 16px; border-top: 1px solid #1e2d48;
+}
+
+.btn-save {
+  padding: 10px 28px;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border: 1px solid #2d4f96; border-radius: 8px;
+  color: #e0ecff; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  cursor: pointer; transition: box-shadow 0.18s;
+}
+.btn-save:hover { box-shadow: 0 4px 14px rgba(37,99,235,0.35); }

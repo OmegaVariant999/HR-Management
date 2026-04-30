@@ -1,96 +1,96 @@
-<!-- HR_Management\src\app\leave-manage\leave-manage.html -->
-<div class="mb-8">
-  <h1 class="text-2xl font-bold text-gray-800">Leave Management</h1>
-  <p class="text-sm text-gray-500">Track and process employee leave applications.</p>
-</div>
+<div class="page">
 
-<div class="flex items-center gap-3">
-    <!-- Filter Button -->
-    <button (click)="openFilter()" 
-            class="flex items-center px-4 py-2 border border-gray-200 bg-white rounded-lg text-gray-600 text-sm hover:bg-gray-50 transition-colors">
-      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-      </svg>
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Leave Management</h1>
+      <p class="page-subtitle">Track and process employee leave applications.</p>
+    </div>
+    <button class="btn-secondary" (click)="openFilter()" id="leave-filter-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
       Filter
     </button>
-</div>
-
-<!-- Tab Navigation -->
-<div class="flex items-center space-x-1 border-b border-gray-100 mb-6">
-  <button (click)="setTab('pending')" 
-          [class.text-sky-600]="activeTab() === 'pending'"
-          [class.border-sky-500]="activeTab() === 'pending'"
-          class="px-6 py-3 text-xs font-bold uppercase tracking-widest border-b-2 border-transparent transition-all hover:text-sky-500">
-    Pending Requests
-  </button>
-  <button (click)="setTab('approved')" 
-          [class.text-sky-600]="activeTab() === 'approved'"
-          [class.border-sky-500]="activeTab() === 'approved'"
-          class="px-6 py-3 text-xs font-bold uppercase tracking-widest border-b-2 border-transparent transition-all hover:text-sky-500">
-    Approved
-  </button>
-  <button (click)="setTab('rejected')" 
-          [class.text-sky-600]="activeTab() === 'rejected'"
-          [class.border-sky-500]="activeTab() === 'rejected'"
-          class="px-6 py-3 text-xs font-bold uppercase tracking-widest border-b-2 border-transparent transition-all hover:text-sky-500">
-    Rejected
-  </button>
-  <button (click)="setTab('my-leaves')" 
-          [class.text-sky-600]="activeTab() === 'my-leaves'"
-          [class.border-sky-500]="activeTab() === 'my-leaves'"
-          class="px-6 py-3 text-xs font-bold uppercase tracking-widest border-b-2 border-transparent transition-all hover:text-sky-500">
-    My Leaves
-  </button>
-</div>
-
-<!-- Table Content -->
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-  <div class="overflow-x-auto">
-    <table class="w-full text-left border-collapse">
-      <thead>
-        <tr class="bg-gray-50 border-b border-gray-100">
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Employee</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Leave Type</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">From</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">To</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Days</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Reason</th>
-          <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        <!-- Example Row -->
-        <tr class="hover:bg-gray-50/50 transition-colors">
-          <td class="px-6 py-4">
-            <div class="flex items-center">
-              <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-[10px] mr-3">RS</div>
-              <span class="text-sm font-bold text-gray-800">Rahul Sharma</span>
-            </div>
-          </td>
-          <td class="px-6 py-4 text-sm text-gray-600 italic">Casual Leave</td>
-          <td class="px-6 py-4 text-sm text-gray-600">20 May 2024</td>
-          <td class="px-6 py-4 text-sm text-gray-600">22 May 2024</td>
-          <td class="px-6 py-4 text-sm font-bold text-gray-800">3</td>
-          <td class="px-6 py-4 text-sm text-gray-400">Family Function</td>
-          <td class="px-6 py-4 text-right">
-            @if (activeTab() === 'pending') {
-              <div class="flex items-center justify-end space-x-2">
-                <button class="p-1.5 text-green-500 hover:bg-green-50 rounded-lg transition-colors" title="Approve">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                </button>
-                <button class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Reject">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              </div>
-            } @else {
-              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full" 
-                    [class]="activeTab() === 'approved' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'">
-                {{ activeTab() }}
-              </span>
-            }
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button id="tab-pending"  class="tab-btn" [class.active]="activeTab() === 'pending'"   (click)="setTab('pending')">Pending</button>
+    <button id="tab-approved" class="tab-btn" [class.active]="activeTab() === 'approved'"  (click)="setTab('approved')">Approved</button>
+    <button id="tab-rejected" class="tab-btn" [class.active]="activeTab() === 'rejected'"  (click)="setTab('rejected')">Rejected</button>
+    <button id="tab-my"       class="tab-btn" [class.active]="activeTab() === 'my-leaves'" (click)="setTab('my-leaves')">My Leaves</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Leave Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Days</th>
+            <th>Reason</th>
+            <th class="right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">RS</div>
+                <span class="emp-name">Rahul Sharma</span>
+              </div>
+            </td>
+            <td><span class="type-text">Casual Leave</span></td>
+            <td>20 May 2025</td>
+            <td>22 May 2025</td>
+            <td><span class="days-text">3</span></td>
+            <td><span class="reason-text">Family Function</span></td>
+            <td>
+              <div class="actions-cell">
+                @if (activeTab() === 'pending') {
+                  <button class="action-btn approve" title="Approve" id="leave-approve-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </button>
+                  <button class="action-btn reject" title="Reject" id="leave-reject-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                } @else {
+                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
+                    {{ activeTab() }}
+                  </span>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">PS</div>
+                <span class="emp-name">Priya Singh</span>
+              </div>
+            </td>
+            <td><span class="type-text">Sick Leave</span></td>
+            <td>25 May 2025</td>
+            <td>26 May 2025</td>
+            <td><span class="days-text">2</span></td>
+            <td><span class="reason-text">Medical</span></td>
+            <td>
+              <div class="actions-cell">
+                @if (activeTab() === 'pending') {
+                  <button class="action-btn approve" title="Approve"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
+                  <button class="action-btn reject" title="Reject"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                } @else {
+                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">{{ activeTab() }}</span>
+                }
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
