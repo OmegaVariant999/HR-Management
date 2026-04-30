@@ -19,14 +19,25 @@
 <!-- Calendar Controls -->
 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between mb-6">
     <div class="flex items-center space-x-4">
-        <button class="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        <button (click)="prevMonth()" 
+                class="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
         </button>
-        <h2 class="text-lg font-bold text-gray-800">May 2024</h2>
-        <button class="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+
+        <h2 class="text-lg font-bold text-gray-800 min-w-[160px] text-center">
+            {{ monthDisplay() }}
+        </h2>
+
+        <button (click)="nextMonth()" 
+                class="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
         </button>
     </div>
+    
     <div class="flex items-center space-x-6">
         <div class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-widest">
             <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span> Present
@@ -47,17 +58,15 @@
             <thead>
                 <tr class="bg-gray-50 border-b border-gray-100">
                     <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider sticky left-0 bg-gray-50 z-10">Employee</th>
-                    <!-- Day Columns (1-31) -->
-                    @for (day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track day) {
-                        <th class="px-2 py-4 text-center text-[10px] font-bold text-gray-400 uppercase tracking-tighter border-l border-gray-100">{{ day }}</th>
+                    @for (day of getDaysArray(); track day) {
+                        <th class="px-2 py-4 text-center text-[10px] font-bold text-gray-400 border-l border-gray-100">{{ day }}</th>
                     }
                     <th class="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase border-l border-gray-100">Total</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                <!-- Row 1 -->
                 <tr class="hover:bg-gray-50/50 transition-colors">
-                    <td class="px-6 py-4 sticky left-0 bg-white group-hover:bg-gray-50 z-10 border-r border-gray-50">
+                    <td class="px-6 py-4 sticky left-0 bg-white z-10 border-r border-gray-50">
                         <div class="flex items-center">
                             <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-[10px] mr-3 shrink-0">RS</div>
                             <div>
@@ -66,37 +75,17 @@
                             </div>
                         </div>
                     </td>
-                    <!-- Calendar Statuses -->
-                    @for (day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track day) {
+                    @for (day of getDaysArray(); track day) {
                         <td class="px-2 py-4 text-center border-l border-gray-50">
-                            <div [class.bg-green-500]="day !== 7 && day !== 14" 
-                                 [class.bg-red-500]="day === 7"
-                                 [class.bg-yellow-400]="day === 14"
+                            <!-- Mock logic for dots -->
+                            <div [class.bg-green-500]="day % 7 !== 0" 
+                                 [class.bg-red-500]="day % 7 === 0"
                                  class="w-2 h-2 rounded-full mx-auto"></div>
                         </td>
                     }
-                    <td class="px-4 py-4 text-center text-sm font-bold text-gray-700 bg-gray-50/30">28/31</td>
-                </tr>
-
-                <!-- Row 2 -->
-                <tr class="hover:bg-gray-50/50 transition-colors">
-                    <td class="px-6 py-4 sticky left-0 bg-white group-hover:bg-gray-50 z-10 border-r border-gray-50">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-[10px] mr-3 shrink-0">PS</div>
-                            <div>
-                                <p class="text-sm font-bold text-gray-800 leading-none">Priya Singh</p>
-                                <p class="text-[10px] text-gray-400 mt-1">Marketing</p>
-                            </div>
-                        </div>
+                    <td class="px-4 py-4 text-center text-sm font-bold text-gray-700 bg-gray-50/30">
+                        {{ daysInMonth() - 4 }}/{{ daysInMonth() }}
                     </td>
-                    @for (day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track day) {
-                        <td class="px-2 py-4 text-center border-l border-gray-50">
-                            <div [class.bg-green-500]="day % 3 !== 0" 
-                                 [class.bg-yellow-400]="day % 3 === 0"
-                                 class="w-2 h-2 rounded-full mx-auto"></div>
-                        </td>
-                    }
-                    <td class="px-4 py-4 text-center text-sm font-bold text-gray-700 bg-gray-50/30">25/31</td>
                 </tr>
             </tbody>
         </table>
