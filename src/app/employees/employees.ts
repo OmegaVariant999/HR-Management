@@ -11,7 +11,7 @@ import { FilterDialog } from '../filter-dialog/filter-dialog';
 })
 export class Employees {
     private readonly dialog = inject(MatDialog);
-
+  
   openFilter() {
     const dialogRef = this.dialog.open(FilterDialog, {
       width: '400px',
