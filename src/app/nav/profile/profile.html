@@ -1,1 +1,86 @@
-<p>profile works!</p>
+<!-- HR_Management\src\app\nav\profile\profile.html -->
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">My Profile</h1>
+    <p class="text-sm text-gray-500">Manage your personal information and account settings.</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left Column: Profile Card & Quick Links -->
+    <div class="space-y-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+            <div class="relative inline-block mb-4">
+                <div class="w-32 h-32 rounded-full bg-sky-100 border-4 border-white shadow-sm flex items-center justify-center text-3xl font-bold text-sky-600 mx-auto overflow-hidden">
+                    SM
+                </div>
+                <button class="absolute bottom-0 right-0 p-2 bg-sky-500 text-white rounded-full shadow-lg hover:bg-sky-600 transition-all border-2 border-white">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                </button>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800">{{ userName() }}</h2>
+            <p class="text-sm font-bold text-sky-500 uppercase tracking-widest mt-1">{{ userRole() }}</p>
+            <p class="text-xs text-gray-400 mt-4 leading-relaxed">Account created in January 2026.</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b border-gray-100">
+                <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest">Account Settings</h3>
+            </div>
+            <nav class="flex flex-col">
+                <button class="flex items-center px-6 py-4 text-sm text-gray-600 hover:bg-sky-50 hover:text-sky-600 transition-all border-l-4 border-transparent hover:border-sky-500 font-bold">
+                    Change Password
+                </button>
+                <button class="flex items-center px-6 py-4 text-sm text-gray-600 hover:bg-sky-50 hover:text-sky-600 transition-all border-l-4 border-transparent hover:border-sky-500 font-bold">
+                    Notification Settings
+                </button>
+                <button class="flex items-center px-6 py-4 text-sm text-red-500 hover:bg-red-50 transition-all font-bold">
+                    Delete Account
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Right Column: Personal Information Form -->
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+            <h3 class="text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-4 mb-6">General Information</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Full Name</label>
+                    <input type="text" [value]="userName()" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500 outline-none" readonly>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</label>
+                    <input type="email" [value]="userEmail()" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 outline-none transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone Number</label>
+                    <input type="text" [value]="userPhone()" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 outline-none transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Location</label>
+                    <input type="text" [value]="userLocation()" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 outline-none transition-all">
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-4 mb-6 mt-12">Professional Details</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Employee ID</label>
+                    <p class="text-sm font-bold text-gray-800 px-4 py-2.5 bg-gray-50 rounded-lg border border-gray-100">EMP001</p>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Joining Date</label>
+                    <p class="text-sm font-bold text-gray-800 px-4 py-2.5 bg-gray-50 rounded-lg border border-gray-100">12 December 2025</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end mt-12 pt-6 border-t border-gray-100">
+                <button class="px-8 py-3 bg-sky-500 text-white rounded-lg text-sm font-bold shadow-md shadow-sky-100 hover:bg-sky-600 transition-all uppercase tracking-widest">
+                    Save Profile Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
