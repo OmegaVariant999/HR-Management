@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilterDialog } from '../filter-dialog/filter-dialog';
 @Component({
   selector: 'app-attendence',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './attendence.html',
   styleUrl: './attendence.css',
 })

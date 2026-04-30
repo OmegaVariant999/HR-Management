@@ -1,1 +1,96 @@
-<p>leave-manage works!</p>
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Leave Management</h1>
+      <p class="page-subtitle">Track and process employee leave applications.</p>
+    </div>
+    <button class="btn-secondary" (click)="openFilter()" id="leave-filter-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+      Filter
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button id="tab-pending"  class="tab-btn" [class.active]="activeTab() === 'pending'"   (click)="setTab('pending')">Pending</button>
+    <button id="tab-approved" class="tab-btn" [class.active]="activeTab() === 'approved'"  (click)="setTab('approved')">Approved</button>
+    <button id="tab-rejected" class="tab-btn" [class.active]="activeTab() === 'rejected'"  (click)="setTab('rejected')">Rejected</button>
+    <button id="tab-my"       class="tab-btn" [class.active]="activeTab() === 'my-leaves'" (click)="setTab('my-leaves')">My Leaves</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Leave Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Days</th>
+            <th>Reason</th>
+            <th class="right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">RS</div>
+                <span class="emp-name">Rahul Sharma</span>
+              </div>
+            </td>
+            <td><span class="type-text">Casual Leave</span></td>
+            <td>20 May 2025</td>
+            <td>22 May 2025</td>
+            <td><span class="days-text">3</span></td>
+            <td><span class="reason-text">Family Function</span></td>
+            <td>
+              <div class="actions-cell">
+                @if (activeTab() === 'pending') {
+                  <button class="action-btn approve" title="Approve" id="leave-approve-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </button>
+                  <button class="action-btn reject" title="Reject" id="leave-reject-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                } @else {
+                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
+                    {{ activeTab() }}
+                  </span>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">PS</div>
+                <span class="emp-name">Priya Singh</span>
+              </div>
+            </td>
+            <td><span class="type-text">Sick Leave</span></td>
+            <td>25 May 2025</td>
+            <td>26 May 2025</td>
+            <td><span class="days-text">2</span></td>
+            <td><span class="reason-text">Medical</span></td>
+            <td>
+              <div class="actions-cell">
+                @if (activeTab() === 'pending') {
+                  <button class="action-btn approve" title="Approve"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
+                  <button class="action-btn reject" title="Reject"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                } @else {
+                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">{{ activeTab() }}</span>
+                }
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

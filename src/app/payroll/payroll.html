@@ -1,1 +1,77 @@
-<p>payroll works!</p>
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Payroll / Payslip</h1>
+      <p class="page-subtitle">Manage employee salaries and generate payslips.</p>
+    </div>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input id="payroll-search" type="text" class="search-input" placeholder="Search employee...">
+      </div>
+      <button class="btn-icon" (click)="openFilter()" id="payroll-filter-btn" title="Filter">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Month Selector -->
+  <div class="month-selector">
+    <button class="nav-btn" (click)="prevMonth()" id="payroll-prev-month">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <span class="month-label">{{ monthDisplay() }}</span>
+    <button class="nav-btn" (click)="nextMonth()" id="payroll-next-month">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- Payslip Card -->
+  <div class="payslip-card">
+    <div class="payslip-header">
+      <div class="payslip-emp">
+        <div class="payslip-avatar">RS</div>
+        <div>
+          <p class="payslip-name">Rahul Sharma</p>
+          <p class="payslip-role">Software Engineer &bull; EMP001</p>
+        </div>
+      </div>
+      <div class="net-pay-wrap">
+        <p class="net-pay-label">Net Pay</p>
+        <p class="net-pay-value">$32,760</p>
+      </div>
+    </div>
+
+    <div class="payslip-grid">
+      <div class="pay-section">
+        <h3>Earnings</h3>
+        <div class="pay-row"><span>Basic Salary</span><span>$30,000</span></div>
+        <div class="pay-row"><span>HRA</span><span>$8,000</span></div>
+        <div class="pay-row"><span>Bonus</span><span>$2,000</span></div>
+        <div class="pay-row total earnings"><span>Total Earnings</span><span>$40,000</span></div>
+      </div>
+
+      <div class="pay-section">
+        <h3>Deductions</h3>
+        <div class="pay-row"><span>Provident Fund</span><span>$2,400</span></div>
+        <div class="pay-row"><span>Income Tax</span><span>$4,000</span></div>
+        <div class="pay-row"><span>Others</span><span>$840</span></div>
+        <div class="pay-row total deductions"><span>Total Deductions</span><span>$7,240</span></div>
+      </div>
+    </div>
+
+    <div class="payslip-footer">
+      <button class="btn-download" id="payroll-download-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Download Payslip
+      </button>
+    </div>
+  </div>
+
+</div>

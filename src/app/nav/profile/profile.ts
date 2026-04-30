@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -6,4 +6,11 @@ import { Component } from '@angular/core';
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile {}
+export class Profile {
+  // Mock user data based on your demographics
+  userName = signal('Soumyajit Maity');
+  userRole = signal('Admin / Student');
+  userEmail = signal('admin@hrms.com');
+  userPhone = signal('+91 9876543210');
+  userLocation = signal('Kolkata, West Bengal');
+}
