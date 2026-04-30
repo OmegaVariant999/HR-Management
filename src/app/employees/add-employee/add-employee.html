@@ -1,0 +1,166 @@
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">Add / Edit Employee</h1>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <!-- Stepper Header -->
+    <div class="bg-gray-50 px-8 py-6 border-b border-gray-100">
+        <div class="flex items-center justify-between max-w-5xl mx-auto">
+            @for (step of [1, 2, 3, 4, 5]; track step; let last = $last) {
+                <div class="flex flex-1 items-center">
+                    <div class="flex flex-col items-center">
+                        <div [class.bg-sky-500]="currentStep() >= step"
+                             [class.text-white]="currentStep() >= step"
+                             [class.shadow-sky-200]="currentStep() >= step"
+                             [class.bg-white]="currentStep() < step"
+                             [class.border-2]="currentStep() < step"
+                             [class.border-gray-200]="currentStep() < step"
+                             [class.text-gray-400]="currentStep() < step"
+                             class="w-10 h-10 rounded-full flex items-center justify-center font-bold z-10 transition-all">
+                            {{ step }}
+                        </div>
+                    </div>
+                    @if (!last) {
+                        <div [class.bg-sky-500]="currentStep() > step"
+                             [class.bg-gray-200]="currentStep() <= step"
+                             class="flex-1 h-px mx-4 transition-colors"></div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="p-8 max-w-4xl mx-auto">
+        <!-- Step 1: Personal Info -->
+        @if (currentStep() === 1) {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 class="md:col-span-2 text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-2 mb-2">Personal Information</h2>
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Full Name</label>
+                <input type="text" placeholder="Rahul Sharma" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Phone</label>
+                <input type="text" placeholder="+91 98765 43210" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Email</label>
+                <input type="email" placeholder="rahul.sharma@hrms.com" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Gender</label>
+                <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all bg-white">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Date of Birth</label>
+                <input type="date" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all bg-white">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Marital Status</label>
+                <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all bg-white">
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2 space-y-1">
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Address</label>
+                <textarea rows="3" placeholder="Enter full address..." class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm transition-all resize-none"></textarea>
+            </div>
+        </form>
+            </div>
+        }
+
+        <!-- Step 2: Job Details -->
+        @if (currentStep() === 2) {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 class="md:col-span-2 text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-2 mb-2">Job Details</h2>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Department</label>
+                    <select class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-sky-500/20">
+                        <option>Engineering</option>
+                        <option>Marketing</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Designation</label>
+                    <input type="text" placeholder="Software Engineer" class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-sky-500/20">
+                </div>
+            </div>
+        }
+
+        <!-- Step 3: Salary Details -->
+        @if (currentStep() === 3) {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 class="md:col-span-2 text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-2 mb-2">Salary Details</h2>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Basic Salary</label>
+                    <input type="number" placeholder="50000" class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-sky-500/20">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Bank Name</label>
+                    <input type="text" placeholder="HDFC Bank" class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-sky-500/20">
+                </div>
+            </div>
+        }
+
+        <!-- Step 4: Documents -->
+        @if (currentStep() === 4) {
+            <div class="space-y-6">
+                <h2 class="text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-2 mb-2">Documents</h2>
+                <div class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:bg-gray-50 transition-colors cursor-pointer">
+                    <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="text-sm font-bold text-gray-500">Click to upload or drag and drop</p>
+                    <p class="text-xs text-gray-400 mt-1">PDF, JPG or PNG (Max 5MB)</p>
+                </div>
+            </div>
+        }
+
+        <!-- Step 5: Review & Submit -->
+        @if (currentStep() === 5) {
+            <div class="space-y-8">
+                <h2 class="text-sm font-bold text-sky-600 uppercase tracking-widest border-b pb-2 mb-2">Review Employee Details</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                    <div>
+                        <h3 class="text-xs font-black text-gray-400 uppercase mb-3">Personal & Job</h3>
+                        <div class="space-y-2 text-sm">
+                            <p class="flex justify-between"><span class="text-gray-500">Name:</span> <span class="font-bold text-gray-800">Rahul Sharma</span></p>
+                            <p class="flex justify-between"><span class="text-gray-500">Dept:</span> <span class="font-bold text-gray-800">Engineering</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-black text-gray-400 uppercase mb-3">Financials</h3>
+                        <div class="space-y-2 text-sm">
+                            <p class="flex justify-between"><span class="text-gray-500">Salary:</span> <span class="font-bold text-gray-800">$50,000</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end mt-12 pt-6 border-t border-gray-100 space-x-4">
+            @if (currentStep() > 1) {
+                <button (click)="prevStep()" class="px-6 py-2 text-sm font-bold text-gray-400 uppercase hover:text-gray-600">Back</button>
+            }
+            
+            @if (currentStep() < 5) {
+                <button (click)="nextStep()" class="px-8 py-2.5 bg-sky-500 text-white rounded-lg text-sm font-bold shadow-md hover:bg-sky-600 uppercase transition-all">Next</button>
+            } @else {
+                <button routerLink="/emp" class="px-8 py-2.5 bg-green-600 text-white rounded-lg text-sm font-bold shadow-md hover:bg-green-700 uppercase transition-all">Submit Employee</button>
+            }
+        </div>
+    </div>
+</div>
