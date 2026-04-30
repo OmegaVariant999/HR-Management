@@ -1,0 +1,289 @@
+/* =============================================
+   SIDEBAR – Formal Office Design
+   ============================================= */
+
+:host {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ---- Shell ---- */
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  height: 100vh;
+  background: #1a2236;
+  border-right: 1px solid #243050;
+  overflow: visible;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 68px;
+}
+
+/* ---- Toggle Button ---- */
+/* Clip inner content but not the toggle button */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #1a2236;
+  z-index: -1;
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -14px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #1e3a6e;
+  border: 1.5px solid #2d4f96;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.toggle-btn:hover {
+  background: #2a4d8f;
+  transform: scale(1.1);
+}
+
+.toggle-icon {
+  width: 14px;
+  height: 14px;
+  color: #93b4f0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* ---- Header / Logo ---- */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 18px 18px;
+  flex-shrink: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.logo-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #e0ecff;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.2s, width 0.3s;
+  opacity: 1;
+  width: auto;
+}
+
+.sidebar.collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.logo-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e8f0fe;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+}
+
+.logo-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  color: #6b8ec7;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* ---- Divider ---- */
+.sidebar-divider {
+  height: 1px;
+  margin: 0 16px;
+  background: linear-gradient(90deg, transparent, #2d4f96, transparent);
+  flex-shrink: 0;
+}
+
+/* ---- Navigation ---- */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+  gap: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.nav-section-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #4a6899;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 8px 8px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+
+.sidebar.collapsed .nav-section-label {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- Nav Item ---- */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 7px;
+  text-decoration: none;
+  color: #8aabdb;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, padding 0.3s;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.nav-item:hover {
+  background: #1e3154;
+  color: #c5d9f8;
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, #1e3a6e, #1e3154);
+  color: #93c5fd;
+  border-left: 3px solid #3b82f6;
+}
+
+.sidebar.collapsed .nav-item.active {
+  border-left: none;
+  border-bottom: 2px solid #3b82f6;
+}
+
+/* ---- Nav Icon ---- */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.75;
+}
+
+/* ---- Nav Label ---- */
+.nav-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  transition: opacity 0.2s, width 0.3s;
+  overflow: hidden;
+  opacity: 1;
+}
+
+.sidebar.collapsed .nav-label {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+/* ---- Logout ---- */
+.nav-item.logout {
+  color: #9b7a8a;
+}
+
+.nav-item.logout:hover {
+  background: #2d1a22;
+  color: #f87171;
+}
+
+/* ---- Spacer ---- */
+.flex-spacer {
+  flex: 1;
+}
+
+/* ---- Bottom Nav ---- */
+.bottom-nav {
+  padding-bottom: 16px;
+}
+
+/* ---- Tooltip for collapsed icons ---- */
+.sidebar.collapsed .nav-item {
+  position: relative;
+}
+
+.sidebar.collapsed .nav-item::after {
+  content: attr(title);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0f1d38;
+  color: #c5d9f8;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  border: 1px solid #2d4f96;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.sidebar.collapsed .nav-item:hover::after {
+  opacity: 1;
+}

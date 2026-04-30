@@ -1,5 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
