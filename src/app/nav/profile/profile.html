@@ -29,8 +29,8 @@
       <div class="card">
         <p class="settings-label">Account Settings</p>
         <nav class="settings-nav">
-          <button class="settings-btn" id="profile-change-pw-btn">Change Password</button>
-          <button class="settings-btn" id="profile-notif-btn">Notification Settings</button>
+          <button class="settings-btn" id="profile-change-pw-btn" (click)="goToSecurity()">Change Password</button>
+          <button class="settings-btn" id="profile-notif-btn" (click)="goToNotifications()">Notification Settings</button>
           <button class="settings-btn danger" id="profile-delete-btn">Delete Account</button>
         </nav>
       </div>

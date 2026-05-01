@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -8,10 +9,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
-export class Settings {
+export class Settings implements OnInit {
 
   // Active tab
   activeTab = signal<string>('general');
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['tab']) {
+        this.activeTab.set(params['tab']);
+      }
+    });
+  }
 
   setTab(tab: string) {
     this.activeTab.set(tab);
@@ -19,11 +29,11 @@ export class Settings {
 
   // ── General / Company ──────────────────────────────────
   company = {
-    name: 'Acme Corp Pvt. Ltd.',
-    email: 'hr@acmecorp.in',
-    phone: '+91 98765 43210',
-    website: 'www.acmecorp.in',
-    address: '12, MG Road, Bengaluru, Karnataka – 560001',
+    legalName: 'TechFlow Solutions Private Limited',
+    cinNumber: 'U72900KA2020PTC135790',
+    gstin: '29ABCDE1234F1Z5',
+    panNumber: 'ABCDE1234F',
+    pfRegistration: 'PY/KRP/1234567/000',
     timezone: 'Asia/Kolkata',
     dateFormat: 'DD/MM/YYYY',
     currency: 'INR',

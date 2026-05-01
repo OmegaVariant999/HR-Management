@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -13,4 +14,14 @@ export class Profile {
   userEmail = signal('admin@hrms.com');
   userPhone = signal('+91 9876543210');
   userLocation = signal('Kolkata, West Bengal');
+
+  private router = inject(Router);
+
+  goToSecurity() {
+    this.router.navigate(['/settings'], { queryParams: { tab: 'security' } });
+  }
+
+  goToNotifications() {
+    this.router.navigate(['/settings'], { queryParams: { tab: 'notifications' } });
+  }
 }

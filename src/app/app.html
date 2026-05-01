@@ -1,7 +1,7 @@
 <!-- HR_Management\src\app\app.html -->
-<div class="flex h-screen overflow-hidden" [style.background]="showSidebar ? '#111827' : '#0f172a'">
-    @if (showSidebar) {
-        <app-sidebar></app-sidebar>
+<div class="flex h-screen overflow-hidden" [style.background]="showSidebar() ? '#111827' : '#0f172a'">
+    @if (showSidebar()) {
+    <app-sidebar></app-sidebar>
     }
 
     <main class="flex-1 overflow-y-auto">

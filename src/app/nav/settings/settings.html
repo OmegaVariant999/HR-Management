@@ -55,27 +55,27 @@
           }
 
           <div class="section">
-            <p class="section-label">Organization Info</p>
+            <p class="section-label">Statutory & Registration Details</p>
             <div class="form-grid">
-              <div class="field">
-                <label for="s-company-name">Company Name</label>
-                <input id="s-company-name" type="text" [(ngModel)]="company.name" placeholder="Company name">
-              </div>
-              <div class="field">
-                <label for="s-company-email">HR Email</label>
-                <input id="s-company-email" type="email" [(ngModel)]="company.email" placeholder="hr@company.com">
-              </div>
-              <div class="field">
-                <label for="s-company-phone">Phone</label>
-                <input id="s-company-phone" type="text" [(ngModel)]="company.phone" placeholder="+91 ...">
-              </div>
-              <div class="field">
-                <label for="s-company-website">Website</label>
-                <input id="s-company-website" type="text" [(ngModel)]="company.website" placeholder="www.company.com">
-              </div>
               <div class="field full-width">
-                <label for="s-company-address">Registered Address</label>
-                <input id="s-company-address" type="text" [(ngModel)]="company.address" placeholder="Full address">
+                <label for="s-legal-name">Registered Legal Name</label>
+                <input id="s-legal-name" type="text" [(ngModel)]="company.legalName" placeholder="e.g. TechFlow Solutions Private Limited">
+              </div>
+              <div class="field">
+                <label for="s-cin">Corporate Identification Number (CIN)</label>
+                <input id="s-cin" type="text" [(ngModel)]="company.cinNumber" placeholder="U72900...">
+              </div>
+              <div class="field">
+                <label for="s-gstin">GSTIN</label>
+                <input id="s-gstin" type="text" [(ngModel)]="company.gstin" placeholder="29ABCDE...">
+              </div>
+              <div class="field">
+                <label for="s-pan">PAN Number</label>
+                <input id="s-pan" type="text" [(ngModel)]="company.panNumber" placeholder="ABCDE1234F">
+              </div>
+              <div class="field">
+                <label for="s-pf-reg">PF Registration Number</label>
+                <input id="s-pf-reg" type="text" [(ngModel)]="company.pfRegistration" placeholder="PF Code">
               </div>
             </div>
           </div>
