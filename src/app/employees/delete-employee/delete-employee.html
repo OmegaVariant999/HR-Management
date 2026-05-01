@@ -1,0 +1,39 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">Delete Employee?</h2>
+    <button class="close-btn" (click)="onCancel()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <p class="warning-text">Are you sure you want to delete this employee? This action cannot be undone.</p>
+    
+    <div class="emp-details">
+      <div class="detail-row">
+        <span class="label">ID:</span>
+        <span class="value">{{ data.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Name:</span>
+        <span class="value">{{ data.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Department:</span>
+        <span class="value">{{ data.department }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Designation:</span>
+        <span class="value">{{ data.designation }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    <div class="danger-actions">
+      <button class="btn btn-warning" (click)="onMakeInactive()">Make Inactive</button>
+      <button class="btn btn-danger" (click)="onDelete()">Delete Permanently</button>
+    </div>
+  </div>
+</div>

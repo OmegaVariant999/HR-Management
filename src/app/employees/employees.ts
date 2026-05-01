@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilterDialog } from '../filter-dialog/filter-dialog';
 import { ViewEmployee, ViewEmployeeData } from './view-employee/view-employee';
 import { EditEmployee, EditEmployeeData } from './edit-employee/edit-employee';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import { DeleteEmployee } from './delete-employee/delete-employee';
+import { Firestore, collection, onSnapshot, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 
 export interface Employee {
@@ -90,6 +91,32 @@ export class Employees implements OnInit {
           };
           this.employees.set(updatedEmployees);
         }
+      }
+    });
+  }
+
+  async openDelete(emp: Employee) {
+    const dialogRef = this.dialog.open(DeleteEmployee, {
+      width: '450px',
+      data: { ...emp },
+      panelClass: 'dark-dialog-panel',
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: string) => {
+      if (!result || result === 'cancel') return;
+      
+      const docRef = doc(this.firestore, 'employees', emp.id);
+
+      try {
+        if (result === 'inactive') {
+          await updateDoc(docRef, { status: 'Inactive' });
+          console.log(`Employee ${emp.id} marked as Inactive`);
+        } else if (result === 'delete') {
+          await deleteDoc(docRef);
+          console.log(`Employee ${emp.id} permanently deleted`);
+        }
+      } catch (error) {
+        console.error('Error updating/deleting employee:', error);
       }
     });
   }
