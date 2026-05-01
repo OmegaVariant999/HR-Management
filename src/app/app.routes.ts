@@ -9,9 +9,13 @@ import { Profile } from './nav/profile/profile';
 import { Settings } from './nav/settings/settings';
 import { AddEmployee } from './employees/add-employee/add-employee';
 import { LandingPage } from './landing-page/landing-page';
+import { Login } from './sign/login/login';
+import { SignUp } from './sign/sign-up/sign-up';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
+    { path: 'login', component: Login },
+    { path: 'signup', component: SignUp },
     { path: 'dash', component: Dash },
     { path: 'emp', component: Employees },
     { path: 'add-emp', component: AddEmployee },

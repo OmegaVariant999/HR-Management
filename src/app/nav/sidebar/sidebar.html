@@ -29,7 +29,8 @@
     <p class="nav-section-label">Main Modules</p>
 
     <!-- Dashboard -->
-    <a routerLink="/dash" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" title="Dashboard">
+    <a routerLink="/dash" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item"
+      title="Dashboard">
       <span class="nav-icon">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -114,7 +115,7 @@
     </a>
 
     <!-- Logout -->
-    <a class="nav-item logout" title="Logout">
+    <a class="nav-item logout" title="Logout" (click)="onLogout($event)">
       <span class="nav-icon">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

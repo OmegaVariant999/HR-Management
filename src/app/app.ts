@@ -19,8 +19,8 @@ export class App {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Hide sidebar if we are on the landing page ('/')
-      this.showSidebar = event.url !== '/' && event.url !== '';
+      // Hide sidebar if we are on the landing page ('/'), login, or signup
+      this.showSidebar = !['/', '', '/login', '/signup'].includes(event.url.split('?')[0]);
     });
   }
 }

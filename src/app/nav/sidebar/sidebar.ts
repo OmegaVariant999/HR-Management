@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,8 +10,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Sidebar {
   isCollapsed = signal(false);
+  private router = inject(Router);
 
   toggleSidebar() {
     this.isCollapsed.set(!this.isCollapsed());
+  }
+
+  onLogout(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/']);
   }
 }

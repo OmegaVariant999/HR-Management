@@ -1,9 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {}
+export class Login {
+  private router = inject(Router);
+
+  onLogin(event: Event) {
+    event.preventDefault(); // Prevent actual form submission
+    this.router.navigate(['/dash']);
+  }
+}
