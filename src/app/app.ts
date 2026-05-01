@@ -19,12 +19,14 @@ export class App {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      const url = event.urlAfterRedirects;
+      const urlPath = event.urlAfterRedirects.split('?')[0].split('#')[0];
       const isLoggedIn = !!localStorage.getItem('isLoggedIn');
 
-      // Sidebar is hidden on auth pages: landing, login, signup
-      const isAuthPage = url === '/' || url === '/login' || url === '/signup';
-      this.showSidebar.set(!isAuthPage && isLoggedIn);
+      // Define all public facing pages where the sidebar should NEVER show
+      const publicRoutes = ['/', '/login', '/signup', '/features', '/solutions', '/pricing'];
+      const isPublicRoute = publicRoutes.includes(urlPath);
+
+      this.showSidebar.set(!isPublicRoute && isLoggedIn);
     });
   }
 

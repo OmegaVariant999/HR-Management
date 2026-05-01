@@ -1,1 +1,163 @@
-<p>solutions works!</p>
+<div class="relative min-h-screen bg-[#0f172a] text-slate-300 overflow-hidden font-sans selection:bg-[#3b82f6] selection:text-white flex flex-col">
+  
+  <!-- Abstract Background Elements -->
+  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-[10%] -left-[20%] w-[50%] h-[50%] rounded-full bg-[#1e3a8a] opacity-20 blur-[120px] animate-blob"></div>
+    <div class="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-[#3b82f6] opacity-10 blur-[120px] animate-blob animation-delay-2000"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="relative z-10 flex items-center justify-between px-8 py-6 w-full max-w-7xl mx-auto animate-fade-in-down">
+    <div class="flex items-center gap-3 cursor-pointer group" routerLink="/">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3b82f6] to-[#1e3a8a] flex items-center justify-center shadow-lg shadow-blue-900/20 group-hover:shadow-blue-900/40 transition-all duration-500 transform group-hover:rotate-12 group-hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      </div>
+      <span class="text-2xl font-bold tracking-wide text-white group-hover:text-blue-400 transition-colors duration-300">Aegis<span class="text-blue-500">HR</span></span>
+    </div>
+    
+    <nav class="hidden md:flex items-center gap-4">
+      <a routerLink="/features" class="px-5 py-2.5 rounded-xl text-slate-300 font-semibold hover:text-white hover:bg-slate-800/60 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 animate-slide-in-down animation-delay-200 text-base transform hover:-translate-y-0.5 border border-transparent hover:border-slate-700">Features</a>
+      <a routerLink="/solutions" class="px-5 py-2.5 rounded-xl text-white bg-slate-800/60 font-semibold shadow-lg shadow-blue-900/20 transition-all duration-300 animate-slide-in-down animation-delay-400 text-base transform hover:-translate-y-0.5 border border-slate-700">Solutions</a>
+      <a routerLink="/pricing" class="px-5 py-2.5 rounded-xl text-slate-300 font-semibold hover:text-white hover:bg-slate-800/60 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 animate-slide-in-down animation-delay-600 text-base transform hover:-translate-y-0.5 border border-transparent hover:border-slate-700">Pricing</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a routerLink="/login" class="text-sm font-semibold text-slate-300 hover:text-white px-4 py-2 transition-colors animate-slide-in-left animation-delay-800">Log In</a>
+      <a routerLink="/signup" class="animate-slide-in-left animation-delay-1000 relative group overflow-hidden rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all bg-[#1e3a8a] hover:bg-[#2d4f96] animate-glow hover:shadow-[0_0_25px_rgba(59,130,246,0.8)]">
+        <span class="relative z-10">Get Started</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Solutions Content -->
+  <main class="relative z-10 flex-1 flex flex-col items-center px-6 max-w-7xl mx-auto w-full pt-12 pb-24">
+    
+    <!-- Title Section -->
+    <div class="text-center max-w-4xl mx-auto mb-20">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm animate-scale-in">
+        Enterprise Solutions
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 animate-fade-in-up animation-delay-200">
+        Transforming How Work <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-[#1e3a8a] animate-float inline-block">Gets Done</span>
+      </h1>
+      <p class="text-lg text-slate-400 animate-fade-in-up animation-delay-400 leading-relaxed max-w-2xl mx-auto">
+        Whether you are a hyper-growth startup or an established enterprise, our end-to-end solutions scale to meet the complex demands of your organizational structure.
+      </p>
+    </div>
+
+    <!-- The Process Section (Vertical Timeline) -->
+    <div class="w-full max-w-5xl mx-auto relative">
+      
+      <!-- Timeline Central Line -->
+      <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/50 via-blue-800/30 to-transparent hidden md:block"></div>
+
+      <!-- Process Step 1 -->
+      <div class="relative flex flex-col md:flex-row items-center justify-between mb-20 group animate-fade-in-up animation-delay-600">
+        <!-- Connecting dot -->
+        <div class="absolute left-8 md:left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)] hidden md:block group-hover:scale-150 transition-transform duration-500"></div>
+        
+        <div class="w-full md:w-[45%] pr-0 md:pr-12 text-left md:text-right mb-8 md:mb-0">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-900/30 text-blue-400 mb-4 ml-0 md:ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">1. Discovery & Analysis</h3>
+          <p class="text-slate-400 leading-relaxed">
+            We begin by deeply analyzing your current HR workflows, identifying bottlenecks, and understanding your specific compliance requirements to tailor the perfect architecture.
+          </p>
+        </div>
+        
+        <div class="w-full md:w-[45%] pl-0 md:pl-12">
+          <div class="rounded-2xl overflow-hidden border border-slate-800 bg-[#111827] p-1 shadow-2xl transform transition-all duration-500 group-hover:border-blue-500/50 group-hover:-translate-y-2 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+            <div class="bg-[#0f172a] rounded-xl p-6 h-48 flex flex-col justify-center relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full"></div>
+              <div class="h-4 w-3/4 bg-slate-800 rounded mb-4 animate-pulse"></div>
+              <div class="h-4 w-1/2 bg-slate-800 rounded mb-4 animate-pulse animation-delay-200"></div>
+              <div class="h-4 w-5/6 bg-slate-800 rounded animate-pulse animation-delay-400"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process Step 2 -->
+      <div class="relative flex flex-col md:flex-row-reverse items-center justify-between mb-20 group animate-fade-in-up animation-delay-800">
+        <div class="absolute left-8 md:left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.8)] hidden md:block group-hover:scale-150 transition-transform duration-500"></div>
+        
+        <div class="w-full md:w-[45%] pl-0 md:pl-12 text-left mb-8 md:mb-0">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-900/30 text-indigo-400 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">2. Data Migration</h3>
+          <p class="text-slate-400 leading-relaxed">
+            Our intelligent migration engine seamlessly transfers your historical payroll data, employee documents, and attendance logs with zero downtime or data loss.
+          </p>
+        </div>
+        
+        <div class="w-full md:w-[45%] pr-0 md:pr-12">
+          <div class="rounded-2xl overflow-hidden border border-slate-800 bg-[#111827] p-1 shadow-2xl transform transition-all duration-500 group-hover:border-indigo-500/50 group-hover:-translate-y-2 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]">
+            <div class="bg-[#0f172a] rounded-xl p-6 h-48 flex items-end gap-2 justify-center relative overflow-hidden">
+              <div class="absolute bottom-0 left-0 w-full h-1/2 bg-indigo-500/5 blur-xl"></div>
+              <div class="w-8 bg-slate-800 rounded-t-lg h-1/4 group-hover:bg-indigo-900 transition-colors duration-500"></div>
+              <div class="w-8 bg-slate-800 rounded-t-lg h-1/3 group-hover:bg-indigo-800 transition-colors duration-500 delay-100"></div>
+              <div class="w-8 bg-slate-800 rounded-t-lg h-1/2 group-hover:bg-indigo-700 transition-colors duration-500 delay-200"></div>
+              <div class="w-8 bg-slate-800 rounded-t-lg h-3/4 group-hover:bg-indigo-600 transition-colors duration-500 delay-300"></div>
+              <div class="w-8 bg-slate-800 rounded-t-lg h-full group-hover:bg-indigo-500 transition-colors duration-500 delay-400 relative">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-indigo-400 text-xs font-bold delay-500">Done</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process Step 3 -->
+      <div class="relative flex flex-col md:flex-row items-center justify-between group animate-fade-in-up animation-delay-1000">
+        <div class="absolute left-8 md:left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)] hidden md:block group-hover:scale-150 transition-transform duration-500"></div>
+        
+        <div class="w-full md:w-[45%] pr-0 md:pr-12 text-left md:text-right mb-8 md:mb-0">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-900/30 text-emerald-400 mb-4 ml-0 md:ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">3. Deployment & Scale</h3>
+          <p class="text-slate-400 leading-relaxed">
+            Go live with confidence. We provide onboarding sessions, dedicated support, and scalable infrastructure so your HR processes run smoothly as your team grows.
+          </p>
+        </div>
+        
+        <div class="w-full md:w-[45%] pl-0 md:pl-12">
+          <div class="rounded-2xl overflow-hidden border border-slate-800 bg-[#111827] p-1 shadow-2xl transform transition-all duration-500 group-hover:border-emerald-500/50 group-hover:-translate-y-2 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+            <div class="bg-[#0f172a] rounded-xl p-6 h-48 flex items-center justify-center relative overflow-hidden">
+              <div class="absolute inset-0 bg-emerald-500/5 blur-3xl rounded-full"></div>
+              <div class="w-24 h-24 rounded-full border-4 border-slate-800 flex items-center justify-center group-hover:border-emerald-500 transition-colors duration-700 relative">
+                <div class="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-t-emerald-400 animate-spin"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-700 group-hover:text-emerald-400 transition-colors duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Call to Action -->
+    <div class="mt-32 text-center animate-fade-in-up animation-delay-1200">
+      <h2 class="text-3xl font-bold text-white mb-6">Ready to upgrade your workflow?</h2>
+      <a routerLink="/signup" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#2d4f96] to-[#1e3a8a] text-white font-semibold text-lg hover:from-[#3b82f6] hover:to-[#2d4f96] transition-all duration-300 shadow-[0_0_30px_rgba(45,79,150,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transform hover:-translate-y-1 animate-glow">
+        Start Your Free Trial
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+
+  </main>
+</div>
