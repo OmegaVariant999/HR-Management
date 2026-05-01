@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterDialog } from '../filter-dialog/filter-dialog';
 import { ViewEmployee, ViewEmployeeData } from './view-employee/view-employee';
 import { EditEmployee, EditEmployeeData } from './edit-employee/edit-employee';
+import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import { CommonModule } from '@angular/common';
 
 export interface Employee {
   id: string;
@@ -16,48 +18,36 @@ export interface Employee {
 
 @Component({
   selector: 'app-employees',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
-export class Employees {
+export class Employees implements OnInit {
   private readonly dialog = inject(MatDialog);
+  private firestore = inject(Firestore);
 
-  employees: Employee[] = [
-    {
-      id: '001',
-      name: 'Rahul Sharma',
-      department: 'Engineering',
-      designation: 'Software Engineer',
-      status: 'Active',
-      address: '12, MG Road, Bengaluru, Karnataka – 560001',
-    },
-    {
-      id: '002',
-      name: 'Priya Singh',
-      department: 'HR',
-      designation: 'HR Manager',
-      status: 'Active',
-      address: '45, Sector 18, Noida, Uttar Pradesh – 201301',
-    },
-    {
-      id: '003',
-      name: 'Aman Verma',
-      department: 'Finance',
-      designation: 'Financial Analyst',
-      status: 'Inactive',
-      address: '7, Park Street, Kolkata, West Bengal – 700016',
-    },
-  ];
+  employees = signal<any[]>([]);
 
-  /** Returns the two-letter initials for an employee name */
+  ngOnInit() {
+    const colRef = collection(this.firestore, 'employees');
+
+    // Use native Firebase onSnapshot to avoid AngularFire wrapper type conflicts
+    onSnapshot(colRef, (snapshot) => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      console.log('Success! Firebase data via onSnapshot:', data);
+      this.employees.set(data);
+    }, (error) => {
+      console.error('Firestore subscription error:', error);
+    });
+  }
+
   initials(name: string): string {
-    return name
-      .split(' ')
-      .map(w => w[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+    if (!name) return '??';
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
   }
 
   openFilter() {
@@ -87,16 +77,18 @@ export class Employees {
 
     dialogRef.afterClosed().subscribe((result: EditEmployeeData | null) => {
       if (result) {
-        // Apply updated fields back to the employee record
-        const idx = this.employees.findIndex(e => e.id === emp.id);
+        const currentEmployees = this.employees();
+        const idx = currentEmployees.findIndex(e => e.id === emp.id);
         if (idx !== -1) {
-          this.employees[idx] = {
-            ...this.employees[idx],
+          const updatedEmployees = [...currentEmployees];
+          updatedEmployees[idx] = {
+            ...updatedEmployees[idx],
             department: result.department,
             designation: result.designation,
             status: result.status as 'Active' | 'Inactive' | 'On Leave',
             address: result.address,
           };
+          this.employees.set(updatedEmployees);
         }
       }
     });

@@ -1,175 +1,168 @@
 <div class="page">
-
-  <!-- Header -->
   <div>
     <h1 class="page-title">Add / Edit Employee</h1>
     <p class="page-subtitle">Fill in the details across each step to register a new employee.</p>
   </div>
 
-  <!-- Stepper Form Card -->
   <div class="form-card">
-
-    <!-- Stepper Header -->
     <div class="stepper-header">
       <div class="stepper-track">
         @for (step of [1, 2, 3, 4, 5]; track step; let last = $last) {
-          <div class="step-wrap">
-            <div class="step-circle" [class.done]="currentStep() >= step">{{ step }}</div>
-            @if (!last) {
-              <div class="step-line" [class.done]="currentStep() > step"></div>
-            }
-          </div>
+        <div class="step-wrap">
+          <div class="step-circle" [class.done]="currentStep() >= step">{{ step }}</div>
+          @if (!last) {
+          <div class="step-line" [class.done]="currentStep() > step"></div>
+          }
+        </div>
         }
       </div>
     </div>
 
-    <!-- Step Content -->
     <div class="form-body">
-
       <!-- Step 1: Personal Info -->
       @if (currentStep() === 1) {
-        <div class="form-grid">
-          <h2 class="section-title full">Personal Information</h2>
-          <div class="field">
-            <label>Full Name</label>
-            <input id="emp-fullname" type="text" placeholder="Rahul Sharma">
-          </div>
-          <div class="field">
-            <label>Phone</label>
-            <input id="emp-phone" type="text" placeholder="+91 98765 43210">
-          </div>
-          <div class="field">
-            <label>Email</label>
-            <input id="emp-email" type="email" placeholder="rahul.sharma@hrms.com">
-          </div>
-          <div class="field">
-            <label>Gender</label>
-            <select id="emp-gender">
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Date of Birth</label>
-            <input id="emp-dob" type="date">
-          </div>
-          <div class="field">
-            <label>Marital Status</label>
-            <select id="emp-marital">
-              <option value="single">Single</option>
-              <option value="married">Married</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label>Address</label>
-            <textarea id="emp-address" rows="3" placeholder="Enter full address..."></textarea>
-          </div>
+      <div class="form-grid">
+        <h2 class="section-title full">Personal Information</h2>
+        <div class="field">
+          <label>Full Name</label>
+          <!-- Added [(ngModel)] and name attribute -->
+          <input [(ngModel)]="employee.name" name="name" type="text" placeholder="Rahul Sharma">
         </div>
+        <div class="field">
+          <label>Phone</label>
+          <input [(ngModel)]="employee.phone" name="phone" type="text" placeholder="+91 98765 43210">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input [(ngModel)]="employee.email" name="email" type="email" placeholder="rahul.sharma@hrms.com">
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <select [(ngModel)]="employee.gender" name="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Date of Birth</label>
+          <input [(ngModel)]="employee.dob" name="dob" type="date">
+        </div>
+        <div class="field">
+          <label>Marital Status</label>
+          <select [(ngModel)]="employee.maritalStatus" name="marital">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Address</label>
+          <textarea [(ngModel)]="employee.address" name="address" rows="3"
+            placeholder="Enter full address..."></textarea>
+        </div>
+      </div>
       }
 
       <!-- Step 2: Job Details -->
       @if (currentStep() === 2) {
-        <div class="form-grid">
-          <h2 class="section-title full">Job Details</h2>
-          <div class="field">
-            <label>Department</label>
-            <select id="emp-dept">
-              <option>Engineering</option>
-              <option>HR</option>
-              <option>Finance</option>
-              <option>Marketing</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Designation</label>
-            <input id="emp-designation" type="text" placeholder="Software Engineer">
-          </div>
-          <div class="field">
-            <label>Employee Type</label>
-            <select id="emp-type">
-              <option>Full Time</option>
-              <option>Part Time</option>
-              <option>Contract</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Joining Date</label>
-            <input id="emp-join-date" type="date">
-          </div>
+      <div class="form-grid">
+        <h2 class="section-title full">Job Details</h2>
+        <div class="field">
+          <label>Department</label>
+          <select [(ngModel)]="employee.department" name="dept">
+            <option>Engineering</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Marketing</option>
+          </select>
         </div>
+        <div class="field">
+          <label>Designation</label>
+          <input [(ngModel)]="employee.designation" name="designation" type="text" placeholder="Software Engineer">
+        </div>
+        <div class="field">
+          <label>Employee Type</label>
+          <select [(ngModel)]="employee.type" name="type">
+            <option>Full Time</option>
+            <option>Part Time</option>
+            <option>Contract</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Joining Date</label>
+          <input [(ngModel)]="employee.joinDate" name="join-date" type="date">
+        </div>
+      </div>
       }
 
       <!-- Step 3: Salary Details -->
       @if (currentStep() === 3) {
-        <div class="form-grid">
-          <h2 class="section-title full">Salary & Bank Details</h2>
-          <div class="field">
-            <label>Basic Salary ($)</label>
-            <input id="emp-salary" type="number" placeholder="50000">
-          </div>
-          <div class="field">
-            <label>Bank Name</label>
-            <input id="emp-bank" type="text" placeholder="HDFC Bank">
-          </div>
-          <div class="field">
-            <label>Account Number</label>
-            <input id="emp-account" type="text" placeholder="XXXX XXXX XXXX">
-          </div>
-          <div class="field">
-            <label>IFSC Code</label>
-            <input id="emp-ifsc" type="text" placeholder="HDFC0001234">
-          </div>
+      <div class="form-grid">
+        <h2 class="section-title full">Salary & Bank Details</h2>
+        <div class="field">
+          <label>Basic Salary ($)</label>
+          <input [(ngModel)]="employee.salary" name="salary" type="number" placeholder="50000">
         </div>
+        <div class="field">
+          <label>Bank Name</label>
+          <input [(ngModel)]="employee.bankName" name="bank" type="text" placeholder="HDFC Bank">
+        </div>
+        <div class="field">
+          <label>Account Number</label>
+          <input [(ngModel)]="employee.accountNumber" name="account" type="text" placeholder="XXXX XXXX XXXX">
+        </div>
+        <div class="field">
+          <label>IFSC Code</label>
+          <input [(ngModel)]="employee.ifscCode" name="ifsc" type="text" placeholder="HDFC0001234">
+        </div>
+      </div>
       }
 
-      <!-- Step 4: Documents -->
+      <!-- Step 4: Documents (Remains same) -->
       @if (currentStep() === 4) {
-        <div>
-          <h2 class="section-title">Documents</h2>
-          <div class="upload-zone" id="emp-upload-zone">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p>Click to upload or drag and drop</p>
-            <span>PDF, JPG or PNG (Max 5MB)</span>
-          </div>
+      <div>
+        <h2 class="section-title">Documents</h2>
+        <div class="upload-zone" id="emp-upload-zone">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <p>Click to upload or drag and drop</p>
+          <span>PDF, JPG or PNG (Max 5MB)</span>
         </div>
+      </div>
       }
 
-      <!-- Step 5: Review & Submit -->
+      <!-- Step 5: Review & Submit (NOW DYNAMIC) -->
       @if (currentStep() === 5) {
-        <div>
-          <h2 class="section-title">Review Employee Details</h2>
-          <div class="review-grid">
-            <div class="review-section">
-              <h3>Personal &amp; Job</h3>
-              <div class="review-row"><span>Name</span><span>Rahul Sharma</span></div>
-              <div class="review-row"><span>Department</span><span>Engineering</span></div>
-              <div class="review-row"><span>Designation</span><span>Software Engineer</span></div>
-            </div>
-            <div class="review-section">
-              <h3>Financials</h3>
-              <div class="review-row"><span>Basic Salary</span><span>$50,000</span></div>
-              <div class="review-row"><span>Bank</span><span>HDFC Bank</span></div>
-            </div>
+      <div>
+        <h2 class="section-title">Review Employee Details</h2>
+        <div class="review-grid">
+          <div class="review-section">
+            <h3>Personal &amp; Job</h3>
+            <div class="review-row"><span>Name</span><span>{{ employee.name || 'N/A' }}</span></div>
+            <div class="review-row"><span>Department</span><span>{{ employee.department }}</span></div>
+            <div class="review-row"><span>Designation</span><span>{{ employee.designation || 'N/A' }}</span></div>
+          </div>
+          <div class="review-section">
+            <h3>Financials</h3>
+            <div class="review-row"><span>Basic Salary</span><span>${{ employee.salary || '0' }}</span></div>
+            <div class="review-row"><span>Bank</span><span>{{ employee.bankName || 'N/A' }}</span></div>
           </div>
         </div>
+      </div>
       }
 
     </div>
 
-    <!-- Navigation Buttons -->
     <div class="form-actions">
       @if (currentStep() > 1) {
-        <button class="btn-back" (click)="prevStep()" id="add-emp-back-btn">Back</button>
+      <button class="btn-back" (click)="prevStep()" id="add-emp-back-btn">Back</button>
       }
-      @if (currentStep() < 5) {
-        <button class="btn-next" (click)="nextStep()" id="add-emp-next-btn">Next Step</button>
-      } @else {
-        <a routerLink="/emp" class="btn-submit" id="add-emp-submit-btn">Submit Employee</a>
-      }
+      @if (currentStep() < 5) { <button class="btn-next" (click)="nextStep()" id="add-emp-next-btn">Next Step</button>
+        } @else {
+        <button (click)="onSubmit()" class="btn-submit" id="add-emp-submit-btn">Add Employee</button>
+        }
     </div>
-
   </div>
 </div>
