@@ -5,17 +5,8 @@ import { FilterDialog } from '../filter-dialog/filter-dialog';
 import { ViewEmployee, ViewEmployeeData } from './view-employee/view-employee';
 import { EditEmployee, EditEmployeeData } from './edit-employee/edit-employee';
 import { DeleteEmployee } from './delete-employee/delete-employee';
-import { Firestore, collection, onSnapshot, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
+import { EmployeeService, Employee } from '../services/employee.service';
 import { CommonModule } from '@angular/common';
-
-export interface Employee {
-  id: string;
-  name: string;
-  department: string;
-  designation: string;
-  status: 'Active' | 'Inactive' | 'On Leave';
-  address: string;
-}
 
 @Component({
   selector: 'app-employees',
@@ -26,24 +17,13 @@ export interface Employee {
 })
 export class Employees implements OnInit {
   private readonly dialog = inject(MatDialog);
-  private firestore = inject(Firestore);
+  public employeeService = inject(EmployeeService);
 
-  employees = signal<any[]>([]);
+  // Expose the global signal for the template to bind to
+  employees = this.employeeService.employees;
 
   ngOnInit() {
-    const colRef = collection(this.firestore, 'employees');
-
-    // Use native Firebase onSnapshot to avoid AngularFire wrapper type conflicts
-    onSnapshot(colRef, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      console.log('Success! Firebase data via onSnapshot:', data);
-      this.employees.set(data);
-    }, (error) => {
-      console.error('Firestore subscription error:', error);
-    });
+    // The service automatically handles onSnapshot initialization
   }
 
   initials(name: string): string {
@@ -78,19 +58,12 @@ export class Employees implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: EditEmployeeData | null) => {
       if (result) {
-        const currentEmployees = this.employees();
-        const idx = currentEmployees.findIndex(e => e.id === emp.id);
-        if (idx !== -1) {
-          const updatedEmployees = [...currentEmployees];
-          updatedEmployees[idx] = {
-            ...updatedEmployees[idx],
-            department: result.department,
-            designation: result.designation,
-            status: result.status as 'Active' | 'Inactive' | 'On Leave',
-            address: result.address,
-          };
-          this.employees.set(updatedEmployees);
-        }
+        this.employeeService.updateEmployee(emp.id, {
+          department: result.department,
+          designation: result.designation,
+          status: result.status as 'Active' | 'Inactive' | 'On Leave',
+          address: result.address,
+        });
       }
     });
   }
@@ -105,15 +78,11 @@ export class Employees implements OnInit {
     dialogRef.afterClosed().subscribe(async (result: string) => {
       if (!result || result === 'cancel') return;
       
-      const docRef = doc(this.firestore, 'employees', emp.id);
-
       try {
         if (result === 'inactive') {
-          await updateDoc(docRef, { status: 'Inactive' });
-          console.log(`Employee ${emp.id} marked as Inactive`);
+          await this.employeeService.updateEmployeeStatus(emp.id, 'Inactive');
         } else if (result === 'delete') {
-          await deleteDoc(docRef);
-          console.log(`Employee ${emp.id} permanently deleted`);
+          await this.employeeService.deleteEmployee(emp.id);
         }
       } catch (error) {
         console.error('Error updating/deleting employee:', error);

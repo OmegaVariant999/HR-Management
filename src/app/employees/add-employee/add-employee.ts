@@ -1,8 +1,8 @@
 import { Component, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Firestore, collection, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddEmployee {
   currentStep = signal(1);
-  private firestore = inject(Firestore);
+  private employeeService = inject(EmployeeService);
   private router = inject(Router);
 
   employee = {
@@ -37,24 +37,7 @@ export class AddEmployee {
 
   async onSubmit() {
     try {
-      const colRef = collection(this.firestore, 'employees');
-
-      const prefixMap: { [key: string]: string } = {
-        'Engineering': 'En',
-        'HR': 'Hr',
-        'Finance': 'Fn',
-        'Marketing': 'Mkt',
-        'Sales': 'Ss',
-        'Operations': 'Ot'
-      };
-      
-      const prefix = prefixMap[this.employee.department] || 'Xx';
-      const randomNum = Math.floor(1000 + Math.random() * 9000);
-      const customId = `${prefix}${randomNum}`;
-
-      // Save the object using the custom ID as the document ID
-      const docRef = doc(colRef, customId);
-      await setDoc(docRef, this.employee);
+      await this.employeeService.addEmployee(this.employee);
 
       // Successful save, navigate back
       this.router.navigate(['/emp']);
