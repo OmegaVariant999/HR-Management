@@ -93,7 +93,10 @@ export class Dash {
         daysAway: diffDays,
         avatarBg: this.getRandomColor(e.name)
       };
-    }).sort((a, b) => a.daysAway - b.daysAway).slice(0, 3);
+    })
+    .filter(b => b.daysAway <= 14) // Only show if within 2 weeks
+    .sort((a, b) => a.daysAway - b.daysAway)
+    .slice(0, 3);
   });
 
   // Dynamic Recent Activities (Hires)
