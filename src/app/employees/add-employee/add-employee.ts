@@ -1,6 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -39,8 +39,22 @@ export class AddEmployee {
     try {
       const colRef = collection(this.firestore, 'employees');
 
-      // Save the object bound to the form
-      await addDoc(colRef, this.employee);
+      const prefixMap: { [key: string]: string } = {
+        'Engineering': 'En',
+        'HR': 'Hr',
+        'Finance': 'Fn',
+        'Marketing': 'Mkt',
+        'Sales': 'Ss',
+        'Operations': 'Ot'
+      };
+      
+      const prefix = prefixMap[this.employee.department] || 'Xx';
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      const customId = `${prefix}${randomNum}`;
+
+      // Save the object using the custom ID as the document ID
+      const docRef = doc(colRef, customId);
+      await setDoc(docRef, this.employee);
 
       // Successful save, navigate back
       this.router.navigate(['/emp']);

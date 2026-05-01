@@ -59,8 +59,8 @@
           <!-- Dynamic Loop from Firebase Data -->
           @for (emp of employees(); track $index) {
           <tr>
-            <!-- Firebase auto-generated ID or your custom ID field -->
-            <td style="font-size: 10px; color: #4a6899;">{{ emp.id ? emp.id.slice(0,8) : 'N/A' }}</td>
+            <!-- Custom Department ID -->
+            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id ? emp.id : 'N/A' }}</td>
             <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(emp.name) }}</div>
