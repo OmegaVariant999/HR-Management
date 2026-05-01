@@ -1,1 +1,519 @@
-<p>settings works!</p>
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Settings</h1>
+      <p class="page-subtitle">Manage your organization's preferences and configurations.</p>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="settings-layout">
+
+    <!-- Sidebar Tabs -->
+    <nav class="tab-nav">
+      <button class="tab-btn" [class.active]="activeTab() === 'general'" (click)="setTab('general')" id="tab-general">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        Company
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'notifications'" (click)="setTab('notifications')" id="tab-notifications">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        Notifications
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'security'" (click)="setTab('security')" id="tab-security">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        Security
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'leave'" (click)="setTab('leave')" id="tab-leave">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Leave Policy
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'payroll'" (click)="setTab('payroll')" id="tab-payroll">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Payroll
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'appearance'" (click)="setTab('appearance')" id="tab-appearance">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+        Appearance
+      </button>
+    </nav>
+
+    <!-- Content Panels -->
+    <div class="tab-content">
+
+      <!-- ── GENERAL / COMPANY ───────────────────────── -->
+      @if (activeTab() === 'general') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Company Settings</h2>
+            <p class="panel-desc">Basic information about your organization.</p>
+          </div>
+
+          @if (savedSection() === 'general') {
+            <div class="save-toast">✓ Company settings saved successfully.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Organization Info</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="s-company-name">Company Name</label>
+                <input id="s-company-name" type="text" [(ngModel)]="company.name" placeholder="Company name">
+              </div>
+              <div class="field">
+                <label for="s-company-email">HR Email</label>
+                <input id="s-company-email" type="email" [(ngModel)]="company.email" placeholder="hr@company.com">
+              </div>
+              <div class="field">
+                <label for="s-company-phone">Phone</label>
+                <input id="s-company-phone" type="text" [(ngModel)]="company.phone" placeholder="+91 ...">
+              </div>
+              <div class="field">
+                <label for="s-company-website">Website</label>
+                <input id="s-company-website" type="text" [(ngModel)]="company.website" placeholder="www.company.com">
+              </div>
+              <div class="field full-width">
+                <label for="s-company-address">Registered Address</label>
+                <input id="s-company-address" type="text" [(ngModel)]="company.address" placeholder="Full address">
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">Regional Preferences</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="s-timezone">Timezone</label>
+                <select id="s-timezone" [(ngModel)]="company.timezone">
+                  <option *ngFor="let tz of timezones" [value]="tz">{{ tz }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-dateformat">Date Format</label>
+                <select id="s-dateformat" [(ngModel)]="company.dateFormat">
+                  <option *ngFor="let f of dateFormats" [value]="f">{{ f }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-currency">Currency</label>
+                <select id="s-currency" [(ngModel)]="company.currency">
+                  <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-fiscal">Fiscal Year Start</label>
+                <select id="s-fiscal" [(ngModel)]="company.fiscalYearStart">
+                  <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('general')" id="save-general-btn">Save Changes</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── NOTIFICATIONS ───────────────────────────── -->
+      @if (activeTab() === 'notifications') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Notification Preferences</h2>
+            <p class="panel-desc">Choose which events trigger email and in-app alerts.</p>
+          </div>
+
+          @if (savedSection() === 'notifications') {
+            <div class="save-toast">✓ Notification preferences saved.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Email Notifications</p>
+            <div class="toggle-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Leave Requests</span>
+                  <span class="toggle-desc">Email when an employee submits a leave request.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.emailLeaveRequests">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Payroll Processed</span>
+                  <span class="toggle-desc">Email when monthly payroll is finalized.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.emailPayrollProcessed">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">New Employee Joined</span>
+                  <span class="toggle-desc">Email when a new employee is onboarded.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.emailNewEmployee">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Attendance Alerts</span>
+                  <span class="toggle-desc">Email on late arrivals or absent employees.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.emailAttendanceAlert">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">In-App Notifications</p>
+            <div class="toggle-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Leave Approval Reminders</span>
+                  <span class="toggle-desc">Remind managers of pending leave approvals.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.systemLeaveApproval">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Payroll Run Reminders</span>
+                  <span class="toggle-desc">Notify 3 days before payroll date.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.systemPayrollReminder">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Birthday Wishes</span>
+                  <span class="toggle-desc">Alert on employee birthdays.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.systemBirthday">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Work Anniversaries</span>
+                  <span class="toggle-desc">Alert on employee work anniversaries.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="notifications.systemAnniversary">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('notifications')" id="save-notif-btn">Save Preferences</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── SECURITY ────────────────────────────────── -->
+      @if (activeTab() === 'security') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Security Settings</h2>
+            <p class="panel-desc">Manage passwords and access control policies.</p>
+          </div>
+
+          @if (savedSection() === 'security') {
+            <div class="save-toast">✓ Security settings updated.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Change Password</p>
+            <div class="form-grid">
+              <div class="field full-width">
+                <label for="s-cur-pw">Current Password</label>
+                <input id="s-cur-pw" type="password" [(ngModel)]="security.currentPassword" placeholder="••••••••">
+              </div>
+              <div class="field">
+                <label for="s-new-pw">New Password</label>
+                <input id="s-new-pw" type="password" [(ngModel)]="security.newPassword" placeholder="Min. 8 characters">
+              </div>
+              <div class="field">
+                <label for="s-confirm-pw">Confirm New Password</label>
+                <input id="s-confirm-pw" type="password" [(ngModel)]="security.confirmPassword" placeholder="Repeat password">
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">Access & Session</p>
+            <div class="toggle-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Two-Factor Authentication</span>
+                  <span class="toggle-desc">Require OTP on every login for all admin accounts.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="security.twoFactor">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-grid" style="margin-top:16px;">
+              <div class="field">
+                <label for="s-session">Session Timeout (minutes)</label>
+                <select id="s-session" [(ngModel)]="security.sessionTimeout">
+                  <option *ngFor="let t of sessionTimeouts" [value]="t">{{ t }} min</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-pw-expiry">Password Expiry (days)</label>
+                <select id="s-pw-expiry" [(ngModel)]="security.passwordExpiry">
+                  <option *ngFor="let e of passwordExpiries" [value]="e">{{ e === 'Never' ? 'Never' : e + ' days' }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('security')" id="save-security-btn">Update Security</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── LEAVE POLICY ────────────────────────────── -->
+      @if (activeTab() === 'leave') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Leave Policy</h2>
+            <p class="panel-desc">Configure annual leave quotas and carry-forward rules.</p>
+          </div>
+
+          @if (savedSection() === 'leave') {
+            <div class="save-toast">✓ Leave policy saved.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Annual Quotas (days)</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="s-annual">Annual Leave</label>
+                <input id="s-annual" type="number" [(ngModel)]="leavePolicy.annualLeave" min="0">
+              </div>
+              <div class="field">
+                <label for="s-sick">Sick Leave</label>
+                <input id="s-sick" type="number" [(ngModel)]="leavePolicy.sickLeave" min="0">
+              </div>
+              <div class="field">
+                <label for="s-casual">Casual Leave</label>
+                <input id="s-casual" type="number" [(ngModel)]="leavePolicy.casualLeave" min="0">
+              </div>
+              <div class="field">
+                <label for="s-maternity">Maternity Leave</label>
+                <input id="s-maternity" type="number" [(ngModel)]="leavePolicy.maternityLeave" min="0">
+              </div>
+              <div class="field">
+                <label for="s-paternity">Paternity Leave</label>
+                <input id="s-paternity" type="number" [(ngModel)]="leavePolicy.paternityLeave" min="0">
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">Rules</p>
+            <div class="toggle-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Carry Forward Unused Leaves</span>
+                  <span class="toggle-desc">Allow unused leaves to roll over to next year.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="leavePolicy.carryForward">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Auto-Approve Short Leaves</span>
+                  <span class="toggle-desc">Automatically approve leave requests under 1 day.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="leavePolicy.autoApprove">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            @if (leavePolicy.carryForward) {
+              <div class="form-grid" style="margin-top:16px;">
+                <div class="field">
+                  <label for="s-carry-max">Max Carry-Forward Days</label>
+                  <input id="s-carry-max" type="number" [(ngModel)]="leavePolicy.maxCarryForward" min="0">
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('leave')" id="save-leave-btn">Save Policy</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── PAYROLL ──────────────────────────────────── -->
+      @if (activeTab() === 'payroll') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Payroll Configuration</h2>
+            <p class="panel-desc">Set payroll processing rules, deductions, and schedules.</p>
+          </div>
+
+          @if (savedSection() === 'payroll') {
+            <div class="save-toast">✓ Payroll settings saved.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Schedule & Deductions</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="s-payday">Monthly Pay Day</label>
+                <select id="s-payday" [(ngModel)]="payroll.payDay">
+                  <option *ngFor="let d of payDays" [value]="d">{{ d }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-bonus-month">Bonus Disbursement Month</label>
+                <select id="s-bonus-month" [(ngModel)]="payroll.bonusMonth">
+                  <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-pf">PF Contribution (%)</label>
+                <input id="s-pf" type="number" [(ngModel)]="payroll.pfPercentage" min="0" max="100" step="0.5">
+              </div>
+              <div class="field">
+                <label for="s-esi">ESI Contribution (%)</label>
+                <input id="s-esi" type="number" [(ngModel)]="payroll.esiPercentage" min="0" max="10" step="0.25">
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">Options</p>
+            <div class="toggle-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Enable TDS Deduction</span>
+                  <span class="toggle-desc">Automatically deduct Tax Deducted at Source.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="payroll.tdsEnabled">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Email Pay Slips to Employees</span>
+                  <span class="toggle-desc">Auto-send pay slips via email after payroll run.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="payroll.paySlipEmailEnabled">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('payroll')" id="save-payroll-btn">Save Payroll Config</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── APPEARANCE ───────────────────────────────── -->
+      @if (activeTab() === 'appearance') {
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Appearance</h2>
+            <p class="panel-desc">Customize the look and feel of your HR portal.</p>
+          </div>
+
+          @if (savedSection() === 'appearance') {
+            <div class="save-toast">✓ Appearance preferences saved.</div>
+          }
+
+          <div class="section">
+            <p class="section-label">Theme</p>
+            <div class="theme-cards">
+              <button class="theme-card" [class.selected]="appearance.theme === 'dark'" (click)="appearance.theme = 'dark'" id="theme-dark">
+                <div class="theme-preview dark-preview">
+                  <div class="tp-bar"></div><div class="tp-content"></div>
+                </div>
+                <span>Dark (Current)</span>
+              </button>
+              <button class="theme-card" [class.selected]="appearance.theme === 'light'" (click)="appearance.theme = 'light'" id="theme-light">
+                <div class="theme-preview light-preview">
+                  <div class="tp-bar"></div><div class="tp-content"></div>
+                </div>
+                <span>Light</span>
+              </button>
+              <button class="theme-card" [class.selected]="appearance.theme === 'auto'" (click)="appearance.theme = 'auto'" id="theme-auto">
+                <div class="theme-preview auto-preview">
+                  <div class="tp-bar"></div><div class="tp-content"></div>
+                </div>
+                <span>System</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section-label">Preferences</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="s-language">Language</label>
+                <select id="s-language" [(ngModel)]="appearance.language">
+                  <option *ngFor="let l of languages" [value]="l">{{ l }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="s-accent">Accent Color</label>
+                <div class="color-row">
+                  <input id="s-accent" type="color" [(ngModel)]="appearance.accentColor" class="color-picker">
+                  <span class="color-val">{{ appearance.accentColor }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="toggle-list" style="margin-top:16px;">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Compact Mode</span>
+                  <span class="toggle-desc">Reduce spacing and padding for a denser layout.</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" [(ngModel)]="appearance.compactMode">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn-save" (click)="save('appearance')" id="save-appearance-btn">Apply Changes</button>
+          </div>
+        </div>
+      }
+
+    </div><!-- /tab-content -->
+  </div><!-- /settings-layout -->
+
+</div>
