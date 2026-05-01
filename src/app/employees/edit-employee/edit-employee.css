@@ -1,0 +1,190 @@
+/* ====================================================
+   EDIT EMPLOYEE DIALOG – Dark Navy Theme
+   ==================================================== */
+
+.dialog-panel {
+  background: #1a2236;
+  border: 1px solid #243050;
+  border-radius: 16px;
+  width: 500px;
+  max-width: 95vw;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: #e8f0fe;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+/* Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 18px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.edit-icon-wrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border: 1.5px solid #2d4f96;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.edit-icon-wrap svg { width: 20px; height: 20px; color: #93c5fd; }
+
+.dialog-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #e8f0fe;
+  margin: 0;
+}
+
+.dialog-subtitle {
+  font-size: 12px;
+  color: #6b8ec7;
+  margin-top: 2px;
+  display: block;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4a6899;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.close-btn:hover { background: #243050; color: #c5d9f8; }
+.close-btn svg { width: 18px; height: 18px; display: block; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #243050;
+  margin: 0 24px;
+}
+
+/* Form */
+.edit-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 22px 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #4a6899;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  background: #111827;
+  border: 1px solid #243050;
+  border-radius: 8px;
+  color: #c5d9f8;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder { color: #4a6899; }
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234a6899'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form-select option {
+  background: #1a2236;
+  color: #c5d9f8;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Footer */
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px 20px;
+  border-top: 1px solid #1e2d48;
+}
+
+.btn-cancel {
+  padding: 9px 20px;
+  background: #111827;
+  border: 1px solid #243050;
+  border-radius: 8px;
+  color: #8aabdb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-cancel:hover { border-color: #3b82f6; color: #c5d9f8; }
+
+.btn-save {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border: 1px solid #2d4f96;
+  border-radius: 8px;
+  color: #e0ecff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.btn-save svg { width: 15px; height: 15px; }
+.btn-save:hover {
+  box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+  transform: translateY(-1px);
+}

@@ -1,3 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+/* ── Material Dialog: strip default white background for dark dialogs ── */
+.dark-dialog-panel .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+  overflow: visible !important;
+}
+
+/* ── Custom Scrollbar – Dark Navy Theme ── */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2d4f96 #0f1928;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1928;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d4f96;
+  border-radius: 999px;
+  border: 2px solid #0f1928;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+::-webkit-scrollbar-corner {
+  background: #0f1928;
+}

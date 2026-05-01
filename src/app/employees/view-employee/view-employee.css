@@ -1,0 +1,145 @@
+/* ====================================================
+   VIEW EMPLOYEE DIALOG – Dark Navy Theme
+   ==================================================== */
+
+.dialog-panel {
+  background: #1a2236;
+  border: 1px solid #243050;
+  border-radius: 16px;
+  width: 480px;
+  max-width: 95vw;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: #e8f0fe;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+/* Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 18px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.emp-avatar-lg {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a6e, #2563eb);
+  border: 2px solid #2d4f96;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #93c5fd;
+  flex-shrink: 0;
+}
+
+.dialog-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #e8f0fe;
+  margin: 0;
+}
+
+.dialog-subtitle {
+  font-size: 12px;
+  color: #6b8ec7;
+  margin-top: 2px;
+  display: block;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4a6899;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.close-btn:hover { background: #243050; color: #c5d9f8; }
+.close-btn svg { width: 18px; height: 18px; display: block; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #243050;
+  margin: 0 24px;
+}
+
+/* Details Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 22px 24px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #4a6899;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detail-value {
+  font-size: 13.5px;
+  color: #c5d9f8;
+  font-weight: 500;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+.badge-active   { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.badge-inactive { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+.badge-leave    { background: rgba(251,191,36,0.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+
+/* Footer */
+.dialog-footer {
+  padding: 14px 24px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #1e2d48;
+}
+
+.btn-close {
+  padding: 9px 24px;
+  background: #111827;
+  border: 1px solid #243050;
+  border-radius: 8px;
+  color: #8aabdb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-close:hover { border-color: #3b82f6; color: #c5d9f8; }
