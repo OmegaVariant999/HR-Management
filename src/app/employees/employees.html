@@ -53,69 +53,59 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>001</td>
-            <td>
-              <div class="emp-cell">
-                <div class="emp-avatar">RS</div>
-                <span class="emp-name">Rahul Sharma</span>
-              </div>
-            </td>
-            <td>Engineering</td>
-            <td>Software Engineer</td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn view" title="View">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </button>
-                <button class="action-btn del" title="Delete">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>
-              <div class="emp-cell">
-                <div class="emp-avatar">PS</div>
-                <span class="emp-name">Priya Singh</span>
-              </div>
-            </td>
-            <td>HR</td>
-            <td>HR Manager</td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn view" title="View"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
-                <button class="action-btn del" title="Delete"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>003</td>
-            <td>
-              <div class="emp-cell">
-                <div class="emp-avatar">AV</div>
-                <span class="emp-name">Aman Verma</span>
-              </div>
-            </td>
-            <td>Finance</td>
-            <td>Financial Analyst</td>
-            <td><span class="badge badge-inactive">Inactive</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn view" title="View"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
-                <button class="action-btn del" title="Delete"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
-              </div>
-            </td>
-          </tr>
+          @for (emp of employees; track emp.id) {
+            <tr>
+              <td>{{ emp.id }}</td>
+              <td>
+                <div class="emp-cell">
+                  <div class="emp-avatar">{{ initials(emp.name) }}</div>
+                  <span class="emp-name">{{ emp.name }}</span>
+                </div>
+              </td>
+              <td>{{ emp.department }}</td>
+              <td>{{ emp.designation }}</td>
+              <td>
+                <span class="badge"
+                  [class.badge-active]="emp.status === 'Active'"
+                  [class.badge-inactive]="emp.status === 'Inactive'"
+                  [class.badge-leave]="emp.status === 'On Leave'">
+                  {{ emp.status }}
+                </span>
+              </td>
+              <td>
+                <div class="actions-cell">
+                  <!-- View button (eye) -->
+                  <button class="action-btn view" title="View Details"
+                    (click)="openView(emp)" [id]="'view-btn-' + emp.id">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  </button>
+                  <!-- Edit button (pen) -->
+                  <button class="action-btn edit" title="Edit Employee"
+                    (click)="openEdit(emp)" [id]="'edit-btn-' + emp.id">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
+                           m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                  </button>
+                  <!-- Delete button -->
+                  <button class="action-btn del" title="Delete" [id]="'del-btn-' + emp.id">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
     <div class="pagination">
-      <p class="pag-info">Showing 1 to 3 of 3 entries</p>
+      <p class="pag-info">Showing 1 to {{ employees.length }} of {{ employees.length }} entries</p>
       <div class="pag-controls">
         <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
         <button class="pag-btn active">1</button>

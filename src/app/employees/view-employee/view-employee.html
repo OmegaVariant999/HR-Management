@@ -1,0 +1,69 @@
+<div class="dialog-backdrop">
+  <div class="dialog-panel">
+
+    <!-- Header -->
+    <div class="dialog-header">
+      <div class="header-left">
+        <div class="emp-avatar-lg">{{ initials }}</div>
+        <div>
+          <h2 class="dialog-title">{{ data.name }}</h2>
+          <span class="dialog-subtitle">{{ data.designation }}</span>
+        </div>
+      </div>
+      <button class="close-btn" (click)="dialogRef.close()" id="view-close-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+
+      <div class="detail-item">
+        <span class="detail-label">Employee ID</span>
+        <span class="detail-value">{{ data.id }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Full Name</span>
+        <span class="detail-value">{{ data.name }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Department</span>
+        <span class="detail-value">{{ data.department }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Designation</span>
+        <span class="detail-value">{{ data.designation }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Status</span>
+        <span class="badge"
+          [class.badge-active]="data.status === 'Active'"
+          [class.badge-inactive]="data.status === 'Inactive'"
+          [class.badge-leave]="data.status === 'On Leave'">
+          {{ data.status }}
+        </span>
+      </div>
+
+      <div class="detail-item full-width">
+        <span class="detail-label">Address</span>
+        <span class="detail-value">{{ data.address }}</span>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="dialog-footer">
+      <button class="btn-close" (click)="dialogRef.close()" id="view-done-btn">Close</button>
+    </div>
+
+  </div>
+</div>
