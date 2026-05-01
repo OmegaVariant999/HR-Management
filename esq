@@ -1,0 +1,16 @@
+[33m6b6af61[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32matd-dev[m[33m)[m Fixed settings bug
+[33m2ef1191[m Fixed Scrollbar
+[33m8b04559[m Added settings
+[33m47e8cac[m Added View and Edit options in Employees tab
+[33mca5a85f[m Fixed Major UI
+[33md693885[m Fixed sidebar UI
+[33m2a71592[m Added Profile
+[33mb590d5f[m Added Payroll
+[33m97c5cee[m Added Filter logic in leave management
+[33mc3c83dc[m[33m ([m[1;31morigin/atd-dev[m[33m)[m Added Filter logic
+[33m280945a[m Fixed bug of calender in attendence
+[33m98bec92[m Attendence portal available now
+[33m7ea3551[m Fixed merge conflict in .gitignore
+[33m2b9fd94[m Initial commit
+[33m343d08b[m Initial commit of HR Web App
+[33mf06c83e[m initial commit
