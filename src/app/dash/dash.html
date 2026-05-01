@@ -24,7 +24,7 @@
     <div class="kpi-card kpi-blue">
       <div class="kpi-body">
         <p class="kpi-label">Total Employees</p>
-        <h3 class="kpi-value">124</h3>
+        <h3 class="kpi-value">{{ totalEmployees() }}</h3>
         <p class="kpi-change positive">↑ 4 this month</p>
       </div>
       <div class="kpi-icon-wrap blue">
@@ -39,7 +39,7 @@
     <div class="kpi-card kpi-green">
       <div class="kpi-body">
         <p class="kpi-label">Present Today</p>
-        <h3 class="kpi-value">98</h3>
+        <h3 class="kpi-value">{{ presentToday() }}</h3>
         <p class="kpi-change positive">↑ 79% attendance</p>
       </div>
       <div class="kpi-icon-wrap green">
@@ -54,7 +54,7 @@
     <div class="kpi-card kpi-amber">
       <div class="kpi-body">
         <p class="kpi-label">Pending Leaves</p>
-        <h3 class="kpi-value">7</h3>
+        <h3 class="kpi-value">{{ pendingLeaves() }}</h3>
         <p class="kpi-change warning">↓ Needs review</p>
       </div>
       <div class="kpi-icon-wrap amber">
@@ -69,7 +69,7 @@
     <div class="kpi-card kpi-purple">
       <div class="kpi-body">
         <p class="kpi-label">Monthly Payroll</p>
-        <h3 class="kpi-value">$84,200</h3>
+        <h3 class="kpi-value">${{ monthlyPayroll() | number:'1.0-0' }}</h3>
         <p class="kpi-change neutral">Processed on 30th</p>
       </div>
       <div class="kpi-icon-wrap purple">
@@ -111,7 +111,7 @@
         <h2 class="card-title">By Department</h2>
       </div>
       <div class="dept-list">
-        <div class="dept-row" *ngFor="let dept of departments">
+        <div class="dept-row" *ngFor="let dept of departments()">
           <div class="dept-info">
             <span class="dept-dot" [style.background]="dept.color"></span>
             <span class="dept-name">{{dept.name}}</span>
@@ -135,7 +135,7 @@
         <a class="card-link">View all</a>
       </div>
       <ul class="activity-list">
-        <li class="activity-item" *ngFor="let act of activities">
+        <li class="activity-item" *ngFor="let act of activities()">
           <span class="activity-dot" [style.background]="act.color"></span>
           <div class="activity-body">
             <span class="activity-name">{{act.name}}</span>
@@ -156,7 +156,7 @@
         </svg>
       </div>
       <ul class="birthday-list">
-        <li class="birthday-item" *ngFor="let bday of birthdays">
+        <li class="birthday-item" *ngFor="let bday of birthdays()">
           <div class="avatar" [style.background]="bday.avatarBg">{{bday.initials}}</div>
           <div class="birthday-info">
             <p class="birthday-name">{{bday.name}}</p>
