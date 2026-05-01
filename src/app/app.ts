@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './nav/sidebar/sidebar';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
