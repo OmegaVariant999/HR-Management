@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal,inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './nav/sidebar/sidebar';
+import { Router,NavigationEnd} from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +11,16 @@ import { Sidebar } from './nav/sidebar/sidebar';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('HR_Management');
+  // protected readonly title = signal('HR_Management');
+  private router = inject(Router);
+  showSidebar = true;
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      // Hide sidebar if we are on the landing page ('/')
+      this.showSidebar = event.url !== '/' && event.url !== '';
+    });
+  }
 }

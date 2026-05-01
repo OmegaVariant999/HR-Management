@@ -8,9 +8,10 @@ import { Attendence } from './attendence/attendence';
 import { Profile } from './nav/profile/profile';
 import { Settings } from './nav/settings/settings';
 import { AddEmployee } from './employees/add-employee/add-employee';
+import { LandingPage } from './landing-page/landing-page';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'dash', pathMatch: 'full' },
+    { path: '', component: LandingPage },
     { path: 'dash', component: Dash },
     { path: 'emp', component: Employees },
     { path: 'add-emp', component: AddEmployee },
