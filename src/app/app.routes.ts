@@ -12,6 +12,7 @@ import { LandingPage } from './landing-page/landing-page';
 import { Login } from './sign/login/login';
 import { SignUp } from './sign/sign-up/sign-up';
 import { authGuard } from './auth-guard';
+import { NotFound } from './not-found/not-found';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
@@ -24,5 +25,6 @@ export const routes: Routes = [
     { path: 'leavemng', component: LeaveManage, canActivate: [authGuard] },
     { path: 'attn', component: Attendence, canActivate: [authGuard] },
     { path: 'prof', component: Profile, canActivate: [authGuard] },
-    { path: 'settings', component: Settings, canActivate: [authGuard] }
+    { path: 'settings', component: Settings, canActivate: [authGuard] },
+    { path: '**', component: NotFound }
 ];
