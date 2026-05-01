@@ -1,10 +1,11 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-dash',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dash.html',
   styleUrl: './dash.css',
 })

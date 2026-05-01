@@ -21,7 +21,7 @@
   <div class="kpi-grid">
 
     <!-- Total Employees -->
-    <div class="kpi-card kpi-blue">
+    <div class="kpi-card kpi-blue" [routerLink]="['/emp']">
       <div class="kpi-body">
         <p class="kpi-label">Total Employees</p>
         <h3 class="kpi-value">{{ totalEmployees() }}</h3>
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Present Today -->
-    <div class="kpi-card kpi-green">
+    <div class="kpi-card kpi-green" [routerLink]="['/attn']">
       <div class="kpi-body">
         <p class="kpi-label">Present Today</p>
         <h3 class="kpi-value">{{ presentToday() }}</h3>
@@ -51,7 +51,7 @@
     </div>
 
     <!-- Pending Leaves -->
-    <div class="kpi-card kpi-amber">
+    <div class="kpi-card kpi-amber" [routerLink]="['/leavemng']">
       <div class="kpi-body">
         <p class="kpi-label">Pending Leaves</p>
         <h3 class="kpi-value">{{ pendingLeaves() }}</h3>
@@ -66,7 +66,7 @@
     </div>
 
     <!-- Monthly Payroll -->
-    <div class="kpi-card kpi-purple">
+    <div class="kpi-card kpi-purple" [routerLink]="['/pay']">
       <div class="kpi-body">
         <p class="kpi-label">Monthly Payroll</p>
         <h3 class="kpi-value">${{ monthlyPayroll() | number:'1.0-0' }}</h3>
