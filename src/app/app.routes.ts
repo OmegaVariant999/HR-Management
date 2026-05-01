@@ -13,9 +13,15 @@ import { Login } from './sign/login/login';
 import { SignUp } from './sign/sign-up/sign-up';
 import { authGuard } from './auth-guard';
 import { NotFound } from './not-found/not-found';
+import { Features } from './landing-page/features/features';
+import { Solutions } from './landing-page/solutions/solutions';
+import { Pricing } from './landing-page/pricing/pricing';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
+    { path: 'features', component: Features },
+    { path: 'solutions', component: Solutions },
+    { path: 'pricing', component: Pricing },
     { path: 'login', component: Login },
     { path: 'signup', component: SignUp },
     { path: 'dash', component: Dash, canActivate: [authGuard] },
