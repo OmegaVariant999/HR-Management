@@ -34,6 +34,7 @@
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Employee</th>
             <th>Leave Type</th>
             <th>From</th>
@@ -46,6 +47,7 @@
         <tbody>
           @for (leave of filteredLeaves(); track leave.emp.id) {
           <tr>
+            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ leave.emp.id ? leave.emp.id : 'N/A' }}</td>
             <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(leave.emp.name) }}</div>
@@ -60,10 +62,10 @@
             <td>
               <div class="actions-cell">
                 @if (leave.status === 'pending') {
-                  <button class="action-btn approve" title="Approve" id="leave-approve-btn">
+                  <button class="action-btn approve" (click)="approveLeave(leave)" title="Approve" id="leave-approve-btn">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   </button>
-                  <button class="action-btn reject" title="Reject" id="leave-reject-btn">
+                  <button class="action-btn reject" (click)="rejectLeave(leave)" title="Reject" id="leave-reject-btn">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 } @else {
@@ -76,8 +78,8 @@
           </tr>
           } @empty {
           <tr>
-            <td colspan="7" style="text-align: center; padding: 40px; color: #6b8ec7;">
-              No leave records found matching your search.
+            <td colspan="8" style="text-align: center; padding: 40px; color: #6b8ec7;">
+              No leave records found matching your criteria.
             </td>
           </tr>
           }

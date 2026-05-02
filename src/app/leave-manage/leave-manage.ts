@@ -16,6 +16,7 @@ export class LeaveManage {
   public employeeService = inject(EmployeeService);
 
   searchQuery = signal('');
+  leaveStatusOverrides = signal<{ [empId: string]: string }>({});
 
   // Map each employee to a mock leave request
   mockLeaveRequests = computed(() => {
@@ -23,7 +24,9 @@ export class LeaveManage {
       // Generate some stable fake data based on name length
       const isPending = emp.name.length % 2 === 0;
       const isApproved = emp.name.length % 3 === 0;
-      const status = isPending ? 'pending' : (isApproved ? 'approved' : 'rejected');
+      
+      const overrides = this.leaveStatusOverrides();
+      const status = overrides[emp.id] ? overrides[emp.id] : (isPending ? 'pending' : (isApproved ? 'approved' : 'rejected'));
       const type = emp.name.length % 2 === 0 ? 'Casual Leave' : 'Sick Leave';
       const days = emp.name.length % 4 + 1;
       
@@ -41,7 +44,9 @@ export class LeaveManage {
 
   filteredLeaves = computed(() => {
     const active = this.activeTab();
-    let leaves = this.mockLeaveRequests().filter(l => active === 'my-leaves' ? true : l.status === active);
+    if (active === 'my-leaves') return []; // Show nothing as requested
+    
+    let leaves = this.mockLeaveRequests().filter(l => l.status === active);
     
     const query = this.searchQuery().toLowerCase().trim();
     if (query) {
@@ -58,6 +63,15 @@ export class LeaveManage {
   initials(name: string): string {
     if (!name) return '??';
     return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  approveLeave(leave: any) {
+    this.leaveStatusOverrides.update(opts => ({ ...opts, [leave.emp.id]: 'approved' }));
+    this.employeeService.updateEmployeeStatus(leave.emp.id, 'On Leave');
+  }
+
+  rejectLeave(leave: any) {
+    this.leaveStatusOverrides.update(opts => ({ ...opts, [leave.emp.id]: 'rejected' }));
   }
 
   setTab(tab: string) {
