@@ -106,6 +106,28 @@
   border-color: rgba(96, 165, 250, 0.4);
 }
 
+/* ---- Timed Hover State (3 seconds) ---- */
+.kpi-card:hover.timed-active,
+.kpi-card.timed-active {
+  transform: translateY(-10px) scale(1.02) !important;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease-out;
+}
+
+.kpi-card.kpi-blue.timed-active { box-shadow: 0 15px 40px rgba(37, 99, 235, 0.6); border-color: #3b82f6; }
+.kpi-card.kpi-green.timed-active { box-shadow: 0 15px 40px rgba(5, 150, 105, 0.6); border-color: #10b981; }
+.kpi-card.kpi-amber.timed-active { box-shadow: 0 15px 40px rgba(217, 119, 6, 0.6); border-color: #f59e0b; }
+.kpi-card.kpi-purple.timed-active { box-shadow: 0 15px 40px rgba(124, 58, 237, 0.6); border-color: #8b5cf6; }
+
+.kpi-card.timed-active .kpi-icon-wrap {
+  animation: timedPulse 1.5s infinite;
+}
+
+@keyframes timedPulse {
+  0% { transform: scale(1.15) rotate(5deg); }
+  50% { transform: scale(1.3) rotate(-5deg); box-shadow: 0 0 25px currentColor; }
+  100% { transform: scale(1.15) rotate(5deg); }
+}
+
 .kpi-body {
   display: flex;
   flex-direction: column;

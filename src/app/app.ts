@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './nav/sidebar/sidebar';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { TransitionService } from './services/transition.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar],
+  imports: [RouterOutlet, Sidebar, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -15,6 +16,7 @@ export class App {
   // protected readonly title = signal('HR_Management');
   showSidebar = signal(false);
   private router = inject(Router);
+  public transitionService = inject(TransitionService);
 
   constructor() {
     this.router.events.pipe(

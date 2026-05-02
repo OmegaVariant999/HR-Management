@@ -21,7 +21,11 @@
   <div class="kpi-grid">
 
     <!-- Total Employees -->
-    <div class="kpi-card kpi-blue" [routerLink]="['/emp']">
+    <div class="kpi-card kpi-blue" 
+         [class.timed-active]="timedActiveState['emp']()"
+         (mouseenter)="onCardMouseEnter('emp')"
+         (mouseleave)="onCardMouseLeave('emp')"
+         (click)="navigateWithAnimation($event, '/emp', 'blue')">
       <div class="kpi-body">
         <p class="kpi-label">Total Employees</p>
         <h3 class="kpi-value">{{ totalEmployees() }}</h3>
@@ -36,7 +40,11 @@
     </div>
 
     <!-- Present Today -->
-    <div class="kpi-card kpi-green" [routerLink]="['/attn']">
+    <div class="kpi-card kpi-green" 
+         [class.timed-active]="timedActiveState['attn']()"
+         (mouseenter)="onCardMouseEnter('attn')"
+         (mouseleave)="onCardMouseLeave('attn')"
+         (click)="navigateWithAnimation($event, '/attn', 'green')">
       <div class="kpi-body">
         <p class="kpi-label">Present Today</p>
         <h3 class="kpi-value">{{ presentToday() }}</h3>
@@ -51,7 +59,11 @@
     </div>
 
     <!-- Pending Leaves -->
-    <div class="kpi-card kpi-amber" [routerLink]="['/leavemng']">
+    <div class="kpi-card kpi-amber" 
+         [class.timed-active]="timedActiveState['leave']()"
+         (mouseenter)="onCardMouseEnter('leave')"
+         (mouseleave)="onCardMouseLeave('leave')"
+         (click)="navigateWithAnimation($event, '/leavemng', 'amber')">
       <div class="kpi-body">
         <p class="kpi-label">Pending Leaves</p>
         <h3 class="kpi-value">{{ pendingLeaves() }}</h3>
@@ -66,7 +78,11 @@
     </div>
 
     <!-- Monthly Payroll -->
-    <div class="kpi-card kpi-purple" [routerLink]="['/pay']">
+    <div class="kpi-card kpi-purple" 
+         [class.timed-active]="timedActiveState['pay']()"
+         (mouseenter)="onCardMouseEnter('pay')"
+         (mouseleave)="onCardMouseLeave('pay')"
+         (click)="navigateWithAnimation($event, '/pay', 'purple')">
       <div class="kpi-body">
         <p class="kpi-label">Monthly Payroll</p>
         <h3 class="kpi-value">${{ monthlyPayroll() | number:'1.0-0' }}</h3>
@@ -169,3 +185,4 @@
 
   </div>
 </div>
+

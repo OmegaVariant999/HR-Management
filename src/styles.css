@@ -185,3 +185,75 @@
 .animation-delay-1200 { animation-delay: 1200ms; }
 .animation-delay-1400 { animation-delay: 1400ms; }
 .animation-delay-1600 { animation-delay: 1600ms; }
+
+/* ---- Global Hero Card Geometric Expansion ---- */
+.hero-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none; /* Let clicks pass through if needed, though overlay covers screen */
+}
+
+/* The expanding clone card */
+.hero-card {
+  position: absolute;
+  top: var(--start-y);
+  left: var(--start-x);
+  width: var(--start-w);
+  height: var(--start-h);
+  border-radius: 14px;
+  background: #1a2236; /* Default dashboard card background */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  
+  /* Expand animation */
+  animation: heroExpand 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+/* Base ring colors matching the card's gradient top-border */
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  border-radius: inherit;
+}
+.hero-card.blue::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.hero-card.green::before { background: linear-gradient(90deg, #059669, #34d399); }
+.hero-card.amber::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.hero-card.purple::before { background: linear-gradient(90deg, #7c3aed, #c084fc); }
+
+@keyframes heroExpand {
+  0% {
+    top: var(--start-y);
+    left: var(--start-x);
+    width: var(--start-w);
+    height: var(--start-h);
+    border-radius: 14px;
+    opacity: 1;
+  }
+  50% {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    opacity: 1;
+    background: #111827; /* Transition to main app background color */
+  }
+  80% {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    opacity: 1;
+    background: #111827;
+  }
+  100% {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    opacity: 0; /* Fade out to reveal the routed page beneath */
+  }
+}

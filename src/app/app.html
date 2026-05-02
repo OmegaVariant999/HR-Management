@@ -8,3 +8,15 @@
         <router-outlet></router-outlet>
     </main>
 </div>
+
+<!-- Global Geometric Hero Transition Overlay -->
+@if (transitionService.isTransitioning()) {
+<div class="hero-transition-overlay"
+  [style.--start-x.px]="transitionService.startX()"
+  [style.--start-y.px]="transitionService.startY()"
+  [style.--start-w.px]="transitionService.startW()"
+  [style.--start-h.px]="transitionService.startH()">
+  
+  <div class="hero-card" [ngClass]="transitionService.transitionColor()"></div>
+</div>
+}
