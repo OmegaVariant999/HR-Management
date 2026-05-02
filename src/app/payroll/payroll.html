@@ -30,39 +30,91 @@
     </button>
   </div>
 
-  <!-- Payslip Cards -->
-  <div class="payslip-container" style="display: flex; flex-direction: column; gap: 24px;">
-    @for (emp of filteredPayroll(); track emp.id) {
+  @if (!selectedEmployee()) {
+  <!-- Master View: Employee List -->
+  <div class="table-card mt-6">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th class="right">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (emp of filteredPayroll(); track emp.id) {
+          <tr class="hover:bg-sky-900/10 transition-colors group border-b border-gray-800/30 last:border-0">
+            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id ? emp.id : 'N/A' }}</td>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">{{ initials(emp.name) }}</div>
+                <span class="emp-name">{{ emp.name || 'Unnamed' }}</span>
+              </div>
+            </td>
+            <td><span class="type-text" style="color: #94a3b8; font-weight: 500;">{{ emp.department }}</span></td>
+            <td><span style="color: #94a3b8; font-size: 13px;">{{ emp.designation }}</span></td>
+            <td>
+              <div class="actions-cell">
+                <button (click)="selectEmployee(emp)" class="action-btn approve" style="width: auto; padding: 6px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                  View Payslip
+                </button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 40px; color: #6b8ec7;">
+              No employees found matching your search.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  } @else {
+  <!-- Detail View: Payslip Card -->
+  <div class="mt-6 flex flex-col gap-6">
+    <div>
+      <button (click)="clearSelection()" class="btn-secondary" style="font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 8px 16px;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Employees
+      </button>
+    </div>
+
     <div class="payslip-card">
       <div class="payslip-header">
         <div class="payslip-emp">
-          <div class="payslip-avatar">{{ initials(emp.name) }}</div>
+          <div class="payslip-avatar">{{ initials(selectedEmployee()!.name) }}</div>
           <div>
-            <p class="payslip-name">{{ emp.name || 'Unnamed' }}</p>
-            <p class="payslip-role">{{ emp.designation || 'Staff' }} &bull; {{ emp.id ? emp.id : 'N/A' }}</p>
+            <p class="payslip-name">{{ selectedEmployee()!.name || 'Unnamed' }}</p>
+            <p class="payslip-role">{{ selectedEmployee()!.designation || 'Staff' }} &bull; {{ selectedEmployee()!.id ? selectedEmployee()!.id : 'N/A' }}</p>
           </div>
         </div>
         <div class="net-pay-wrap">
           <p class="net-pay-label">Net Pay</p>
-          <p class="net-pay-value">${{ getSalary(emp).net | number }}</p>
+          <p class="net-pay-value">${{ getSalary(selectedEmployee()).net | number }}</p>
         </div>
       </div>
 
       <div class="payslip-grid">
         <div class="pay-section">
           <h3>Earnings</h3>
-          <div class="pay-row"><span>Basic Salary</span><span>${{ getSalary(emp).base | number }}</span></div>
-          <div class="pay-row"><span>HRA</span><span>${{ getSalary(emp).hra | number }}</span></div>
-          <div class="pay-row"><span>Bonus</span><span>${{ getSalary(emp).bonus | number }}</span></div>
-          <div class="pay-row total earnings"><span>Total Earnings</span><span>${{ getSalary(emp).earnings | number }}</span></div>
+          <div class="pay-row"><span>Basic Salary</span><span>${{ getSalary(selectedEmployee()).base | number }}</span></div>
+          <div class="pay-row"><span>HRA</span><span>${{ getSalary(selectedEmployee()).hra | number }}</span></div>
+          <div class="pay-row"><span>Bonus</span><span>${{ getSalary(selectedEmployee()).bonus | number }}</span></div>
+          <div class="pay-row total earnings"><span>Total Earnings</span><span>${{ getSalary(selectedEmployee()).earnings | number }}</span></div>
         </div>
 
         <div class="pay-section">
           <h3>Deductions</h3>
-          <div class="pay-row"><span>Provident Fund</span><span>${{ getSalary(emp).pf | number }}</span></div>
-          <div class="pay-row"><span>Income Tax</span><span>${{ getSalary(emp).tax | number }}</span></div>
-          <div class="pay-row"><span>Others</span><span>${{ getSalary(emp).others | number }}</span></div>
-          <div class="pay-row total deductions"><span>Total Deductions</span><span>${{ getSalary(emp).deductions | number }}</span></div>
+          <div class="pay-row"><span>Provident Fund</span><span>${{ getSalary(selectedEmployee()).pf | number }}</span></div>
+          <div class="pay-row"><span>Income Tax</span><span>${{ getSalary(selectedEmployee()).tax | number }}</span></div>
+          <div class="pay-row"><span>Others</span><span>${{ getSalary(selectedEmployee()).others | number }}</span></div>
+          <div class="pay-row total deductions"><span>Total Deductions</span><span>${{ getSalary(selectedEmployee()).deductions | number }}</span></div>
         </div>
       </div>
 
@@ -75,11 +127,7 @@
         </button>
       </div>
     </div>
-    } @empty {
-      <div style="text-align: center; padding: 40px; color: #6b8ec7; background: #0f172a; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-        No payroll records found matching your search.
-      </div>
-    }
   </div>
+  }
 
 </div>
