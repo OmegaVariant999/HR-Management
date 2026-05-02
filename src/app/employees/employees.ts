@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterDialog } from '../filter-dialog/filter-dialog';
+import { FilterDialog, FilterCriteria } from '../filter-dialog/filter-dialog';
 import { ViewEmployee, ViewEmployeeData } from './view-employee/view-employee';
 import { EditEmployee, EditEmployeeData } from './edit-employee/edit-employee';
 import { DeleteEmployee } from './delete-employee/delete-employee';
@@ -19,8 +19,31 @@ export class Employees implements OnInit {
   private readonly dialog = inject(MatDialog);
   public employeeService = inject(EmployeeService);
 
-  // Expose the global signal for the template to bind to
-  employees = this.employeeService.employees;
+  // Filter state
+  currentFilters = signal<FilterCriteria | null>(null);
+
+  // Reactively derived filtered list
+  filteredEmployees = computed(() => {
+    const allEmps = this.employeeService.employees();
+    const filters = this.currentFilters();
+
+    if (!filters) return allEmps;
+
+    return allEmps.filter(emp => {
+      // Name
+      if (filters.name && !emp.name.toLowerCase().includes(filters.name.toLowerCase())) return false;
+      // ID
+      if (filters.empId && !emp.id.toLowerCase().includes(filters.empId.toLowerCase())) return false;
+      // Department
+      if (filters.department && emp.department.toLowerCase() !== filters.department.toLowerCase()) return false;
+      // Designation
+      if (filters.designation && !emp.designation.toLowerCase().includes(filters.designation.toLowerCase())) return false;
+      // Status
+      if (filters.status && emp.status.toLowerCase() !== filters.status.toLowerCase()) return false;
+
+      return true;
+    });
+  });
 
   ngOnInit() {
     // The service automatically handles onSnapshot initialization
@@ -33,11 +56,17 @@ export class Employees implements OnInit {
 
   openFilter() {
     const dialogRef = this.dialog.open(FilterDialog, {
-      width: '400px',
-      panelClass: 'custom-filter-panel',
+      width: '500px',
+      panelClass: 'dark-dialog-panel',
+      data: this.currentFilters() // Pass existing filters in
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) console.log('Filters applied:', result);
+    
+    dialogRef.afterClosed().subscribe((result: FilterCriteria | null | undefined) => {
+      if (result) {
+        // If clear() was clicked, result will have empty strings which is basically clearing filters
+        const isCleared = !result.name && !result.empId && !result.department && !result.designation && !result.status;
+        this.currentFilters.set(isCleared ? null : result);
+      }
     });
   }
 

@@ -57,7 +57,7 @@
         </thead>
         <tbody>
           <!-- Dynamic Loop from Firebase Data -->
-          @for (emp of employees(); track $index) {
+          @for (emp of filteredEmployees(); track $index) {
           <tr>
             <!-- Custom Department ID -->
             <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id ? emp.id : 'N/A' }}</td>
@@ -115,7 +115,7 @@
       </table>
     </div>
     <div class="pagination">
-      <p class="pag-info">Showing {{ employees().length }} entries</p>
+      <p class="pag-info">Showing {{ filteredEmployees().length }} entries</p>
       <div class="pag-controls">
         <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
