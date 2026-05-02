@@ -1,10 +1,21 @@
 <!-- HR_Management\src\app\app.html -->
-<div class="flex h-screen overflow-hidden" [style.background]="showSidebar() ? '#111827' : '#0f172a'">
-    @if (showSidebar()) {
-    <app-sidebar></app-sidebar>
+<div class="app-container flex h-screen overflow-hidden" [style.background]="showSidebar() ? '#111827' : '#0f172a'" [class.sidebar-visible]="showSidebar()">
+    <!-- Mobile Overlay Backdrop -->
+    @if (showSidebar() && isMobile() && sidebarOpen()) {
+    <div class="mobile-overlay" (click)="toggleMobileMenu()"></div>
     }
 
-    <main class="flex-1 overflow-y-auto">
+    <!-- Mobile Hamburger Menu Button -->
+    <button class="mobile-menu-btn" *ngIf="showSidebar() && isMobile()" (click)="toggleMobileMenu()" 
+            [attr.aria-label]="'Menu'" [attr.aria-expanded]="sidebarOpen()" title="Toggle Menu">
+        <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+
+    <app-sidebar #sidebar [sidebarOpen]="sidebarOpen()" [class.hidden]="!showSidebar()"></app-sidebar>
+
+    <main class="flex-1 overflow-y-auto main-content" [class.has-mobile-menu]="showSidebar() && isMobile()">
         <router-outlet></router-outlet>
     </main>
 </div>
