@@ -6,10 +6,18 @@
       <h1 class="page-title">Leave Management</h1>
       <p class="page-subtitle">Track and process employee leave applications.</p>
     </div>
-    <button class="btn-secondary" (click)="openFilter()" id="leave-filter-btn">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-      Filter
-    </button>
+    <div class="toolbar" style="display: flex; gap: 12px;">
+      <div class="search-wrap" style="position: relative; display: flex; align-items: center;">
+        <svg class="search-icon" style="position: absolute; left: 14px; width: 18px; height: 18px; color: #6b8ec7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input id="leave-search" type="text" [(ngModel)]="searchQuery" style="padding: 10px 16px 10px 42px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.5); color: #e8f0fe; font-size: 14px; width: 260px; outline: none; transition: all 0.2s;" placeholder="Search employee...">
+      </div>
+      <button class="btn-secondary" (click)="openFilter()" id="leave-filter-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+        Filter
+      </button>
+    </div>
   </div>
 
   <!-- Tabs -->
@@ -36,21 +44,22 @@
           </tr>
         </thead>
         <tbody>
+          @for (leave of filteredLeaves(); track leave.emp.id) {
           <tr>
             <td>
               <div class="emp-cell">
-                <div class="emp-avatar">RS</div>
-                <span class="emp-name">Rahul Sharma</span>
+                <div class="emp-avatar">{{ initials(leave.emp.name) }}</div>
+                <span class="emp-name">{{ leave.emp.name || 'Unnamed' }}</span>
               </div>
             </td>
-            <td><span class="type-text">Casual Leave</span></td>
-            <td>20 May 2025</td>
-            <td>22 May 2025</td>
-            <td><span class="days-text">3</span></td>
-            <td><span class="reason-text">Family Function</span></td>
+            <td><span class="type-text">{{ leave.type }}</span></td>
+            <td>{{ leave.from }}</td>
+            <td>{{ leave.to }}</td>
+            <td><span class="days-text">{{ leave.days }}</span></td>
+            <td><span class="reason-text">{{ leave.reason }}</span></td>
             <td>
               <div class="actions-cell">
-                @if (activeTab() === 'pending') {
+                @if (leave.status === 'pending') {
                   <button class="action-btn approve" title="Approve" id="leave-approve-btn">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   </button>
@@ -58,36 +67,20 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 } @else {
-                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
-                    {{ activeTab() }}
+                  <span class="status-badge" [class]="leave.status === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
+                    {{ leave.status }}
                   </span>
                 }
               </div>
             </td>
           </tr>
+          } @empty {
           <tr>
-            <td>
-              <div class="emp-cell">
-                <div class="emp-avatar">PS</div>
-                <span class="emp-name">Priya Singh</span>
-              </div>
-            </td>
-            <td><span class="type-text">Sick Leave</span></td>
-            <td>25 May 2025</td>
-            <td>26 May 2025</td>
-            <td><span class="days-text">2</span></td>
-            <td><span class="reason-text">Medical</span></td>
-            <td>
-              <div class="actions-cell">
-                @if (activeTab() === 'pending') {
-                  <button class="action-btn approve" title="Approve"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
-                  <button class="action-btn reject" title="Reject"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-                } @else {
-                  <span class="status-badge" [class]="activeTab() === 'approved' ? 'status-badge approved' : 'status-badge rejected'">{{ activeTab() }}</span>
-                }
-              </div>
+            <td colspan="7" style="text-align: center; padding: 40px; color: #6b8ec7;">
+              No leave records found matching your search.
             </td>
           </tr>
+          }
         </tbody>
       </table>
     </div>

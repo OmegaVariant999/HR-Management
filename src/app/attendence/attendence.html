@@ -7,6 +7,12 @@
       <p class="page-subtitle">Monitor and track daily employee presence.</p>
     </div>
     <div class="toolbar">
+      <div class="search-wrap" style="position: relative; display: flex; align-items: center;">
+        <svg class="search-icon" style="position: absolute; left: 14px; width: 18px; height: 18px; color: #6b8ec7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input id="attn-search" type="text" [(ngModel)]="searchQuery" style="padding: 10px 16px 10px 42px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.5); color: #e8f0fe; font-size: 14px; width: 260px; outline: none; transition: all 0.2s;" placeholder="Search employee...">
+      </div>
       <button class="btn-secondary" (click)="openFilter()" id="attn-filter-btn">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
         Filter
@@ -50,40 +56,32 @@
           </tr>
         </thead>
         <tbody>
+          @for (emp of filteredAttendance(); track emp.id) {
           <tr>
             <td class="emp-col">
               <div class="emp-cell">
-                <div class="emp-avatar">RS</div>
+                <div class="emp-avatar">{{ initials(emp.name) }}</div>
                 <div>
-                  <p class="emp-name">Rahul Sharma</p>
-                  <p class="emp-dept">Engineer</p>
+                  <p class="emp-name">{{ emp.name || 'Unnamed' }}</p>
+                  <p class="emp-dept">{{ emp.designation || 'Staff' }}</p>
                 </div>
               </div>
             </td>
             @for (day of getDaysArray(); track day) {
               <td>
-                <div [class]="day % 7 !== 0 ? 'day-dot present' : 'day-dot absent'"></div>
+                <!-- Mock attendance logic based on char codes to make it look stable per user -->
+                <div [class]="(emp.name.length + day) % 7 !== 0 ? 'day-dot present' : 'day-dot absent'"></div>
               </td>
             }
-            <td class="total-cell">{{ daysInMonth() - 4 }}/{{ daysInMonth() }}</td>
+            <td class="total-cell">{{ daysInMonth() - (emp.name.length % 5 + 1) }}/{{ daysInMonth() }}</td>
           </tr>
+          } @empty {
           <tr>
-            <td class="emp-col">
-              <div class="emp-cell">
-                <div class="emp-avatar">PS</div>
-                <div>
-                  <p class="emp-name">Priya Singh</p>
-                  <p class="emp-dept">HR Manager</p>
-                </div>
-              </div>
+            <td [attr.colspan]="daysInMonth() + 2" style="text-align: center; padding: 40px; color: #6b8ec7;">
+              No attendance records match your search.
             </td>
-            @for (day of getDaysArray(); track day) {
-              <td>
-                <div [class]="day % 5 !== 0 ? 'day-dot present' : 'day-dot absent'"></div>
-              </td>
-            }
-            <td class="total-cell">{{ daysInMonth() - 6 }}/{{ daysInMonth() }}</td>
           </tr>
+          }
         </tbody>
       </table>
     </div>

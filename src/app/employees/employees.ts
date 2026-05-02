@@ -7,11 +7,12 @@ import { EditEmployee, EditEmployeeData } from './edit-employee/edit-employee';
 import { DeleteEmployee } from './delete-employee/delete-employee';
 import { EmployeeService, Employee } from '../services/employee.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
@@ -21,12 +22,26 @@ export class Employees implements OnInit {
 
   // Filter state
   currentFilters = signal<FilterCriteria | null>(null);
+  // Search state
+  searchQuery = signal('');
 
   // Reactively derived filtered list
   filteredEmployees = computed(() => {
-    const allEmps = this.employeeService.employees();
-    const filters = this.currentFilters();
+    let allEmps = this.employeeService.employees();
+    
+    // 1. Text Search Filter
+    const query = this.searchQuery().toLowerCase().trim();
+    if (query) {
+      allEmps = allEmps.filter(emp => 
+        (emp.name && emp.name.toLowerCase().includes(query)) ||
+        (emp.id && emp.id.toLowerCase().includes(query)) ||
+        (emp.department && emp.department.toLowerCase().includes(query)) ||
+        (emp.designation && emp.designation.toLowerCase().includes(query))
+      );
+    }
 
+    // 2. Advanced Filter Dialog
+    const filters = this.currentFilters();
     if (!filters) return allEmps;
 
     return allEmps.filter(emp => {
