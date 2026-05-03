@@ -19,6 +19,7 @@ export interface UserData {
   lastLogout?: string;
   isOnline?: boolean;
   approvedAt?: string;
+  employeeId?: string;
 }
 
 @Injectable({
@@ -37,11 +38,17 @@ export class AuthService {
 
   constructor() {
     // Initialize auth listener
-    authState(this.auth).subscribe(user => {
+    authState(this.auth).subscribe(async user => {
       runInInjectionContext(this.injector, () => {
         this.currentUser.set(user);
         if (user) {
           this.startRoleListener(user.uid);
+          // Set online status on session restoration (page reload)
+          const userDocRef = doc(this.firestore, 'users', user.uid);
+          updateDoc(userDocRef, { 
+            isOnline: true,
+            lastLogin: new Date().toISOString()
+          }).catch(err => console.error('[AuthService] Failed to update online status:', err));
         } else {
           this.stopRoleListener();
           this.userRole.set(null);

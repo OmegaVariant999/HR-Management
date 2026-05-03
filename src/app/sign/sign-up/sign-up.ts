@@ -4,6 +4,7 @@ import { RouterLink, Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,6 +16,7 @@ export class SignUp {
 private auth = inject(Auth);
   private firestore = inject(Firestore);
   private router = inject(Router);
+  private employeeService = inject(EmployeeService);
 
   name = '';
   email = '';
@@ -29,13 +31,16 @@ private auth = inject(Auth);
         const user = userCredential.user;
         
         // Return the promise to keep the chain inside the context
-        return setDoc(doc(this.firestore, 'users', user.uid), {
+        const userData = {
           name: this.name,
           email: this.email,
           role: this.role || 'Recruiter', 
           status: 'Pending',
           createdAt: new Date().toISOString()
-        });
+        };
+        
+        return setDoc(doc(this.firestore, 'users', user.uid), userData)
+          .then(() => this.employeeService.syncUserToEmployee(user.uid, userData));
       })
       .then(() => {
         localStorage.setItem('isLoggedIn', 'true');

@@ -59,10 +59,10 @@
         </thead>
         <tbody>
           <!-- Dynamic Loop from Firebase Data -->
-          @for (emp of filteredEmployees(); track $index) {
+          @for (emp of filteredEmployees(); track emp.id) {
           <tr>
             <!-- Custom Department ID -->
-            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id ? emp.id : 'N/A' }}</td>
+            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id || 'N/A' }}</td>
             <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(emp.name) }}</div>
@@ -72,10 +72,14 @@
             <td>{{ emp.department }}</td>
             <td>{{ emp.designation }}</td>
             <td>
-              <span class="badge" [class.badge-active]="emp.status === 'Active'"
-                [class.badge-inactive]="emp.status === 'Inactive'" [class.badge-leave]="emp.status === 'On Leave'">
-                {{ emp.status || 'Active' }}
-              </span>
+              @if (emp.isOnline) {
+                <span class="badge badge-active">Active</span>
+              } @else {
+                <span class="badge" [class.badge-active]="emp.status === 'Active'"
+                  [class.badge-inactive]="emp.status === 'Inactive'" [class.badge-leave]="emp.status === 'On Leave'">
+                  {{ emp.status || 'Active' }}
+                </span>
+              }
             </td>
             <td>
               <div class="actions-cell">
@@ -121,13 +125,17 @@
     <div class="pagination">
       <p class="pag-info">Showing {{ filteredEmployees().length }} entries</p>
       <div class="pag-controls">
-        <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button class="pag-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg></button>
+          </svg>
+        </button>
         <button class="pag-btn active">1</button>
-        <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button class="pag-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg></button>
+          </svg>
+        </button>
       </div>
     </div>
   </div>

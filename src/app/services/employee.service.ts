@@ -8,6 +8,7 @@ export interface Employee {
   designation: string;
   status: 'Active' | 'Inactive' | 'On Leave';
   address: string;
+  isOnline?: boolean;
   [key: string]: any;
 }
 
@@ -84,5 +85,63 @@ export class EmployeeService {
     const docRef = doc(this.firestore, 'employees', id);
     await deleteDoc(docRef);
     console.log(`[EmployeeService] Deleted employee ${id}`);
+  }
+
+  getDesignationFromRole(role: string): string {
+    switch (role) {
+      case 'Super Admin': return 'Chief HR Officer';
+      case 'Admin': return 'HR Manager';
+      case 'Recruiter': return 'Recruitment Lead';
+      case 'Payroll Manager': return 'Payroll Specialist';
+      default: return 'HR Associate';
+    }
+  }
+
+  async syncUserToEmployee(uid: string, userData: any) {
+    let empId = userData.employeeId;
+    
+    // 1. If no ID yet, generate and save it
+    if (!empId) {
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      empId = `HR${randomNum}`;
+      
+      const userDocRef = doc(this.firestore, 'users', uid);
+      await updateDoc(userDocRef, { employeeId: empId });
+      console.log(`[EmployeeService] Created NEW ID ${empId} for user ${uid}`);
+    }
+
+    // 2. ALWAYS try to delete legacy record (where ID == UID) if it's different from our custom ID
+    if (empId !== uid) {
+      const legacyRef = doc(this.firestore, 'employees', uid);
+      await deleteDoc(legacyRef).catch(() => {});
+    }
+
+    // 3. Upsert the employee record under the HRxxxx ID
+    const docRef = doc(this.firestore, 'employees', empId);
+    const empData = {
+      id: empId,
+      name: userData.name || 'Unnamed',
+      email: userData.email || '',
+      department: 'HR',
+      designation: this.getDesignationFromRole(userData.role),
+      status: userData.status === 'Approved' ? 'Active' : 'Inactive',
+      isOnline: userData.isOnline || false, // Sync online status
+      photoURL: userData.photoURL || '',
+      address: userData.location || '',
+      phone: userData.phone || '',
+      accountNumber: userData.accountNumber || '',
+      bankName: userData.bankName || '',
+      ifscCode: userData.ifscCode || '',
+      dob: userData.dob || '',
+      gender: userData.gender || '',
+      joinDate: userData.joinDate || new Date().toISOString().split('T')[0],
+      maritalStatus: userData.maritalStatus || '',
+      salary: userData.salary || 0,
+      systemUid: uid,
+      type: 'System User'
+    };
+    
+    await setDoc(docRef, empData, { merge: true });
+    console.log(`[EmployeeService] Synced ${empId} successfully.`);
   }
 }

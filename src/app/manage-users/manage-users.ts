@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditUserDialog } from './edit-user-dialog';
+import { EmployeeService } from '../services/employee.service';
 
 // Status Logic Helper
 export function getUserActivityStatus(user: UserData): string {
@@ -33,9 +34,11 @@ export class ManageUsers implements OnInit {
   private firestore = inject(Firestore);
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
+  private employeeService = inject(EmployeeService);
   
   users = signal<UserData[]>([]);
   searchFilter = '';
+  private isMigrationRunning = false;
 
   ngOnInit() {
     const usersCol = collection(this.firestore, 'users');
@@ -44,10 +47,33 @@ export class ManageUsers implements OnInit {
         ...doc.data(),
         uid: doc.id
       } as UserData));
+      
       this.users.set(userData);
+      
+      // Migration Logic: Sync users to employees
+      // We only run this once or when specifically needed to avoid loops
+      if (!this.isMigrationRunning) {
+        this.runSync(userData);
+      }
     }, (error) => {
       console.error('[ManageUsers] Permission Denied or Fetch Error:', error);
     });
+  }
+
+  async runSync(userData: UserData[]) {
+    this.isMigrationRunning = true;
+    try {
+      for (const user of userData) {
+        // Only sync if they are Approved or if we want all users in the list
+        // Based on user request: "All users that signed up... should be listed"
+        await this.employeeService.syncUserToEmployee(user.uid, user);
+      }
+    } catch (e) {
+      console.error('[ManageUsers] Migration failed:', e);
+    } finally {
+      // Keep it true for a while to prevent loops during the initial mass-write
+      setTimeout(() => this.isMigrationRunning = false, 5000);
+    }
   }
 
   filteredUsers() {
@@ -63,7 +89,6 @@ export class ManageUsers implements OnInit {
     return getUserActivityStatus(user);
   }
 
-  // Check if user was approved in the last 10 seconds
   isRecentlyApproved(user: UserData): boolean {
     if (!user.approvedAt) return false;
     const approvedAt = new Date(user.approvedAt);
@@ -91,33 +116,57 @@ export class ManageUsers implements OnInit {
           status: result.status 
         };
 
-        // If status changed to Approved, set approvedAt
         if (result.status === 'Approved' && user.status !== 'Approved') {
           updates.approvedAt = new Date().toISOString();
         }
 
         await updateDoc(userDocRef, updates);
+        
+        // Immediate Sync
+        await this.employeeService.syncUserToEmployee(user.uid, {
+          ...user,
+          ...updates
+        });
       }
     });
   }
 
   async approveUser(uid: string) {
     const userDocRef = doc(this.firestore, 'users', uid);
-    await updateDoc(userDocRef, { 
+    const updates = { 
       status: 'Approved',
       approvedAt: new Date().toISOString()
-    });
+    };
+    await updateDoc(userDocRef, updates);
+
+    const user = this.users().find(u => u.uid === uid);
+    if (user) {
+      await this.employeeService.syncUserToEmployee(uid, { ...user, ...updates });
+    }
   }
 
   async rejectUser(uid: string) {
     const userDocRef = doc(this.firestore, 'users', uid);
-    await updateDoc(userDocRef, { status: 'Rejected' });
+    const updates = { status: 'Rejected' };
+    await updateDoc(userDocRef, updates);
+
+    const user = this.users().find(u => u.uid === uid);
+    if (user) {
+      await this.employeeService.syncUserToEmployee(uid, { ...user, ...updates });
+    }
   }
 
   async deleteUser(uid: string) {
-    if (confirm(`Are you sure you want to permanently delete ${uid}? This action cannot be undone.`)) {
+    const user = this.users().find(u => u.uid === uid);
+    if (confirm(`Are you sure you want to permanently delete ${user?.name || uid}? This action cannot be undone.`)) {
       const userDocRef = doc(this.firestore, 'users', uid);
       await deleteDoc(userDocRef);
+      
+      if (user?.employeeId) {
+        await this.employeeService.deleteEmployee(user.employeeId);
+      } else {
+        await this.employeeService.deleteEmployee(uid);
+      }
     }
   }
 
