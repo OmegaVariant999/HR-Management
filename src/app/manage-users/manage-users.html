@@ -1,1 +1,82 @@
-<p>manage-users works!</p>
+<div class="page">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">User Directory</h1>
+      <p class="page-subtitle">Manage workspace members and their access levels.</p>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input type="text" [(ngModel)]="searchFilter" class="search-input" placeholder="Search members...">
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Designated Role</th>
+            <th>Status & Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of filteredUsers(); track user.uid) {
+            <tr class="clickable-row" (click)="openEditDialog(user)">
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar" [style.background-image]="user.photoURL ? 'url(' + user.photoURL + ')' : ''">
+                    @if (!user.photoURL) { {{ initials(user.name) }} }
+                    @if (user.isOnline) { <div class="online-dot"></div> }
+                  </div>
+                  <div class="user-info">
+                    <span class="user-name">{{ user.name || 'Unnamed Member' }}</span>
+                    <span class="user-email">{{ user.email }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="role-badge">{{ user.role }}</span>
+              </td>
+              <td>
+                <div class="status-col">
+                  <!-- Activity Text -->
+                  <div class="activity-info">
+                    <span class="activity-indicator" [attr.data-status]="displayStatus(user)">
+                      {{ displayStatus(user) }}
+                    </span>
+                    <small class="last-seen">
+                      {{ user.lastLogin ? (user.lastLogin | date:'shortTime') : 'Never' }}
+                    </small>
+                  </div>
+                  <!-- Approval Status Badge -->
+                  <span class="approval-tag" [class]="(user.status || '').toLowerCase()">
+                    @if ((user.status || '').toLowerCase() === 'approved') {
+                      Access Granted
+                    } @else if ((user.status || '').toLowerCase() === 'pending') {
+                      Pending Request
+                    } @else {
+                      {{ user.status }}
+                    }
+                  </span>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-state">No workspace members found matching your search.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

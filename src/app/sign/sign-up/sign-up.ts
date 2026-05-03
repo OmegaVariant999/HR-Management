@@ -32,7 +32,8 @@ private auth = inject(Auth);
         return setDoc(doc(this.firestore, 'users', user.uid), {
           name: this.name,
           email: this.email,
-          role: this.role || 'Recruiter', // Default to Recruiter if not selected
+          role: this.role || 'Recruiter', 
+          status: 'Pending',
           createdAt: new Date().toISOString()
         });
       })

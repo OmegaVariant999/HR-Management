@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, EnvironmentInjector, runInInjectionContext } from '@angular/core';
 import { Auth, authState, User, signOut } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, onSnapshot, updateDoc, Unsubscribe } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 export type UserRole = 'Super Admin' | 'Admin' | 'Recruiter' | 'Payroll Manager';
@@ -10,10 +10,14 @@ export interface UserData {
   email: string | null;
   name?: string;
   role: UserRole;
+  status: 'Pending' | 'Approved' | 'Rejected';
   phone?: string;
   location?: string;
   photoURL?: string;
   createdAt?: string;
+  lastLogin?: string;
+  lastLogout?: string;
+  isOnline?: boolean;
 }
 
 @Injectable({
@@ -73,6 +77,14 @@ export class AuthService {
 
   async logout() {
     try {
+      const user = this.auth.currentUser;
+      if (user) {
+        const userDocRef = doc(this.firestore, 'users', user.uid);
+        await updateDoc(userDocRef, { 
+          isOnline: false,
+          lastLogout: new Date().toISOString()
+        });
+      }
       this.stopRoleListener();
       await signOut(this.auth);
       localStorage.clear();

@@ -17,18 +17,29 @@ export const authGuard: CanActivateFn = (route, state) => {
         return of(router.parseUrl('/login'));
       }
 
-      // Fetch user role directly to ensure sync with guard execution
+      // Fetch user data directly to ensure sync with guard execution
       return from(getDoc(doc(firestore, 'users', user.uid))).pipe(
         map(docSnap => {
           if (!docSnap.exists()) {
             return router.parseUrl('/login');
           }
 
-          const role = docSnap.data()['role'];
+          const userData = docSnap.data();
+          const role = userData['role'];
+          const status = userData['status'];
           const targetPath = route.routeConfig?.path || '';
 
+          const isSuperAdmin = role === 'Super Admin';
+
+          // 1. Check Approval Status (Super Admin is always pre-approved)
+          if (!isSuperAdmin && status !== 'Approved') {
+            console.warn(`[AuthGuard] Access Denied: User ${user.email} is not approved (status: ${status})`);
+            return router.parseUrl('/login');
+          }
+
+          // 2. Check Permissions
           // Super Admin: All access
-          if (role === 'Super Admin') return true;
+          if (isSuperAdmin) return true;
 
           // Permission Map
           const permissions: Record<string, string[]> = {

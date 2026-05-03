@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,21 @@ onLogin(event: Event) {
         
         if (userDoc.exists()) {
           const userData = userDoc.data();
+          const isSuperAdmin = userData['role'] === 'Super Admin';
+          
+          if (!isSuperAdmin && userData['status'] !== 'Approved') {
+            await signOut(this.auth);
+            alert("Your account is currently pending approval. Please contact a Super Admin.");
+            return;
+          }
+
           if (userData['role'] === this.role) {
+            // Update last login and set online
+            await updateDoc(doc(this.firestore, 'users', user.uid), {
+              lastLogin: new Date().toISOString(),
+              isOnline: true
+            });
+
             localStorage.setItem('isLoggedIn', 'true');
             this.router.navigate(['/dash']);
           } else {
