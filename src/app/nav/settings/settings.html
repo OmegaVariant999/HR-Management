@@ -13,10 +13,6 @@
 
     <!-- Sidebar Tabs -->
     <nav class="tab-nav">
-      <button class="tab-btn" [class.active]="activeTab() === 'general'" (click)="setTab('general')" id="tab-general">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        Company
-      </button>
       <button class="tab-btn" [class.active]="activeTab() === 'notifications'" (click)="setTab('notifications')" id="tab-notifications">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
         Notifications
@@ -42,79 +38,7 @@
     <!-- Content Panels -->
     <div class="tab-content">
 
-      <!-- ── GENERAL / COMPANY ───────────────────────── -->
-      @if (activeTab() === 'general') {
-        <div class="panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Company Settings</h2>
-            <p class="panel-desc">Basic information about your organization.</p>
-          </div>
 
-          @if (savedSection() === 'general') {
-            <div class="save-toast">✓ Company settings saved successfully.</div>
-          }
-
-          <div class="section">
-            <p class="section-label">Statutory & Registration Details</p>
-            <div class="form-grid">
-              <div class="field full-width">
-                <label for="s-legal-name">Registered Legal Name</label>
-                <input id="s-legal-name" type="text" [(ngModel)]="company.legalName" placeholder="e.g. TechFlow Solutions Private Limited">
-              </div>
-              <div class="field">
-                <label for="s-cin">Corporate Identification Number (CIN)</label>
-                <input id="s-cin" type="text" [(ngModel)]="company.cinNumber" placeholder="U72900...">
-              </div>
-              <div class="field">
-                <label for="s-gstin">GSTIN</label>
-                <input id="s-gstin" type="text" [(ngModel)]="company.gstin" placeholder="29ABCDE...">
-              </div>
-              <div class="field">
-                <label for="s-pan">PAN Number</label>
-                <input id="s-pan" type="text" [(ngModel)]="company.panNumber" placeholder="ABCDE1234F">
-              </div>
-              <div class="field">
-                <label for="s-pf-reg">PF Registration Number</label>
-                <input id="s-pf-reg" type="text" [(ngModel)]="company.pfRegistration" placeholder="PF Code">
-              </div>
-            </div>
-          </div>
-
-          <div class="section">
-            <p class="section-label">Regional Preferences</p>
-            <div class="form-grid">
-              <div class="field">
-                <label for="s-timezone">Timezone</label>
-                <select id="s-timezone" [(ngModel)]="company.timezone">
-                  <option *ngFor="let tz of timezones" [value]="tz">{{ tz }}</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="s-dateformat">Date Format</label>
-                <select id="s-dateformat" [(ngModel)]="company.dateFormat">
-                  <option *ngFor="let f of dateFormats" [value]="f">{{ f }}</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="s-currency">Currency</label>
-                <select id="s-currency" [(ngModel)]="company.currency">
-                  <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="s-fiscal">Fiscal Year Start</label>
-                <select id="s-fiscal" [(ngModel)]="company.fiscalYearStart">
-                  <option *ngFor="let m of months" [value]="m">{{ m }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel-footer">
-            <button class="btn-save" (click)="save('general')" id="save-general-btn">Save Changes</button>
-          </div>
-        </div>
-      }
 
       <!-- ── NOTIFICATIONS ───────────────────────────── -->
       @if (activeTab() === 'notifications') {

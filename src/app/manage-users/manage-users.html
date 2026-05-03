@@ -60,7 +60,13 @@
                         {{ displayStatus(user) }}
                       </span>
                       <small class="last-seen">
-                        {{ user.lastLogin ? (user.lastLogin | date:'shortTime') : 'Never' }}
+                        @if (user.isOnline) {
+                          Joined at {{ user.lastLogin | date:'shortTime' }}
+                        } @else if (user.lastLogout) {
+                          Left at {{ user.lastLogout | date:'shortTime' }}
+                        } @else {
+                          Never logged in
+                        }
                       </small>
                     </div>
 

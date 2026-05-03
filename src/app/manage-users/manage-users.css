@@ -176,9 +176,8 @@ td {
 }
 
 .activity-indicator[data-status="Online"] { color: #10b981; }
-.activity-indicator[data-status="Was Online"] { color: #3b82f6; }
-.activity-indicator[data-status="Recently Active"] { color: #6366f1; }
-.activity-indicator[data-status="Offline"] { color: #64748b; }
+.activity-indicator[data-status="Offline"] { color: #3b82f6; }
+.activity-indicator[data-status="Inactive"] { color: #64748b; }
 
 .last-seen {
   color: #64748b;

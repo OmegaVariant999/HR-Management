@@ -14,12 +14,12 @@ export function getUserActivityStatus(user: UserData): string {
     const lastLogout = new Date(user.lastLogout);
     const diffMins = (new Date().getTime() - lastLogout.getTime()) / (1000 * 60);
     
-    if (diffMins < 30) return 'Was Online';
-    if (diffMins < 60) return 'Recently Active';
-    return 'Offline';
+    // User is "Offline" for first 10 mins after logout, then "Inactive"
+    if (diffMins < 10) return 'Offline';
+    return 'Inactive';
   }
 
-  return 'Offline';
+  return 'Inactive';
 }
 
 @Component({

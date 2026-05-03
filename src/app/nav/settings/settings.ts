@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class Settings implements OnInit {
 
   // Active tab
-  activeTab = signal<string>('general');
+  activeTab = signal<string>('notifications');
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
