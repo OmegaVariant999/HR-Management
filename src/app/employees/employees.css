@@ -132,3 +132,47 @@
   color: var(--accent-error);
   background: rgba(239, 68, 68, 0.1);
 }
+
+/* ---- Pagination ---- */
+.pagination {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.pag-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pag-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.pag-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border-color: var(--text-muted);
+}
+
+.pag-btn.active {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
