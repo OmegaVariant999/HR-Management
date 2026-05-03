@@ -47,6 +47,13 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 26px; font-weight: 700; color: #e0ecff;
   box-shadow: 0 0 0 5px rgba(59,130,246,0.12);
+  overflow: hidden;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatar-edit-btn {
@@ -113,7 +120,7 @@
 }
 .field input::placeholder { color: #4a6899; }
 .field input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
-.field input:read-only { background: #0f1928; color: #6b8ec7; cursor: default; }
+.field input:read-only, .readonly-field { background: #0f1928; color: #6b8ec7; cursor: default; border-color: #1e2d48; }
 
 .static-field {
   padding: 10px 14px;
@@ -135,3 +142,9 @@
   cursor: pointer; transition: box-shadow 0.18s;
 }
 .btn-save:hover { box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  box-shadow: none;
+}

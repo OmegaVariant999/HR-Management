@@ -10,6 +10,10 @@ export interface UserData {
   email: string | null;
   name?: string;
   role: UserRole;
+  phone?: string;
+  location?: string;
+  photoURL?: string;
+  createdAt?: string;
 }
 
 @Injectable({
@@ -22,6 +26,7 @@ export class AuthService {
   private injector = inject(EnvironmentInjector);
 
   public currentUser = signal<User | null>(null);
+  public userData = signal<UserData | null>(null);
   public userRole = signal<UserRole | null>(null);
   private roleListener?: Unsubscribe;
 
@@ -47,9 +52,11 @@ export class AuthService {
     this.roleListener = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data() as UserData;
+        this.userData.set(data);
         this.userRole.set(data.role);
       } else {
         console.warn('[AuthService] User document not found for UID:', uid);
+        this.userData.set(null);
         this.userRole.set(null);
       }
     }, (error) => {
@@ -70,6 +77,7 @@ export class AuthService {
       await signOut(this.auth);
       localStorage.clear();
       this.currentUser.set(null);
+      this.userData.set(null);
       this.userRole.set(null);
       this.router.navigate(['/login']);
     } catch (error) {
