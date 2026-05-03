@@ -1,19 +1,8 @@
 <div class="page">
 
   <!-- Page Header -->
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Employee Management</h1>
-      <p class="page-subtitle">View and manage your organization's workforce.</p>
-    </div>
-    @if (authService.userRole() === 'Super Admin' || authService.userRole() === 'Recruiter') {
-      <a routerLink="/add-emp" class="btn-primary" id="add-employee-btn">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        Add Employee
-      </a>
-    }
+  <div class="title-container">
+    <h1 class="aesthetic-title">Employee Management</h1>
   </div>
 
   <!-- Toolbar -->
@@ -25,7 +14,15 @@
       </svg>
       <input id="emp-search" type="text" [(ngModel)]="searchQuery" class="search-input" placeholder="Search employees...">
     </div>
-    <div class="toolbar-actions">
+    <div class="toolbar-actions" style="display: flex; gap: 0.75rem;">
+      @if (authService.userRole() === 'Super Admin' || authService.userRole() === 'Recruiter') {
+        <a routerLink="/add-emp" class="btn-primary" id="add-employee-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Add Employee
+        </a>
+      }
       <button class="btn-secondary" (click)="openFilter()" id="emp-filter-btn">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

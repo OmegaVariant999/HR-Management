@@ -55,18 +55,37 @@ svg {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* ── PROFESSIONAL TITLES ── */
-.page-title {
-  font-size: 1.875rem; /* 30px */
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: white;
-  margin-bottom: 0.5rem;
+/* ── COOL PAGE TITLES ── */
+.title-container {
+  text-align: center;
+  padding: 1rem 0 2.5rem;
+  width: 100%;
 }
 
-.page-subtitle {
-  font-size: 0.875rem;
-  color: var(--text-muted);
+.aesthetic-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, #3b82f6 50%, #1d4ed8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+  text-transform: uppercase;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.2));
+  position: relative;
+}
+
+.aesthetic-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  border-radius: 2px;
 }
 
 /* ── UNIFIED BUTTONS ── */
