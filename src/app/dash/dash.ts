@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransitionService } from '../services/transition.service';
 import { EmployeeService } from '../services/employee.service';
@@ -9,7 +9,7 @@ import { EmployeeService } from '../services/employee.service';
   templateUrl: './dash.html',
   styleUrl: './dash.css',
 })
-export class Dash {
+export class Dash implements OnInit, OnDestroy {
   private employeeService = inject(EmployeeService);
   private transitionService = inject(TransitionService);
 
@@ -52,9 +52,23 @@ export class Dash {
   }
 
   // Live date
-  currentDate = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
+  currentDate = '';
+  private dateInterval: any;
+
+  ngOnInit() {
+    this.updateDate();
+    this.dateInterval = setInterval(() => this.updateDate(), 60000);
+  }
+
+  ngOnDestroy() {
+    if (this.dateInterval) clearInterval(this.dateInterval);
+  }
+
+  private updateDate() {
+    this.currentDate = new Date().toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+  }
 
   // KPI Computations driven entirely by the global EmployeeService
   totalEmployees = computed(() => this.employeeService.employees().length);
