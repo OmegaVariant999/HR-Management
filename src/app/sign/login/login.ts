@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +11,24 @@ import { RouterLink, Router } from '@angular/router';
 })
 export class Login {
   private router = inject(Router);
+  private auth = inject(Auth);
   email: string = '';
   password: string = '';
 
-  onLogin(event: Event) {
+async onLogin(event: Event) {
     event.preventDefault();
-    if (this.email === 'test@123.com' && this.password === '123') {
+    if (!this.email || !this.password) return;
+    try {
+      // Firebase verifies the credentials against the stored Auth data
+      await signInWithEmailAndPassword(this.auth, this.email, this.password);
+      
       localStorage.setItem('isLoggedIn', 'true');
-      this.router.navigate(['/dash']);
-    } else {
-      alert('Invalid credentials');
+      setTimeout(() => {
+        this.router.navigate(['/dash']);
+      }, 100);
+    } catch (error: any) {
+      console.error("Login error:", error);
+      alert("Invalid email or password.");
     }
   }
 }

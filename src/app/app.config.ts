@@ -4,6 +4,8 @@ import { routes } from './app.routes';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
 const firebaseConfig = {
   apiKey: "AIzaSyA5vOuOWXQOsb3h6RZ1-7Lmg3CjTixqYAE",
   authDomain: "gen-v-hr.firebaseapp.com",
@@ -18,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth())
   ]
 };

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, HostListener, input, effect } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { Auth,  signOut  } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +15,7 @@ export class Sidebar {
   isCollapsed = signal(true);
   isMobile = signal(this.isMobileView());
   private router = inject(Router);
+  private auth = inject(Auth);
 
   constructor() {
     // Sync sidebarOpen input with isCollapsed state
@@ -53,8 +55,17 @@ export class Sidebar {
     this.isCollapsed.set(!this.isCollapsed());
   }
 
-  onLogout(event: Event) {
+  async onLogout(event: Event) {
     event.preventDefault();
-    this.router.navigate(['/']);
+    
+    try {
+      await signOut(this.auth);
+      
+      localStorage.removeItem('isLoggedIn');
+      
+      this.router.navigate(['/']);
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   }
 }
