@@ -130,9 +130,9 @@ export class AuthService {
 
     const permissions: Record<UserRole, string[]> = {
       'Super Admin': ['dash', 'emp', 'add-emp', 'attn', 'leavemng', 'pay', 'prof', 'settings'],
-      'Admin': ['dash', 'emp', 'attn', 'prof', 'settings'],
-      'Recruiter': ['dash', 'emp', 'add-emp', 'attn', 'prof', 'settings'],
-      'Payroll Manager': ['dash', 'emp', 'attn', 'pay', 'prof', 'settings']
+      'Admin': ['dash', 'emp', 'attn', 'prof', 'settings', 'apply-leave'],
+      'Recruiter': ['dash', 'emp', 'add-emp', 'attn', 'prof', 'settings', 'apply-leave'],
+      'Payroll Manager': ['dash', 'emp', 'attn', 'pay', 'prof', 'settings', 'apply-leave']
     };
 
     const allowedRoutes = permissions[role] || [];

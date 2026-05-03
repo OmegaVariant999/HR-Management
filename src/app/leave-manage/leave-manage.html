@@ -8,23 +8,30 @@
   <div class="toolbar" style="margin-bottom: 1.5rem;">
     <div class="search-wrap">
       <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
-      <input id="leave-search" type="text" [(ngModel)]="searchQuery" class="search-input" placeholder="Search employee...">
+      <input id="leave-search" type="text" [(ngModel)]="searchQuery" class="search-input"
+        placeholder="Search employee...">
     </div>
     <div style="display: flex; gap: 0.75rem;">
       <button class="btn-secondary" (click)="openFilter()" id="leave-filter-btn" title="Filter Records">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
       </button>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <button id="tab-pending"  class="tab-btn" [class.active]="activeTab() === 'pending'"   (click)="setTab('pending')">Pending</button>
-    <button id="tab-approved" class="tab-btn" [class.active]="activeTab() === 'approved'"  (click)="setTab('approved')">Approved</button>
-    <button id="tab-rejected" class="tab-btn" [class.active]="activeTab() === 'rejected'"  (click)="setTab('rejected')">Rejected</button>
-    <button id="tab-my"       class="tab-btn" [class.active]="activeTab() === 'my-leaves'" (click)="setTab('my-leaves')">My Leaves</button>
+    <button id="tab-pending" class="tab-btn" [class.active]="activeTab() === 'pending'"
+      (click)="setTab('pending')">Pending Requests</button>
+    <button id="tab-approved" class="tab-btn" [class.active]="activeTab() === 'approved'"
+      (click)="setTab('approved')">Approved</button>
+    <button id="tab-rejected" class="tab-btn" [class.active]="activeTab() === 'rejected'"
+      (click)="setTab('rejected')">Rejected</button>
   </div>
 
   <!-- Table -->
@@ -44,38 +51,43 @@
           </tr>
         </thead>
         <tbody>
-          @for (leave of filteredLeaves(); track leave.emp.id) {
+          @for (leave of filteredLeaves(); track leave.id) {
           <tr>
-            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ leave.emp.id ? leave.emp.id : 'N/A' }}</td>
+            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ leave.employeeId }}</td>
             <td>
               <div class="emp-cell">
-                <div class="emp-avatar">{{ initials(leave.emp.name) }}</div>
-                <span class="emp-name">{{ leave.emp.name || 'Unnamed' }}</span>
+                <span class="emp-name">{{ leave.employeeName }}</span>
               </div>
             </td>
             <td><span class="type-text">{{ leave.type }}</span></td>
-            <td>{{ leave.from }}</td>
-            <td>{{ leave.to }}</td>
+            <td>{{ leave.fromDate | date:'dd MMM yyyy' }}</td>
+            <td>{{ leave.toDate | date:'dd MMM yyyy' }}</td>
             <td><span class="days-text">{{ leave.days }}</span></td>
             <td><span class="reason-text">{{ leave.reason }}</span></td>
             <td>
               <div class="actions-cell">
                 @if (leave.status === 'pending') {
-                  <button class="action-btn approve" (click)="approveLeave(leave)" title="Approve" id="leave-approve-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  </button>
-                  <button class="action-btn reject" (click)="rejectLeave(leave)" title="Reject" id="leave-reject-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                  </button>
+                <button class="action-btn approve" (click)="approveLeave(leave)" title="Approve" id="leave-approve-btn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button class="action-btn reject" (click)="rejectLeave(leave)" title="Reject" id="leave-reject-btn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
                 } @else {
-                  <span class="status-badge" [class]="leave.status === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
-                    {{ leave.status }}
-                  </span>
+                <span class="status-badge"
+                  [class]="leave.status === 'approved' ? 'status-badge approved' : 'status-badge rejected'">
+                  {{ leave.status }}
+                </span>
                 }
               </div>
             </td>
           </tr>
-          } @empty {
+          }
+ @empty {
           <tr>
             <td colspan="8" style="text-align: center; padding: 40px; color: #6b8ec7;">
               No leave records found matching your criteria.

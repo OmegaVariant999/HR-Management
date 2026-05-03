@@ -1,0 +1,83 @@
+<div class="page animate-fade">
+  <!-- Page Header -->
+  <div class="title-container">
+    <h1 class="aesthetic-title">Apply for Leave</h1>
+  </div>
+
+  <div class="apply-container">
+    <div class="glass-card apply-card">
+      <div class="card-header">
+        <h2 class="section-title">Leave Details</h2>
+        <p class="section-subtitle">Please fill in the information below to request a leave</p>
+      </div>
+
+      <form (ngSubmit)="submitLeave()" #leaveForm="ngForm" class="apply-form">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Leave Type</label>
+            <div class="select-wrapper">
+              <select [(ngModel)]="leaveType" name="leaveType" required class="form-input">
+                <option value="Annual Leave">Annual Leave (Quota: 18 days)</option>
+                <option value="Sick Leave">Sick Leave (Quota: 12 days)</option>
+                <option value="Casual Leave">Casual Leave (Quota: 6 days)</option>
+                <option value="Maternity Leave">Maternity Leave (Quota: 182 days)</option>
+                <option value="Paternity Leave">Paternity Leave (Quota: 15 days)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>From Date</label>
+            <input type="date" [(ngModel)]="fromDate" name="fromDate" required class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>To Date</label>
+            <input type="date" [(ngModel)]="toDate" name="toDate" required class="form-input">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Reason for Leave</label>
+            <textarea [(ngModel)]="reason" name="reason" required class="form-input text-area" 
+                      placeholder="Please provide a brief reason for your leave request..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!leaveForm.form.valid">Submit Application</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Quota Info Sidebar -->
+    <div class="glass-card quota-card">
+      <h3 class="card-title">Leave Policies</h3>
+      <div class="quota-list">
+        <div class="quota-item">
+          <span class="quota-label">Annual</span>
+          <span class="quota-val">18 Days</span>
+        </div>
+        <div class="quota-item">
+          <span class="quota-label">Sick</span>
+          <span class="quota-val">12 Days</span>
+        </div>
+        <div class="quota-item">
+          <span class="quota-label">Casual</span>
+          <span class="quota-val">6 Days</span>
+        </div>
+        <div class="quota-item">
+          <span class="quota-label">Maternity</span>
+          <span class="quota-val">182 Days</span>
+        </div>
+        <div class="quota-item">
+          <span class="quota-label">Paternity</span>
+          <span class="quota-val">15 Days</span>
+        </div>
+      </div>
+      <div class="quota-note">
+        <p>All leaves are subject to administrative approval. Processing typically takes 24-48 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>

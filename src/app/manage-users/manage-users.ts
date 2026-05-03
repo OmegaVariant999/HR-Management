@@ -41,6 +41,7 @@ export class ManageUsers implements OnInit {
   searchFilter = '';
   private isMigrationRunning = false;
   private registrationsListener?: Unsubscribe;
+  private lastSyncTime = 0;
 
   ngOnInit() {
     const usersCol = collection(this.firestore, 'users');
@@ -52,7 +53,10 @@ export class ManageUsers implements OnInit {
 
       this.users.set(userData);
 
-      if (!this.isMigrationRunning) {
+      // Prevent recursive loops by checking time since last sync
+      const now = Date.now();
+      if (!this.isMigrationRunning && (now - this.lastSyncTime > 10000)) {
+        this.lastSyncTime = now;
         this.runSync(userData);
       }
     }, (error) => {
