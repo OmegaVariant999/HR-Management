@@ -20,6 +20,7 @@ export interface UserData {
   isOnline?: boolean;
   approvedAt?: string;
   employeeId?: string;
+  salary?: number;
 }
 
 @Injectable({
@@ -43,18 +44,39 @@ export class AuthService {
         this.currentUser.set(user);
         if (user) {
           this.startRoleListener(user.uid);
-          // Set online status on session restoration (page reload)
-          const userDocRef = doc(this.firestore, 'users', user.uid);
-          updateDoc(userDocRef, { 
-            isOnline: true,
-            lastLogin: new Date().toISOString()
-          }).catch(err => console.error('[AuthService] Failed to update online status:', err));
+          this.updateOnlineStatus(user.uid, true);
         } else {
           this.stopRoleListener();
           this.userRole.set(null);
         }
       });
     });
+  }
+
+  private async updateOnlineStatus(uid: string, isOnline: boolean) {
+    try {
+      const userDocRef = doc(this.firestore, 'users', uid);
+      const userSnap = await getDoc(userDocRef);
+      
+      if (userSnap.exists()) {
+        const data = userSnap.data() as UserData;
+        const updates: any = { isOnline };
+        if (isOnline) updates.lastLogin = new Date().toISOString();
+        else updates.lastLogout = new Date().toISOString();
+
+        await updateDoc(userDocRef, updates);
+
+        // Sync to Employee collection if employeeId exists
+        if (data.employeeId) {
+          const empDocRef = doc(this.firestore, 'employees', data.employeeId);
+          await updateDoc(empDocRef, { isOnline }).catch(() => {
+            // If employee record doesn't exist yet, it's fine
+          });
+        }
+      }
+    } catch (err) {
+      console.error('[AuthService] Failed to update online status:', err);
+    }
   }
 
   private startRoleListener(uid: string) {
@@ -87,11 +109,7 @@ export class AuthService {
     try {
       const user = this.auth.currentUser;
       if (user) {
-        const userDocRef = doc(this.firestore, 'users', user.uid);
-        await updateDoc(userDocRef, { 
-          isOnline: false,
-          lastLogout: new Date().toISOString()
-        });
+        await this.updateOnlineStatus(user.uid, false);
       }
       this.stopRoleListener();
       await signOut(this.auth);

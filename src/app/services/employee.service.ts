@@ -98,9 +98,20 @@ export class EmployeeService {
   }
 
   async syncUserToEmployee(uid: string, userData: any) {
+    const isApproved = userData.status === 'Approved' || userData.role === 'Super Admin';
     let empId = userData.employeeId;
     
-    // 1. If no ID yet, generate and save it
+    // 1. If not approved, remove from employee collection and exit
+    if (!isApproved) {
+      if (empId) {
+        await deleteDoc(doc(this.firestore, 'employees', empId)).catch(() => {});
+      }
+      // Also check if they had a record under their UID
+      await deleteDoc(doc(this.firestore, 'employees', uid)).catch(() => {});
+      return;
+    }
+
+    // 2. If approved but no ID yet, generate and save it
     if (!empId) {
       const randomNum = Math.floor(1000 + Math.random() * 9000);
       empId = `HR${randomNum}`;
@@ -108,12 +119,6 @@ export class EmployeeService {
       const userDocRef = doc(this.firestore, 'users', uid);
       await updateDoc(userDocRef, { employeeId: empId });
       console.log(`[EmployeeService] Created NEW ID ${empId} for user ${uid}`);
-    }
-
-    // 2. ALWAYS try to delete legacy record (where ID == UID) if it's different from our custom ID
-    if (empId !== uid) {
-      const legacyRef = doc(this.firestore, 'employees', uid);
-      await deleteDoc(legacyRef).catch(() => {});
     }
 
     // 3. Upsert the employee record under the HRxxxx ID
@@ -124,8 +129,8 @@ export class EmployeeService {
       email: userData.email || '',
       department: 'HR',
       designation: this.getDesignationFromRole(userData.role),
-      status: userData.status === 'Approved' ? 'Active' : 'Inactive',
-      isOnline: userData.isOnline || false, // Sync online status
+      status: 'Active', // If we are here, they are approved
+      isOnline: userData.isOnline || false,
       photoURL: userData.photoURL || '',
       address: userData.location || '',
       phone: userData.phone || '',
