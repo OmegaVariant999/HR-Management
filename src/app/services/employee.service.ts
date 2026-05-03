@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Firestore, collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
 
 export interface Employee {
   id: string;
@@ -8,7 +8,7 @@ export interface Employee {
   designation: string;
   status: 'Active' | 'Inactive' | 'On Leave';
   address: string;
-  [key: string]: any; // for other fields like salary, bank details, etc.
+  [key: string]: any;
 }
 
 @Injectable({
@@ -16,28 +16,35 @@ export interface Employee {
 })
 export class EmployeeService {
   private firestore = inject(Firestore);
-  
-  // Global Signal holding the live employee data
   public employees = signal<Employee[]>([]);
+  private listenerHandle?: Unsubscribe;
 
   constructor() {
-    this.initRealtimeListener();
+    // this.initRealtimeListener();
   }
 
-  private initRealtimeListener() {
+  public startListening() {
+    // Prevent multiple listeners if already active
+    if (this.listenerHandle) return;
+
     const colRef = collection(this.firestore, 'employees');
-    
-    onSnapshot(colRef, (snapshot) => {
+    this.listenerHandle = onSnapshot(colRef, (snapshot) => {
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      })) as Employee[];
-      
-      console.log('[EmployeeService] Global data synced from Firestore:', data);
+      } as Employee));
       this.employees.set(data);
     }, (error) => {
-      console.error('[EmployeeService] Failed to listen to employees:', error);
+      console.error('[EmployeeService] Failed to listen:', error);
     });
+  }
+
+  stopListening() {
+    if (this.listenerHandle) {
+      this.listenerHandle(); // Detach the Firestore real-time listener
+      this.listenerHandle = undefined; // Reset handle
+      this.employees.set([]); // Clear the local signal state for security
+    }
   }
 
   async addEmployee(employeeData: any) {
@@ -51,7 +58,7 @@ export class EmployeeService {
       'Sales': 'Ss',
       'Operations': 'Ot'
     };
-    
+
     const prefix = prefixMap[employeeData.department] || 'Xx';
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     const customId = `${prefix}${randomNum}`;

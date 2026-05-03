@@ -8,6 +8,8 @@ import { DeleteEmployee } from './delete-employee/delete-employee';
 import { EmployeeService, Employee } from '../services/employee.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TransitionService } from '../services/transition.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-employees',
@@ -19,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 export class Employees implements OnInit {
   private readonly dialog = inject(MatDialog);
   public employeeService = inject(EmployeeService);
+  public transitionService = inject(TransitionService);
+  public authService = inject(AuthService);
 
   // Filter state
   currentFilters = signal<FilterCriteria | null>(null);

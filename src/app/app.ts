@@ -1,10 +1,13 @@
-import { Component, signal, inject, HostListener, ViewChild } from '@angular/core';
+import { Component, signal, inject, HostListener, ViewChild, EnvironmentInjector, runInInjectionContext } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './nav/sidebar/sidebar';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TransitionService } from './services/transition.service';
+import { EmployeeService } from './services/employee.service';
+import { Auth, authState } from '@angular/fire/auth';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +20,26 @@ export class App {
   showSidebar = signal(false);
   sidebarOpen = signal(false);
   isMobile = signal(this.isMobileView());
+  private injector = inject(EnvironmentInjector);
   private router = inject(Router);
   public transitionService = inject(TransitionService);
+  private employeeService = inject(EmployeeService);
+  private auth = inject(Auth);
+  private authService = inject(AuthService);
   
   @ViewChild(Sidebar) sidebarComponent?: Sidebar;
 
   constructor() {
+    authState(this.auth).subscribe(user => {
+      runInInjectionContext(this.injector, () => {
+        if (user) {
+          this.employeeService.startListening();
+        } else {
+          this.employeeService.stopListening();
+        }
+      });
+    });
+    
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((event: any) => {

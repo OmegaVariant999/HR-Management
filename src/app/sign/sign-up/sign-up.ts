@@ -19,27 +19,30 @@ private auth = inject(Auth);
   name = '';
   email = '';
   password = '';
+  role = '';
 
-  async onSignUp(event: Event) {
+  onSignUp(event: Event) {
     event.preventDefault();
-    try {
-      // 1. Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
-      const user = userCredential.user;
-
-      // 2. Store additional data in Firestore using the Auth UID
-      await setDoc(doc(this.firestore, 'users', user.uid), {
-        name: this.name,
-        email: this.email,
-        role: 'Admin', // Default role
-        createdAt: new Date().toISOString()
+    
+    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        
+        // Return the promise to keep the chain inside the context
+        return setDoc(doc(this.firestore, 'users', user.uid), {
+          name: this.name,
+          email: this.email,
+          role: this.role || 'Recruiter', // Default to Recruiter if not selected
+          createdAt: new Date().toISOString()
+        });
+      })
+      .then(() => {
+        localStorage.setItem('isLoggedIn', 'true');
+        this.router.navigate(['/dash']);
+      })
+      .catch((error: any) => {
+        console.error("Sign up error:", error);
+        alert(error.message);
       });
-
-      localStorage.setItem('isLoggedIn', 'true');
-      this.router.navigate(['/dash']);
-    } catch (error: any) {
-      console.error("Sign up error:", error);
-      alert(error.message);
-    }
   }
 }

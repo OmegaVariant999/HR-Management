@@ -1,23 +1,55 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
-import { map, take } from 'rxjs';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { map, take, switchMap, from, of } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const auth = inject(Auth);
-
-  // Checks if the user is logged in via local storage
-  // const isLoggedIn = !!localStorage.getItem('isLoggedIn');
+  const firestore = inject(Firestore);
 
   return authState(auth).pipe(
     take(1),
-    map(user => {
-      const manualLogin = localStorage.getItem('isLoggedIn') === 'true';
-      if (user || manualLogin) {
-        return true;
+    switchMap(user => {
+      if (!user) {
+        localStorage.removeItem('isLoggedIn');
+        return of(router.parseUrl('/login'));
       }
-      return router.parseUrl('/login');
+
+      // Fetch user role directly to ensure sync with guard execution
+      return from(getDoc(doc(firestore, 'users', user.uid))).pipe(
+        map(docSnap => {
+          if (!docSnap.exists()) {
+            return router.parseUrl('/login');
+          }
+
+          const role = docSnap.data()['role'];
+          const targetPath = route.routeConfig?.path || '';
+
+          // Super Admin: All access
+          if (role === 'Super Admin') return true;
+
+          // Permission Map
+          const permissions: Record<string, string[]> = {
+            'Admin': ['dash', 'emp', 'attn', 'prof', 'settings'],
+            'Recruiter': ['dash', 'emp', 'add-emp', 'attn', 'prof', 'settings'],
+            'Payroll Manager': ['dash', 'emp', 'attn', 'pay', 'prof', 'settings']
+          };
+
+          const allowedRoutes = permissions[role] || [];
+          
+          // Validate target path against allowed routes
+          const isAllowed = allowedRoutes.some(p => targetPath === p || targetPath.startsWith(p + '/'));
+
+          if (isAllowed) {
+            return true;
+          } else {
+            console.warn(`[AuthGuard] Access Denied for role ${role} to path /${targetPath}`);
+            return router.parseUrl('/not-found');
+          }
+        })
+      );
     })
   );
 };
