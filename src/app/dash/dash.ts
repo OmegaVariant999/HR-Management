@@ -13,6 +13,12 @@ export class Dash {
   private employeeService = inject(EmployeeService);
   private transitionService = inject(TransitionService);
 
+  activeTab = signal('attendance');
+
+  setTab(tab: string) {
+    this.activeTab.set(tab);
+  }
+
   navigateWithAnimation(event: MouseEvent, route: string, colorClass: string) {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();

@@ -1,5 +1,5 @@
 <!-- HR_Management\src\app\app.html -->
-<div class="app-container flex h-screen overflow-hidden" [style.background]="showSidebar() ? '#111827' : '#0f172a'" [class.sidebar-visible]="showSidebar()">
+<div class="app-container flex h-screen overflow-hidden" [class.sidebar-visible]="showSidebar()">
     <!-- Mobile Overlay Backdrop -->
     @if (showSidebar() && isMobile() && sidebarOpen()) {
     <div class="mobile-overlay" (click)="toggleMobileMenu()"></div>

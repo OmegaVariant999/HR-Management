@@ -1,259 +1,176 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
 
-/* ── Material Dialog: strip default white background for dark dialogs ── */
+/* ── PROFESSIONAL DESIGN SYSTEM ── */
+:root {
+  --bg-main: #0f172a;           /* Deep Navy */
+  --bg-card: #1e293b;           /* Slate Navy */
+  --bg-surface: #1e293b;
+  --border-subtle: #334155;     /* Slate border */
+  --accent-primary: #3b82f6;    /* Bright Blue */
+  --accent-success: #10b981;    /* Emerald */
+  --accent-warning: #f59e0b;    /* Amber */
+  --accent-error: #ef4444;      /* Rose */
+  --text-main: #f8fafc;         /* White-ish */
+  --text-muted: #94a3b8;        /* Slate Gray */
+  --glass-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* ── BASE STYLES ── */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+/* ── GLOBAL ICON SCALING (CRITICAL FIX) ── */
+svg {
+  width: 1.25rem;  /* 20px default */
+  height: 1.25rem;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ── REFINED GLASSMORPHISM ── */
+.glass-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--glass-shadow);
+  border-radius: 12px;
+}
+
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ── PROFESSIONAL TITLES ── */
+.page-title {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ── UNIFIED BUTTONS ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--accent-primary);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-muted);
+}
+
+/* ── TABLE STYLES ── */
+.table-container {
+  @extend .glass-panel;
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th {
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.875rem;
+}
+
+tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── MATERIAL DIALOG ── */
 .dark-dialog-panel .mat-mdc-dialog-surface {
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle) !important;
   border-radius: 16px !important;
-  overflow: visible !important;
-}
-
-/* ── Custom Scrollbar – Dark Navy Theme ── */
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #2d4f96 #0f1928;
-}
-
-/* Chrome, Edge, Safari */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0f1928;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2d4f96;
-  border-radius: 999px;
-  border: 2px solid #0f1928;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
-}
-
-::-webkit-scrollbar-corner {
-  background: #0f1928;
-}
-
-/* ── Custom Utility Classes for Animations ── */
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fade-in-up {
-  opacity: 0;
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-blob {
-  animation: blob 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-
-.animation-delay-600 {
-  animation-delay: 600ms;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.rotate-x-12 {
-  transform: rotateX(12deg);
-}
-
-.rotate-x-0 {
-  transform: rotateX(0deg);
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 10px rgba(59,130,246,0.2); }
-  50% { box-shadow: 0 0 30px rgba(59,130,246,0.6); }
-  100% { box-shadow: 0 0 10px rgba(59,130,246,0.2); }
-}
-
-@keyframes slideInLeft {
-  0% { opacity: 0; transform: translateX(-30px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  0% { opacity: 0; transform: translateX(30px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes scaleIn {
-  0% { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-glow {
-  animation: glow 4s infinite alternate;
-}
-
-.animate-slide-in-left {
-  opacity: 0;
-  animation: slideInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-slide-in-right {
-  opacity: 0;
-  animation: slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-scale-in {
-  opacity: 0;
-  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes shimmer {
-  100% { transform: translateX(100%); }
-}
-
-.animation-delay-800 { animation-delay: 800ms; }
-.animation-delay-1000 { animation-delay: 1000ms; }
-.animation-delay-1200 { animation-delay: 1200ms; }
-.animation-delay-1400 { animation-delay: 1400ms; }
-.animation-delay-1600 { animation-delay: 1600ms; }
-
-/* ---- Global Hero Card Geometric Expansion ---- */
-.hero-transition-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none; /* Let clicks pass through if needed, though overlay covers screen */
-}
-
-/* The expanding clone card */
-.hero-card {
-  position: absolute;
-  top: var(--start-y);
-  left: var(--start-x);
-  width: var(--start-w);
-  height: var(--start-h);
-  border-radius: 14px;
-  background: #1a2236; /* Default dashboard card background */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  
-  /* Expand animation */
-  animation: heroExpand 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-}
-
-/* Base ring colors matching the card's gradient top-border */
-.hero-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 3px;
-  border-radius: inherit;
-}
-.hero-card.blue::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
-.hero-card.green::before { background: linear-gradient(90deg, #059669, #34d399); }
-.hero-card.amber::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
-.hero-card.purple::before { background: linear-gradient(90deg, #7c3aed, #c084fc); }
-
-@keyframes heroExpand {
-  0% {
-    top: var(--start-y);
-    left: var(--start-x);
-    width: var(--start-w);
-    height: var(--start-h);
-    border-radius: 14px;
-    opacity: 1;
-  }
-  50% {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    opacity: 1;
-    background: #111827; /* Transition to main app background color */
-  }
-  80% {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    opacity: 1;
-    background: #111827;
-  }
-  100% {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    opacity: 0; /* Fade out to reveal the routed page beneath */
-  }
+  color: white !important;
 }

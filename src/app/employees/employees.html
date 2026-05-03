@@ -62,7 +62,7 @@
           @for (emp of filteredEmployees(); track emp.id) {
           <tr>
             <!-- Custom Department ID -->
-            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id || 'N/A' }}</td>
+            <td class="emp-id-cell">{{ emp.id || 'N/A' }}</td>
             <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(emp.name) }}</div>

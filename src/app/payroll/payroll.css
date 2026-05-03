@@ -1,84 +1,236 @@
-/* ====================================================
-   PAYROLL – Formal Office Theme
-   ==================================================== */
-:host { display: block; }
-
 .page {
-  min-height: 100vh;
-  background: #111827;
-  padding: 28px 32px;
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  color: #e8f0fe;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
-.page-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.page-title  { font-size: 24px; font-weight: 700; color: #e8f0fe; margin: 0; }
-.page-subtitle { font-size: 13px; color: #6b8ec7; margin: 4px 0 0; }
+/* ---- Toolbar ---- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-.toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.search-wrap {
+  position: relative;
+  width: 320px;
+}
 
-.search-wrap { position: relative; }
-.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: #4a6899; pointer-events: none; }
-.search-input { padding: 9px 12px 9px 34px; background: #1a2236; border: 1px solid #243050; border-radius: 8px; color: #c5d9f8; font-size: 13px; outline: none; width: 240px; }
-.search-input::placeholder { color: #4a6899; }
-.search-input:focus { border-color: #3b82f6; }
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  cursor: pointer;
+}
 
-.btn-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: #1a2236; border: 1px solid #243050; border-radius: 8px; color: #6b8ec7; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
-.btn-icon:hover { border-color: #3b82f6; color: #c5d9f8; }
-.btn-icon svg { width: 17px; height: 17px; }
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: var(--accent-primary);
+}
 
-.month-selector { background: #1a2236; border: 1px solid #243050; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 16px; }
-.nav-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #111827; border: 1px solid #243050; border-radius: 6px; color: #6b8ec7; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
-.nav-btn:hover { border-color: #3b82f6; color: #c5d9f8; }
-.nav-btn svg { width: 16px; height: 16px; }
-.month-label { font-size: 15px; font-weight: 700; color: #c5d9f8; min-width: 160px; text-align: center; }
+.search-icon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
 
-.payslip-card { background: #1a2236; border: 1px solid #243050; border-radius: 14px; padding: 32px; max-width: 860px; margin: 0 auto; width: 100%; }
-.payslip-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; margin-bottom: 28px; border-bottom: 1px solid #243050; }
-.payslip-emp { display: flex; align-items: center; gap: 14px; }
-.payslip-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #1e3a6e, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #e0ecff; border: 2px solid #2d4f96; }
-.payslip-name { font-size: 17px; font-weight: 700; color: #e8f0fe; margin: 0 0 3px; }
-.payslip-role { font-size: 10.5px; font-weight: 600; color: #4a6899; text-transform: uppercase; letter-spacing: 1px; }
-.net-pay-wrap { text-align: right; }
-.net-pay-label { font-size: 10px; font-weight: 700; color: #4a6899; text-transform: uppercase; letter-spacing: 1px; }
-.net-pay-value { font-size: 30px; font-weight: 800; color: #3b82f6; line-height: 1.1; }
+.search-input {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
 
-.payslip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.pay-section h3 { font-size: 10px; font-weight: 700; color: #4a6899; text-transform: uppercase; letter-spacing: 1.2px; padding-bottom: 10px; border-bottom: 1px solid #243050; margin: 0 0 16px; }
-.pay-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #1e2d48; font-size: 13px; }
-.pay-row:last-child { border-bottom: none; }
-.pay-row span:first-child { color: #6b8ec7; }
-.pay-row span:last-child  { color: #c5d9f8; font-weight: 600; }
-.pay-row.total span:first-child { color: #c5d9f8; font-weight: 700; font-size: 14px; }
-.pay-row.total.earnings span:last-child { color: #3b82f6; font-size: 14px; }
-.pay-row.total.deductions span:last-child { color: #f87171; font-size: 14px; }
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: var(--bg-main);
+}
 
-.payslip-footer { display: flex; justify-content: center; margin-top: 28px; }
-.btn-download { display: flex; align-items: center; gap: 8px; padding: 11px 28px; background: linear-gradient(135deg, #1e3a6e, #2563eb); border: 1px solid #2d4f96; border-radius: 9px; color: #e0ecff; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; cursor: pointer; transition: box-shadow 0.18s; }
-.btn-download:hover { box-shadow: 0 4px 16px rgba(37,99,235,0.4); }
-.btn-download svg { width: 16px; height: 16px; }
+/* ---- Month Selector ---- */
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--bg-card);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  width: fit-content;
+}
 
-/* ---- Table Styles for Master View ---- */
-.table-card { background: #1a2236; border: 1px solid #243050; border-radius: 14px; overflow: hidden; }
-.table-scroll { overflow-x: auto; }
+.month-label {
+  font-weight: 700;
+  color: white;
+  font-size: 1rem;
+  min-width: 140px;
+  text-align: center;
+}
 
-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
-thead tr { background: #0f1928; border-bottom: 1px solid #243050; }
-th { padding: 13px 20px; font-size: 10px; font-weight: 700; color: #4a6899; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
-th.right { text-align: right; }
-tbody tr { border-bottom: 1px solid #1e2d48; transition: background 0.15s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #1e2d48; }
-td { padding: 14px 20px; color: #93b4f0; vertical-align: middle; }
+/* ---- Payslip View UX ---- */
+.payslip-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.3s ease-out;
+}
 
-.emp-cell { display: flex; align-items: center; gap: 10px; }
-.emp-avatar { width: 32px; height: 32px; border-radius: 50%; background: #1e3a6e; border: 1.5px solid #2d4f96; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #93c5fd; flex-shrink: 0; }
-.emp-name { font-size: 13px; font-weight: 600; color: #c5d9f8; }
+.payslip-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  padding: 3rem;
+  max-width: 850px;
+  margin: 0 auto;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
+}
 
-.type-text { font-style: italic; color: #8aabdb; }
-.actions-cell { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
-.action-btn { background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; transition: background 0.15s; }
-.action-btn.approve { color: #34d399; } .action-btn.approve:hover { background: rgba(16,185,129,0.12); }
+.payslip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.payslip-emp {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.payslip-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 12px;
+  background: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.payslip-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.payslip-role {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.net-pay-wrap {
+  text-align: right;
+}
+
+.net-pay-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.net-pay-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.payslip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.pay-section h3 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.pay-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.9375rem;
+  color: var(--text-main);
+}
+
+.pay-row.total {
+  font-weight: 700;
+  color: white;
+  margin-top: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: none;
+}
+
+.pay-row.total.earnings span:last-child { color: var(--accent-success); }
+.pay-row.total.deductions span:last-child { color: var(--accent-error); }
+
+.payslip-footer {
+  display: flex;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.btn-download {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-download:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.emp-id-cell {
+  font-weight: 700;
+  color: var(--accent-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
