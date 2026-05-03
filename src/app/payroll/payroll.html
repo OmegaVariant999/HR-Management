@@ -5,26 +5,37 @@
     <h1 class="aesthetic-title">Payroll / Payslip</h1>
   </div>
 
-  <div class="toolbar" style="margin-bottom: 1.5rem; justify-content: flex-end;">
+  <div class="toolbar" style="margin-bottom: 1.5rem;">
     <div class="search-wrap">
       <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
-      <input id="payroll-search" type="text" [(ngModel)]="searchQuery" class="search-input" placeholder="Search employee...">
+      <input id="payroll-search" type="text" [(ngModel)]="searchQuery" class="search-input"
+        placeholder="Search employee...">
     </div>
-    <button class="btn-icon" (click)="openFilter()" id="payroll-filter-btn" title="Filter">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-    </button>
+    <div style="display: flex; gap: 0.75rem;">
+      <button class="btn-secondary" (click)="openFilter()" id="payroll-filter-btn" title="Filter Records">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- Month Selector -->
   <div class="month-selector">
     <button class="nav-btn" (click)="prevMonth()" id="payroll-prev-month">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
     </button>
     <span class="month-label">{{ monthDisplay() }}</span>
     <button class="nav-btn" (click)="nextMonth()" id="payroll-next-month">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
     </button>
   </div>
 
@@ -48,7 +59,7 @@
             <td class="emp-id-cell">{{ emp.id || 'N/A' }}</td>
             <td>
               <div class="emp-cell">
-                <div class="emp-avatar">{{ initials(emp.name) }}</div>
+
                 <span class="emp-name">{{ emp.name || 'Unnamed' }}</span>
               </div>
             </td>
@@ -56,7 +67,8 @@
             <td>{{ emp.designation }}</td>
             <td>
               <div class="actions-cell">
-                <button (click)="selectEmployee(emp)" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">
+                <button (click)="selectEmployee(emp)" class="btn-primary"
+                  style="padding: 0.5rem 1rem; font-size: 0.75rem;">
                   View Payslip
                 </button>
               </div>
@@ -78,8 +90,9 @@
   <div class="payslip-container mt-6">
     <div>
       <button (click)="clearSelection()" class="btn-secondary">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1rem; height: 1rem; margin-right: 0.5rem;">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          style="width: 1rem; height: 1rem; margin-right: 0.5rem;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
         Back to Directory
       </button>
@@ -91,7 +104,8 @@
           <div class="payslip-avatar">{{ initials(selectedEmployee()!.name) }}</div>
           <div>
             <h2 class="payslip-name">{{ selectedEmployee()!.name || 'Unnamed' }}</h2>
-            <p class="payslip-role">{{ selectedEmployee()!.designation || 'Staff' }} &bull; {{ selectedEmployee()!.id || 'N/A' }}</p>
+            <p class="payslip-role">{{ selectedEmployee()!.designation || 'Staff' }} &bull; {{ selectedEmployee()!.id ||
+              'N/A' }}</p>
           </div>
         </div>
         <div class="net-pay-wrap">
@@ -103,25 +117,32 @@
       <div class="payslip-grid">
         <div class="pay-section">
           <h3>Earnings</h3>
-          <div class="pay-row"><span>Basic Salary</span><span>${{ getSalary(selectedEmployee()).base | number }}</span></div>
+          <div class="pay-row"><span>Basic Salary</span><span>${{ getSalary(selectedEmployee()).base | number }}</span>
+          </div>
           <div class="pay-row"><span>HRA</span><span>${{ getSalary(selectedEmployee()).hra | number }}</span></div>
           <div class="pay-row"><span>Bonus</span><span>${{ getSalary(selectedEmployee()).bonus | number }}</span></div>
-          <div class="pay-row total earnings"><span>Total Earnings</span><span>${{ getSalary(selectedEmployee()).earnings | number }}</span></div>
+          <div class="pay-row total earnings"><span>Total Earnings</span><span>${{
+              getSalary(selectedEmployee()).earnings | number }}</span></div>
         </div>
 
         <div class="pay-section">
           <h3>Deductions</h3>
-          <div class="pay-row"><span>Provident Fund</span><span>${{ getSalary(selectedEmployee()).pf | number }}</span></div>
-          <div class="pay-row"><span>Income Tax</span><span>${{ getSalary(selectedEmployee()).tax | number }}</span></div>
-          <div class="pay-row"><span>Others</span><span>${{ getSalary(selectedEmployee()).others | number }}</span></div>
-          <div class="pay-row total deductions"><span>Total Deductions</span><span>${{ getSalary(selectedEmployee()).deductions | number }}</span></div>
+          <div class="pay-row"><span>Provident Fund</span><span>${{ getSalary(selectedEmployee()).pf | number }}</span>
+          </div>
+          <div class="pay-row"><span>Income Tax</span><span>${{ getSalary(selectedEmployee()).tax | number }}</span>
+          </div>
+          <div class="pay-row"><span>Others</span><span>${{ getSalary(selectedEmployee()).others | number }}</span>
+          </div>
+          <div class="pay-row total deductions"><span>Total Deductions</span><span>${{
+              getSalary(selectedEmployee()).deductions | number }}</span></div>
         </div>
       </div>
 
       <div class="payslip-footer">
         <button class="btn-download" id="payroll-download-btn">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1.25rem; height: 1.25rem;">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
           Download Document
         </button>

@@ -83,6 +83,30 @@
           {{ isSaving() ? 'Saving...' : 'Save Changes' }}
         </button>
       </div>
+
+      <!-- NEW: Leave Status Section -->
+      <h3 class="form-section-title" style="margin-top: 2.5rem; display: flex; align-items: center; justify-content: space-between;">
+        Leave Management
+        @if (recentLeaveStatus()) {
+          <span class="status-badge" [class.pending]="recentLeaveStatus() === 'In Process'" [class.approved]="recentLeaveStatus() === 'Approved'" [class.rejected]="recentLeaveStatus() === 'Rejected'">
+            {{ recentLeaveStatus() }}
+          </span>
+        }
+      </h3>
+      <div class="leave-promo-card">
+        <div class="promo-content">
+          <svg class="promo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <div>
+            <p class="promo-title">Planning a break?</p>
+            <p class="promo-text">Submit your leave request today and get it approved by your manager.</p>
+          </div>
+        </div>
+        <button class="btn-primary" (click)="applyLeave()" id="profile-apply-leave-btn">
+          Apply for Leave
+        </button>
+      </div>
     </div>
   </div>
 </div>

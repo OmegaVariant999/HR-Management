@@ -43,9 +43,9 @@ export const authGuard: CanActivateFn = (route, state) => {
 
           // Permission Map
           const permissions: Record<string, string[]> = {
-            'Admin': ['dash', 'emp', 'attn', 'prof', 'settings'],
-            'Recruiter': ['dash', 'emp', 'add-emp', 'attn', 'prof', 'settings'],
-            'Payroll Manager': ['dash', 'emp', 'attn', 'pay', 'prof', 'settings']
+            'Admin': ['dash', 'emp', 'attn', 'prof', 'settings', 'apply-leave'],
+            'Recruiter': ['dash', 'emp', 'add-emp', 'attn', 'prof', 'settings', 'apply-leave'],
+            'Payroll Manager': ['dash', 'emp', 'attn', 'pay', 'prof', 'settings', 'apply-leave']
           };
 
           const allowedRoutes = permissions[role] || [];

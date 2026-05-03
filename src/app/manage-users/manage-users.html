@@ -4,8 +4,53 @@
     <h1 class="aesthetic-title">User Directory</h1>
   </div>
 
+  <!-- Access Requests (New Registrations) -->
+  @if (pendingRegistrations().length > 0) {
+    <div class="pending-section" style="margin-bottom: 2rem;">
+      <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--accent-warning); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1.25rem; height: 1.25rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        Access Requests ({{ pendingRegistrations().length }})
+      </h2>
+      <div class="table-card" style="border-color: var(--accent-warning);">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Requested Role</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (reg of pendingRegistrations(); track reg.uid) {
+                <tr>
+                  <td>
+                    <div class="user-cell">
+                      <div class="user-avatar" style="background: var(--accent-warning);">{{ initials(reg.name) }}</div>
+                      <div class="user-info">
+                        <span class="user-name">{{ reg.name }}</span>
+                        <span class="user-email">{{ reg.email }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="role-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-warning);">{{ reg.role }}</span></td>
+                  <td>
+                    <div class="actions-cell" style="justify-content: flex-end; gap: 0.75rem;">
+                      <button class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; background: var(--accent-success);" (click)="approveRegistration(reg)">Approve Access</button>
+                      <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; color: var(--accent-error);" (click)="rejectRegistration(reg)">Reject</button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
   <!-- Toolbar -->
-  <div class="toolbar">
+  <div class="toolbar" style="margin-bottom: 1.5rem;">
     <div class="search-wrap">
       <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

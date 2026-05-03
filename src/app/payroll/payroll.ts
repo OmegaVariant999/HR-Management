@@ -50,42 +50,42 @@ export class Payroll {
   getSalary(emp: any) {
     // Basic Salary: use actual from DB, or fallback to a deterministic value
     const base = emp.salary ? Number(emp.salary) : (30000 + (emp.name?.length || 5) * 1000);
-    
+
     // HRA: 40% of Basic
     const hra = Math.floor(base * 0.40);
-    
+
     // Bonus: 10% of Basic
     const bonus = Math.floor(base * 0.10);
-    
+
     // Gross Salary (Total Earnings)
     const gross = base + hra + bonus;
-    
+
     // PF: 12% of Basic
     const pf = Math.floor(base * 0.12);
-    
+
     // Income Tax: 5% of Gross
     const tax = Math.floor(gross * 0.05);
-    
+
     // Others (Deterministic "random" between 1000 and 2500 to prevent Angular binding errors)
     const nameSeed = (emp.name || 'Emp').split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
     const others = 1000 + (nameSeed % 1500);
-    
+
     // Total Deductions
     const deductions = pf + tax + others;
-    
+
     // Net Pay
     const net = gross - deductions;
-    
-    return { 
-      base, 
-      hra, 
-      bonus, 
-      earnings: gross, 
-      pf, 
-      tax, 
-      others, 
-      deductions, 
-      net 
+
+    return {
+      base,
+      hra,
+      bonus,
+      earnings: gross,
+      pf,
+      tax,
+      others,
+      deductions,
+      net
     };
   }
 

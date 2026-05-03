@@ -148,3 +148,78 @@
   filter: grayscale(0.5);
   box-shadow: none;
 }
+
+/* ---- Leave Management Section ---- */
+.leave-promo-card {
+  margin-top: 1rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .leave-promo-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.promo-content {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.promo-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--accent-primary);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.promo-title {
+  font-weight: 700;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.promo-text {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.status-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--accent-warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.status-badge.approved {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.rejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}

@@ -26,30 +26,44 @@ export class Login {
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then(async (userCredential) => {
         const user = userCredential.user;
-        const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
+        const userRef = doc(this.firestore, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
         
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const isSuperAdmin = userData['role'] === 'Super Admin';
           
-          // Check for approval status
           if (!isSuperAdmin && userData['status'] !== 'Approved') {
             await signOut(this.auth);
             alert("Your account is currently pending approval. Please contact a Super Admin.");
             return;
           }
 
-          // Update last login and set online
-          await updateDoc(doc(this.firestore, 'users', user.uid), {
+          // Update last login and set online in Users
+          await updateDoc(userRef, {
             lastLogin: new Date().toISOString(),
             isOnline: true
           });
 
+          // Sync to Employees
+          if (userData['employeeId']) {
+            await updateDoc(doc(this.firestore, 'employees', userData['employeeId']), {
+              isOnline: true
+            }).catch(() => {});
+          }
+
           localStorage.setItem('isLoggedIn', 'true');
           this.router.navigate(['/dash']);
         } else {
-          await signOut(this.auth);
-          alert("User record not found. Please contact support.");
+          // Check if it's a pending registration
+          const regDoc = await getDoc(doc(this.firestore, 'registrations', user.uid));
+          if (regDoc.exists()) {
+            await signOut(this.auth);
+            alert("Your registration is still pending approval. Please wait for a Super Admin to grant you access.");
+          } else {
+            await signOut(this.auth);
+            alert("Account record not found. If you just signed up, please wait for approval.");
+          }
         }
       })
       .catch((error: any) => {

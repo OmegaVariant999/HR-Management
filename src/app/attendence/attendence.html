@@ -6,14 +6,14 @@
   </div>
 
   <div class="toolbar" style="margin-bottom: 1.5rem;">
-    <div class="search-wrap" style="position: relative; display: flex; align-items: center;">
-      <svg class="search-icon" style="position: absolute; left: 14px; width: 18px; height: 18px; color: #6b8ec7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="search-wrap">
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
-      <input id="attn-search" type="text" [(ngModel)]="searchQuery" style="padding: 10px 16px 10px 42px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.5); color: #e8f0fe; font-size: 14px; width: 260px; outline: none; transition: all 0.2s;" placeholder="Search employee...">
+      <input id="attn-search" type="text" [(ngModel)]="searchQuery" class="search-input" placeholder="Search employee...">
     </div>
     <div style="display: flex; gap: 0.75rem;">
-      <button class="btn-secondary" (click)="openFilter()" id="attn-filter-btn">
+      <button class="btn-secondary" (click)="openFilter()" id="attn-filter-btn" title="Filter Records">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
       </button>
       <button class="btn-primary" id="attn-export-btn">

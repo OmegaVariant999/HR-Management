@@ -30,8 +30,8 @@ private auth = inject(Auth);
       .then((userCredential) => {
         const user = userCredential.user;
         
-        // Return the promise to keep the chain inside the context
-        const userData = {
+        const registrationData = {
+          uid: user.uid,
           name: this.name,
           email: this.email,
           role: this.role || 'Recruiter', 
@@ -39,12 +39,16 @@ private auth = inject(Auth);
           createdAt: new Date().toISOString()
         };
         
-        return setDoc(doc(this.firestore, 'users', user.uid), userData)
-          .then(() => this.employeeService.syncUserToEmployee(user.uid, userData));
+        // Write to registrations instead of users
+        return setDoc(doc(this.firestore, 'registrations', user.uid), registrationData);
       })
       .then(() => {
-        localStorage.setItem('isLoggedIn', 'true');
-        this.router.navigate(['/dash']);
+        // Log out immediately as they are not approved
+        return this.auth.signOut();
+      })
+      .then(() => {
+        alert("Registration submitted! Please wait for a Super Admin to approve your access before logging in.");
+        this.router.navigate(['/login']);
       })
       .catch((error: any) => {
         console.error("Sign up error:", error);

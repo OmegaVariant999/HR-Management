@@ -4,11 +4,10 @@
   <div class="title-container">
     <h1 class="aesthetic-title">Dashboard</h1>
     <div class="date-badge" style="margin: 0.5rem auto 0; width: fit-content;">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      <svg class="date-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
-      <span id="dash-current-date">—</span>
+      <span id="dash-current-date">{{currentDate}}</span>
     </div>
   </div>
 
@@ -16,11 +15,9 @@
   <div class="kpi-grid">
 
     <!-- Total Employees -->
-    <div class="kpi-card glass-card kpi-blue" 
-         [class.timed-active]="timedActiveState['emp']()"
-         (mouseenter)="onCardMouseEnter('emp')"
-         (mouseleave)="onCardMouseLeave('emp')"
-         (click)="navigateWithAnimation($event, '/emp', 'blue')">
+    <div class="kpi-card glass-card kpi-blue" [class.timed-active]="timedActiveState['emp']()"
+      (mouseenter)="onCardMouseEnter('emp')" (mouseleave)="onCardMouseLeave('emp')"
+      (click)="navigateWithAnimation($event, '/emp', 'blue')">
       <div class="kpi-body">
         <p class="kpi-label">Total Employees</p>
         <h3 class="kpi-value">{{ totalEmployees() }}</h3>
@@ -35,11 +32,9 @@
     </div>
 
     <!-- Present Today -->
-    <div class="kpi-card glass-card kpi-green" 
-         [class.timed-active]="timedActiveState['attn']()"
-         (mouseenter)="onCardMouseEnter('attn')"
-         (mouseleave)="onCardMouseLeave('attn')"
-         (click)="navigateWithAnimation($event, '/attn', 'green')">
+    <div class="kpi-card glass-card kpi-green" [class.timed-active]="timedActiveState['attn']()"
+      (mouseenter)="onCardMouseEnter('attn')" (mouseleave)="onCardMouseLeave('attn')"
+      (click)="navigateWithAnimation($event, '/attn', 'green')">
       <div class="kpi-body">
         <p class="kpi-label">Present Today</p>
         <h3 class="kpi-value">{{ presentToday() }}</h3>
@@ -54,11 +49,9 @@
     </div>
 
     <!-- Pending Leaves -->
-    <div class="kpi-card glass-card kpi-amber" 
-         [class.timed-active]="timedActiveState['leave']()"
-         (mouseenter)="onCardMouseEnter('leave')"
-         (mouseleave)="onCardMouseLeave('leave')"
-         (click)="navigateWithAnimation($event, '/leavemng', 'amber')">
+    <div class="kpi-card glass-card kpi-amber" [class.timed-active]="timedActiveState['leave']()"
+      (mouseenter)="onCardMouseEnter('leave')" (mouseleave)="onCardMouseLeave('leave')"
+      (click)="navigateWithAnimation($event, '/leavemng', 'amber')">
       <div class="kpi-body">
         <p class="kpi-label">Pending Leaves</p>
         <h3 class="kpi-value">{{ pendingLeaves() }}</h3>
@@ -73,11 +66,9 @@
     </div>
 
     <!-- Monthly Payroll -->
-    <div class="kpi-card glass-card kpi-purple" 
-         [class.timed-active]="timedActiveState['pay']()"
-         (mouseenter)="onCardMouseEnter('pay')"
-         (mouseleave)="onCardMouseLeave('pay')"
-         (click)="navigateWithAnimation($event, '/pay', 'purple')">
+    <div class="kpi-card glass-card kpi-purple" [class.timed-active]="timedActiveState['pay']()"
+      (mouseenter)="onCardMouseEnter('pay')" (mouseleave)="onCardMouseLeave('pay')"
+      (click)="navigateWithAnimation($event, '/pay', 'purple')">
       <div class="kpi-body">
         <p class="kpi-label">Monthly Payroll</p>
         <h3 class="kpi-value">${{ monthlyPayroll() | number:'1.0-0' }}</h3>
@@ -96,100 +87,104 @@
   <div class="dash-insights-container">
     <div class="dash-card glass-card">
       <div class="card-tabs">
-        <button [class.active]="activeTab() === 'attendance'" (click)="setTab('attendance')" class="tab-btn">Attendance</button>
-        <button [class.active]="activeTab() === 'department'" (click)="setTab('department')" class="tab-btn">Department</button>
-        <button [class.active]="activeTab() === 'activity'" (click)="setTab('activity')" class="tab-btn">Recent Activity</button>
-        <button [class.active]="activeTab() === 'birthday'" (click)="setTab('birthday')" class="tab-btn">Birthdays</button>
+        <button [class.active]="activeTab() === 'attendance'" (click)="setTab('attendance')"
+          class="tab-btn">Attendance</button>
+        <button [class.active]="activeTab() === 'department'" (click)="setTab('department')"
+          class="tab-btn">Department</button>
+        <button [class.active]="activeTab() === 'activity'" (click)="setTab('activity')" class="tab-btn">Recent
+          Activity</button>
+        <button [class.active]="activeTab() === 'birthday'" (click)="setTab('birthday')"
+          class="tab-btn">Birthdays</button>
       </div>
 
       <div class="tab-content">
         <!-- Attendance Tab -->
         @if (activeTab() === 'attendance') {
-          <div class="insight-view animate-fade">
-            <div class="view-header">
-              <h2 class="card-title">Attendance Overview</h2>
-              <span class="card-badge">This Month</span>
+        <div class="insight-view animate-fade">
+          <div class="view-header">
+            <h2 class="card-title">Attendance Overview</h2>
+            <span class="card-badge">This Month</span>
+          </div>
+          <div class="chart-placeholder">
+            <div class="chart-bars">
+              <div class="bar-group" *ngFor="let bar of attendanceBars">
+                <div class="bar present" [style.height.%]="bar.present"></div>
+                <div class="bar absent" [style.height.%]="bar.absent"></div>
+                <span class="bar-label">{{bar.day}}</span>
+              </div>
             </div>
-            <div class="chart-placeholder">
-              <div class="chart-bars">
-                <div class="bar-group" *ngFor="let bar of attendanceBars">
-                  <div class="bar present" [style.height.%]="bar.present"></div>
-                  <div class="bar absent" [style.height.%]="bar.absent"></div>
-                  <span class="bar-label">{{bar.day}}</span>
-                </div>
-              </div>
-              <div class="chart-legend">
-                <span class="legend-dot green"></span> Present
-                <span class="legend-dot red"></span> Absent
-              </div>
+            <div class="chart-legend">
+              <span class="legend-dot green"></span> Present
+              <span class="legend-dot red"></span> Absent
             </div>
           </div>
+        </div>
         }
 
         <!-- Department Tab -->
         @if (activeTab() === 'department') {
-          <div class="insight-view animate-fade">
-            <div class="view-header">
-              <h2 class="card-title">Department Breakdown</h2>
-            </div>
-            <div class="dept-list">
-              <div class="dept-row" *ngFor="let dept of departments()">
-                <div class="dept-info">
-                  <span class="dept-dot" [style.background]="dept.color"></span>
-                  <span class="dept-name">{{dept.name}}</span>
-                </div>
-                <div class="dept-bar-wrap">
-                  <div class="dept-bar-fill" [style.width.%]="dept.pct" [style.background]="dept.color"></div>
-                </div>
-                <span class="dept-count">{{dept.count}}</span>
+        <div class="insight-view animate-fade">
+          <div class="view-header">
+            <h2 class="card-title">Department Breakdown</h2>
+          </div>
+          <div class="dept-list">
+            <div class="dept-row" *ngFor="let dept of departments()">
+              <div class="dept-info">
+                <span class="dept-dot" [style.background]="dept.color"></span>
+                <span class="dept-name">{{dept.name}}</span>
               </div>
+              <div class="dept-bar-wrap">
+                <div class="dept-bar-fill" [style.width.%]="dept.pct" [style.background]="dept.color"></div>
+              </div>
+              <span class="dept-count">{{dept.count}}</span>
             </div>
           </div>
+        </div>
         }
 
         <!-- Activity Tab -->
         @if (activeTab() === 'activity') {
-          <div class="insight-view animate-fade">
-            <div class="view-header">
-              <h2 class="card-title">Recent Activity</h2>
-              <a class="card-link">View Audit Log</a>
-            </div>
-            <ul class="activity-list">
-              <li class="activity-item" *ngFor="let act of activities()">
-                <span class="activity-dot" [style.background]="act.color"></span>
-                <div class="activity-body">
-                  <span class="activity-name">{{act.name}}</span>
-                  <span class="activity-desc">{{act.desc}}</span>
-                </div>
-                <span class="activity-time">{{act.time}}</span>
-              </li>
-            </ul>
+        <div class="insight-view animate-fade">
+          <div class="view-header">
+            <h2 class="card-title">Recent Activity</h2>
+            <a class="card-link">View Audit Log</a>
           </div>
+          <ul class="activity-list">
+            <li class="activity-item" *ngFor="let act of activities()">
+              <span class="activity-dot" [style.background]="act.color"></span>
+              <div class="activity-body">
+                <span class="activity-name">{{act.name}}</span>
+                <span class="activity-desc">{{act.desc}}</span>
+              </div>
+              <span class="activity-time">{{act.time}}</span>
+            </li>
+          </ul>
+        </div>
         }
 
         <!-- Birthday Tab -->
         @if (activeTab() === 'birthday') {
-          <div class="insight-view animate-fade">
-            <div class="view-header">
-              <h2 class="card-title">Upcoming Birthdays</h2>
-              <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
-              </svg>
-            </div>
-            <ul class="birthday-list">
-              <li class="birthday-item" *ngFor="let bday of birthdays()">
-                <div class="avatar" [style.background]="bday.avatarBg">{{bday.initials}}</div>
-                <div class="birthday-info">
-                  <p class="birthday-name">{{bday.name}}</p>
-                  <p class="birthday-date">{{bday.date}}</p>
-                </div>
-                <span class="birthday-tag">{{bday.tag}}</span>
-              </li>
-            </ul>
+        <div class="insight-view animate-fade">
+          <div class="view-header">
+            <h2 class="card-title">Upcoming Birthdays</h2>
+            <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+            </svg>
           </div>
+          <ul class="birthday-list">
+            <li class="birthday-item" *ngFor="let bday of birthdays()">
+              <div class="avatar" [style.background]="bday.avatarBg">{{bday.initials}}</div>
+              <div class="birthday-info">
+                <p class="birthday-name">{{bday.name}}</p>
+                <p class="birthday-date">{{bday.date}}</p>
+              </div>
+              <span class="birthday-tag">{{bday.tag}}</span>
+            </li>
+          </ul>
+        </div>
         }
       </div>
     </div>
   </div>
 </div>
-

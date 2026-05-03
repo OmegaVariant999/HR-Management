@@ -4,6 +4,7 @@ import { AuthService, UserData } from '../../services/auth.service';
 import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LeaveService } from '../../services/leave.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ export class Profile {
   public authService = inject(AuthService);
   private firestore = inject(Firestore);
   private router = inject(Router);
+  private leaveService = inject(LeaveService);
 
   // Form signals using model() for two-way binding
   name = model('');
@@ -143,5 +145,33 @@ export class Profile {
 
   goToNotifications() {
     this.router.navigate(['/settings'], { queryParams: { tab: 'notifications' } });
+  }
+
+  applyLeave() {
+    this.router.navigate(['/apply-leave']);
+  }
+
+  recentLeaveStatus() {
+    const user = this.authService.userData();
+    if (!user) return null;
+
+    const myLeaves = this.leaveService.getLeavesByEmployee(user.uid);
+    if (myLeaves.length === 0) return null;
+
+    // Check for leaves within a week
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const recentLeave = myLeaves.find(l => {
+      const appliedAt = l.appliedAt?.toDate ? l.appliedAt.toDate() : new Date(l.appliedAt);
+      return appliedAt >= oneWeekAgo;
+    });
+
+    if (!recentLeave) return null;
+
+    if (recentLeave.status === 'pending') return 'In Process';
+    if (recentLeave.status === 'approved') return 'Approved';
+    if (recentLeave.status === 'rejected') return 'Rejected';
+    return null;
   }
 }

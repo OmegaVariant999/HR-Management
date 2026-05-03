@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { Firestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot, doc, updateDoc, deleteDoc, Unsubscribe, setDoc } from '@angular/fire/firestore';
 import { AuthService, UserData } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,11 +10,11 @@ import { EmployeeService } from '../services/employee.service';
 // Status Logic Helper
 export function getUserActivityStatus(user: UserData): string {
   if (user.isOnline) return 'Online';
-  
+
   if (user.lastLogout) {
     const lastLogout = new Date(user.lastLogout);
     const diffMins = (new Date().getTime() - lastLogout.getTime()) / (1000 * 60);
-    
+
     // User is "Offline" for first 10 mins after logout, then "Inactive"
     if (diffMins < 10) return 'Offline';
     return 'Inactive';
@@ -35,10 +35,13 @@ export class ManageUsers implements OnInit {
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
   private employeeService = inject(EmployeeService);
-  
+
   users = signal<UserData[]>([]);
+  pendingRegistrations = signal<UserData[]>([]);
   searchFilter = '';
   private isMigrationRunning = false;
+  private registrationsListener?: Unsubscribe;
+  private lastSyncTime = 0;
 
   ngOnInit() {
     const usersCol = collection(this.firestore, 'users');
@@ -47,16 +50,27 @@ export class ManageUsers implements OnInit {
         ...doc.data(),
         uid: doc.id
       } as UserData));
-      
+
       this.users.set(userData);
-      
-      // Migration Logic: Sync users to employees
-      // We only run this once or when specifically needed to avoid loops
-      if (!this.isMigrationRunning) {
+
+      // Prevent recursive loops by checking time since last sync
+      const now = Date.now();
+      if (!this.isMigrationRunning && (now - this.lastSyncTime > 10000)) {
+        this.lastSyncTime = now;
         this.runSync(userData);
       }
     }, (error) => {
-      console.error('[ManageUsers] Permission Denied or Fetch Error:', error);
+      console.error('[ManageUsers] Users Fetch Error:', error);
+    });
+
+    // Listen to registrations
+    const regsCol = collection(this.firestore, 'registrations');
+    this.registrationsListener = onSnapshot(regsCol, (snapshot) => {
+      const regData = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        uid: doc.id
+      } as UserData));
+      this.pendingRegistrations.set(regData);
     });
   }
 
@@ -78,8 +92,8 @@ export class ManageUsers implements OnInit {
 
   filteredUsers() {
     const query = this.searchFilter.toLowerCase().trim();
-    return this.users().filter(u => 
-      u.name?.toLowerCase().includes(query) || 
+    return this.users().filter(u =>
+      u.name?.toLowerCase().includes(query) ||
       u.email?.toLowerCase().includes(query) ||
       u.role.toLowerCase().includes(query)
     );
@@ -111,9 +125,9 @@ export class ManageUsers implements OnInit {
         }
 
         const userDocRef = doc(this.firestore, 'users', user.uid);
-        const updates: any = { 
+        const updates: any = {
           role: result.role,
-          status: result.status 
+          status: result.status
         };
 
         if (result.status === 'Approved' && user.status !== 'Approved') {
@@ -121,7 +135,7 @@ export class ManageUsers implements OnInit {
         }
 
         await updateDoc(userDocRef, updates);
-        
+
         // Immediate Sync
         await this.employeeService.syncUserToEmployee(user.uid, {
           ...user,
@@ -131,9 +145,39 @@ export class ManageUsers implements OnInit {
     });
   }
 
+  async approveRegistration(reg: UserData) {
+    try {
+      const userDocRef = doc(this.firestore, 'users', reg.uid);
+      const updates: UserData = {
+        ...reg,
+        status: 'Approved',
+        approvedAt: new Date().toISOString()
+      };
+
+      // 1. Move to users
+      await setDoc(userDocRef, updates);
+
+      // 2. Sync to employees
+      await this.employeeService.syncUserToEmployee(reg.uid, updates);
+
+      // 3. Delete from registrations
+      await deleteDoc(doc(this.firestore, 'registrations', reg.uid));
+
+      console.log(`[ManageUsers] Approved registration for ${reg.email}`);
+    } catch (e) {
+      console.error('[ManageUsers] Approval failed:', e);
+    }
+  }
+
+  async rejectRegistration(reg: UserData) {
+    if (confirm(`Reject and delete registration for ${reg.name}?`)) {
+      await deleteDoc(doc(this.firestore, 'registrations', reg.uid));
+    }
+  }
+
   async approveUser(uid: string) {
     const userDocRef = doc(this.firestore, 'users', uid);
-    const updates = { 
+    const updates = {
       status: 'Approved',
       approvedAt: new Date().toISOString()
     };
@@ -161,7 +205,7 @@ export class ManageUsers implements OnInit {
     if (confirm(`Are you sure you want to permanently delete ${user?.name || uid}? This action cannot be undone.`)) {
       const userDocRef = doc(this.firestore, 'users', uid);
       await deleteDoc(userDocRef);
-      
+
       if (user?.employeeId) {
         await this.employeeService.deleteEmployee(user.employeeId);
       } else {
