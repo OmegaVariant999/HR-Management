@@ -13,6 +13,7 @@ import { Login } from './sign/login/login';
 import { SignUp } from './sign/sign-up/sign-up';
 import { authGuard } from './auth-guard';
 import { NotFound } from './not-found/not-found';
+import { ManageUsers } from './manage-users/manage-users';
 import { Features } from './landing-page/features/features';
 import { Solutions } from './landing-page/solutions/solutions';
 import { Pricing } from './landing-page/pricing/pricing';
@@ -32,5 +33,6 @@ export const routes: Routes = [
     { path: 'attn', component: Attendence, canActivate: [authGuard] },
     { path: 'prof', component: Profile, canActivate: [authGuard] },
     { path: 'settings', component: Settings, canActivate: [authGuard] },
+    { path: 'manage-users', component: ManageUsers, canActivate: [authGuard] },
     { path: '**', component: NotFound }
 ];

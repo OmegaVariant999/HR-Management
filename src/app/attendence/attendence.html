@@ -1,18 +1,18 @@
 <div class="page">
 
-  <!-- Header -->
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Attendance Portal</h1>
-      <p class="page-subtitle">Monitor and track daily employee presence.</p>
+  <!-- Page Header -->
+  <div class="title-container">
+    <h1 class="aesthetic-title">Attendance Portal</h1>
+  </div>
+
+  <div class="toolbar" style="margin-bottom: 1.5rem;">
+    <div class="search-wrap" style="position: relative; display: flex; align-items: center;">
+      <svg class="search-icon" style="position: absolute; left: 14px; width: 18px; height: 18px; color: #6b8ec7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input id="attn-search" type="text" [(ngModel)]="searchQuery" style="padding: 10px 16px 10px 42px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.5); color: #e8f0fe; font-size: 14px; width: 260px; outline: none; transition: all 0.2s;" placeholder="Search employee...">
     </div>
-    <div class="toolbar">
-      <div class="search-wrap" style="position: relative; display: flex; align-items: center;">
-        <svg class="search-icon" style="position: absolute; left: 14px; width: 18px; height: 18px; color: #6b8ec7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input id="attn-search" type="text" [(ngModel)]="searchQuery" style="padding: 10px 16px 10px 42px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(30, 41, 59, 0.5); color: #e8f0fe; font-size: 14px; width: 260px; outline: none; transition: all 0.2s;" placeholder="Search employee...">
-      </div>
+    <div style="display: flex; gap: 0.75rem;">
       <button class="btn-secondary" (click)="openFilter()" id="attn-filter-btn">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
       </button>
@@ -29,15 +29,25 @@
       <button class="nav-btn" (click)="prevMonth()" id="attn-prev-month">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
-      <span class="month-label">{{ monthDisplay() }}</span>
+      <div class="month-selector-grid">
+        <span class="month-active">{{ monthDisplay() }}</span>
+      </div>
       <button class="nav-btn" (click)="nextMonth()" id="attn-next-month">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
-    <div class="legend">
-      <span class="legend-item"><span class="dot present"></span> Present</span>
-      <span class="legend-item"><span class="dot absent"></span> Absent</span>
-      <span class="legend-item"><span class="dot leave"></span> Leave</span>
+  </div>
+
+  <!-- In Development Banner -->
+  <div class="dev-banner glass-card">
+    <div class="dev-content">
+      <svg class="dev-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+      </svg>
+      <div>
+        <h2 class="dev-title">Attendance Tracking: In Development</h2>
+        <p class="dev-subtitle">Full daily logs and biometric integration are coming soon. Current view shows employee directory only.</p>
+      </div>
     </div>
   </div>
 
@@ -47,37 +57,31 @@
       <table>
         <thead>
           <tr>
-            <th class="sticky-col">Employee</th>
-            @for (day of getDaysArray(); track day) {
-              <th>{{ day }}</th>
-            }
-            <th>Total</th>
+            <th style="width: 120px;">ID</th>
+            <th>Employee Name</th>
+            <th>Department</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           @for (emp of filteredAttendance(); track emp.id) {
           <tr>
-            <td class="emp-col">
+            <td class="emp-id-cell">{{ emp.id || 'N/A' }}</td>
+            <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(emp.name) }}</div>
-                <div>
-                  <p class="emp-name">{{ emp.name || 'Unnamed' }}</p>
-                  <p class="emp-dept">{{ emp.designation || 'Staff' }}</p>
-                </div>
+                <span class="emp-name">{{ emp.name || 'Unnamed' }}</span>
               </div>
             </td>
-            @for (day of getDaysArray(); track day) {
-              <td>
-                <!-- Mock attendance logic based on char codes to make it look stable per user -->
-                <div [class]="(emp.name.length + day) % 7 !== 0 ? 'day-dot present' : 'day-dot absent'"></div>
-              </td>
-            }
-            <td class="total-cell">{{ daysInMonth() - (emp.name.length % 5 + 1) }}/{{ daysInMonth() }}</td>
+            <td>{{ emp.department }}</td>
+            <td>
+              <span class="badge badge-active">Synchronized</span>
+            </td>
           </tr>
           } @empty {
           <tr>
-            <td [attr.colspan]="daysInMonth() + 2" style="text-align: center; padding: 40px; color: #6b8ec7;">
-              No attendance records match your search.
+            <td colspan="4" style="text-align: center; padding: 40px; color: #6b8ec7;">
+              No records found.
             </td>
           </tr>
           }

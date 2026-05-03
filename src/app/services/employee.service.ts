@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Firestore, collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
 
 export interface Employee {
   id: string;
@@ -8,7 +8,8 @@ export interface Employee {
   designation: string;
   status: 'Active' | 'Inactive' | 'On Leave';
   address: string;
-  [key: string]: any; // for other fields like salary, bank details, etc.
+  isOnline?: boolean;
+  [key: string]: any;
 }
 
 @Injectable({
@@ -16,28 +17,35 @@ export interface Employee {
 })
 export class EmployeeService {
   private firestore = inject(Firestore);
-  
-  // Global Signal holding the live employee data
   public employees = signal<Employee[]>([]);
+  private listenerHandle?: Unsubscribe;
 
   constructor() {
-    this.initRealtimeListener();
+    // this.initRealtimeListener();
   }
 
-  private initRealtimeListener() {
+  public startListening() {
+    // Prevent multiple listeners if already active
+    if (this.listenerHandle) return;
+
     const colRef = collection(this.firestore, 'employees');
-    
-    onSnapshot(colRef, (snapshot) => {
+    this.listenerHandle = onSnapshot(colRef, (snapshot) => {
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      })) as Employee[];
-      
-      console.log('[EmployeeService] Global data synced from Firestore:', data);
+      } as Employee));
       this.employees.set(data);
     }, (error) => {
-      console.error('[EmployeeService] Failed to listen to employees:', error);
+      console.error('[EmployeeService] Failed to listen:', error);
     });
+  }
+
+  stopListening() {
+    if (this.listenerHandle) {
+      this.listenerHandle(); // Detach the Firestore real-time listener
+      this.listenerHandle = undefined; // Reset handle
+      this.employees.set([]); // Clear the local signal state for security
+    }
   }
 
   async addEmployee(employeeData: any) {
@@ -51,7 +59,7 @@ export class EmployeeService {
       'Sales': 'Ss',
       'Operations': 'Ot'
     };
-    
+
     const prefix = prefixMap[employeeData.department] || 'Xx';
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     const customId = `${prefix}${randomNum}`;
@@ -77,5 +85,63 @@ export class EmployeeService {
     const docRef = doc(this.firestore, 'employees', id);
     await deleteDoc(docRef);
     console.log(`[EmployeeService] Deleted employee ${id}`);
+  }
+
+  getDesignationFromRole(role: string): string {
+    switch (role) {
+      case 'Super Admin': return 'Chief HR Officer';
+      case 'Admin': return 'HR Manager';
+      case 'Recruiter': return 'Recruitment Lead';
+      case 'Payroll Manager': return 'Payroll Specialist';
+      default: return 'HR Associate';
+    }
+  }
+
+  async syncUserToEmployee(uid: string, userData: any) {
+    let empId = userData.employeeId;
+    
+    // 1. If no ID yet, generate and save it
+    if (!empId) {
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      empId = `HR${randomNum}`;
+      
+      const userDocRef = doc(this.firestore, 'users', uid);
+      await updateDoc(userDocRef, { employeeId: empId });
+      console.log(`[EmployeeService] Created NEW ID ${empId} for user ${uid}`);
+    }
+
+    // 2. ALWAYS try to delete legacy record (where ID == UID) if it's different from our custom ID
+    if (empId !== uid) {
+      const legacyRef = doc(this.firestore, 'employees', uid);
+      await deleteDoc(legacyRef).catch(() => {});
+    }
+
+    // 3. Upsert the employee record under the HRxxxx ID
+    const docRef = doc(this.firestore, 'employees', empId);
+    const empData = {
+      id: empId,
+      name: userData.name || 'Unnamed',
+      email: userData.email || '',
+      department: 'HR',
+      designation: this.getDesignationFromRole(userData.role),
+      status: userData.status === 'Approved' ? 'Active' : 'Inactive',
+      isOnline: userData.isOnline || false, // Sync online status
+      photoURL: userData.photoURL || '',
+      address: userData.location || '',
+      phone: userData.phone || '',
+      accountNumber: userData.accountNumber || '',
+      bankName: userData.bankName || '',
+      ifscCode: userData.ifscCode || '',
+      dob: userData.dob || '',
+      gender: userData.gender || '',
+      joinDate: userData.joinDate || new Date().toISOString().split('T')[0],
+      maritalStatus: userData.maritalStatus || '',
+      salary: userData.salary || 0,
+      systemUid: uid,
+      type: 'System User'
+    };
+    
+    await setDoc(docRef, empData, { merge: true });
+    console.log(`[EmployeeService] Synced ${empId} successfully.`);
   }
 }

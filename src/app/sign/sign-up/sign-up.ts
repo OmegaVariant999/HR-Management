@@ -4,6 +4,7 @@ import { RouterLink, Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,31 +16,39 @@ export class SignUp {
 private auth = inject(Auth);
   private firestore = inject(Firestore);
   private router = inject(Router);
+  private employeeService = inject(EmployeeService);
 
   name = '';
   email = '';
   password = '';
+  role = '';
 
-  async onSignUp(event: Event) {
+  onSignUp(event: Event) {
     event.preventDefault();
-    try {
-      // 1. Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
-      const user = userCredential.user;
-
-      // 2. Store additional data in Firestore using the Auth UID
-      await setDoc(doc(this.firestore, 'users', user.uid), {
-        name: this.name,
-        email: this.email,
-        role: 'Admin', // Default role
-        createdAt: new Date().toISOString()
+    
+    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        
+        // Return the promise to keep the chain inside the context
+        const userData = {
+          name: this.name,
+          email: this.email,
+          role: this.role || 'Recruiter', 
+          status: 'Pending',
+          createdAt: new Date().toISOString()
+        };
+        
+        return setDoc(doc(this.firestore, 'users', user.uid), userData)
+          .then(() => this.employeeService.syncUserToEmployee(user.uid, userData));
+      })
+      .then(() => {
+        localStorage.setItem('isLoggedIn', 'true');
+        this.router.navigate(['/dash']);
+      })
+      .catch((error: any) => {
+        console.error("Sign up error:", error);
+        alert(error.message);
       });
-
-      localStorage.setItem('isLoggedIn', 'true');
-      this.router.navigate(['/dash']);
-    } catch (error: any) {
-      console.error("Sign up error:", error);
-      alert(error.message);
-    }
   }
 }

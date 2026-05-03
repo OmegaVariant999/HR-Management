@@ -1,0 +1,126 @@
+.page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Toolbar ---- */
+.toolbar {
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.search-input {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  padding: 0.625rem 1rem 0.625rem 2.5rem;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  max-width: 320px;
+}
+
+.search-input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+
+/* ---- User Table ---- */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-name {
+  font-weight: 600;
+  color: white;
+  font-size: 0.9375rem;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  background: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.online-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--accent-success);
+  border: 2px solid var(--bg-card);
+  border-radius: 50%;
+}
+
+.role-badge {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-col {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.activity-indicator {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.activity-indicator[data-status="Online"] { color: var(--accent-success); }
+.activity-indicator[data-status="Offline"] { color: var(--accent-primary); }
+
+.approval-tag {
+  padding: 0.25rem 0.625rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.approval-tag.approved { background: rgba(16, 185, 129, 0.1); color: var(--accent-success); }
+.approval-tag.pending { background: rgba(245, 158, 11, 0.1); color: var(--accent-warning); }
+.approval-tag.rejected { background: rgba(239, 68, 68, 0.1); color: var(--accent-error); }
+
+.pulse {
+  animation: simple-pulse 2s infinite;
+}
+
+@keyframes simple-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

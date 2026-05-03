@@ -1,17 +1,8 @@
 <div class="page">
 
   <!-- Page Header -->
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Employee Management</h1>
-      <p class="page-subtitle">View and manage your organization's workforce.</p>
-    </div>
-    <a routerLink="/add-emp" class="btn-primary" id="add-employee-btn">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-      Add Employee
-    </a>
+  <div class="title-container">
+    <h1 class="aesthetic-title">Employee Management</h1>
   </div>
 
   <!-- Toolbar -->
@@ -23,7 +14,15 @@
       </svg>
       <input id="emp-search" type="text" [(ngModel)]="searchQuery" class="search-input" placeholder="Search employees...">
     </div>
-    <div class="toolbar-actions">
+    <div class="toolbar-actions" style="display: flex; gap: 0.75rem;">
+      @if (authService.userRole() === 'Super Admin' || authService.userRole() === 'Recruiter') {
+        <a routerLink="/add-emp" class="btn-primary" id="add-employee-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Add Employee
+        </a>
+      }
       <button class="btn-secondary" (click)="openFilter()" id="emp-filter-btn">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,10 +56,10 @@
         </thead>
         <tbody>
           <!-- Dynamic Loop from Firebase Data -->
-          @for (emp of filteredEmployees(); track $index) {
+          @for (emp of filteredEmployees(); track emp.id) {
           <tr>
             <!-- Custom Department ID -->
-            <td style="font-size: 13px; font-weight: 600; color: #3b82f6;">{{ emp.id ? emp.id : 'N/A' }}</td>
+            <td class="emp-id-cell">{{ emp.id || 'N/A' }}</td>
             <td>
               <div class="emp-cell">
                 <div class="emp-avatar">{{ initials(emp.name) }}</div>
@@ -70,10 +69,14 @@
             <td>{{ emp.department }}</td>
             <td>{{ emp.designation }}</td>
             <td>
-              <span class="badge" [class.badge-active]="emp.status === 'Active'"
-                [class.badge-inactive]="emp.status === 'Inactive'" [class.badge-leave]="emp.status === 'On Leave'">
-                {{ emp.status || 'Active' }}
-              </span>
+              @if (emp.isOnline) {
+                <span class="badge badge-active">Active</span>
+              } @else {
+                <span class="badge" [class.badge-active]="emp.status === 'Active'"
+                  [class.badge-inactive]="emp.status === 'Inactive'" [class.badge-leave]="emp.status === 'On Leave'">
+                  {{ emp.status || 'Active' }}
+                </span>
+              }
             </td>
             <td>
               <div class="actions-cell">
@@ -86,19 +89,21 @@
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
                 </button>
-                <button class="action-btn edit" title="Edit Employee" (click)="openEdit(emp)"
-                  [id]="'edit-btn-' + emp.id">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
-                           m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button class="action-btn del" title="Delete" (click)="openDelete(emp)" [id]="'del-btn-' + emp.id">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
+                @if (authService.userRole() === 'Super Admin' || authService.userRole() === 'Recruiter') {
+                  <button class="action-btn edit" title="Edit Employee" (click)="openEdit(emp)"
+                    [id]="'edit-btn-' + emp.id">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
+                             m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                  <button class="action-btn del" title="Delete" (click)="openDelete(emp)" [id]="'del-btn-' + emp.id">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                }
               </div>
             </td>
           </tr>
@@ -117,13 +122,17 @@
     <div class="pagination">
       <p class="pag-info">Showing {{ filteredEmployees().length }} entries</p>
       <div class="pag-controls">
-        <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button class="pag-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg></button>
+          </svg>
+        </button>
         <button class="pag-btn active">1</button>
-        <button class="pag-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button class="pag-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg></button>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
