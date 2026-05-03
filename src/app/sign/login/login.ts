@@ -6,6 +6,7 @@ import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [RouterLink, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
@@ -14,15 +15,14 @@ export class Login {
   private router = inject(Router);
   private auth = inject(Auth);
   private firestore = inject(Firestore);
+  
   email: string = '';
   password: string = '';
-  role: string = '';
 
-onLogin(event: Event) {
+  onLogin(event: Event) {
     event.preventDefault();
     if (!this.email || !this.password) return;
 
-    // Use .then() instead of await to maintain Injection Context
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then(async (userCredential) => {
         const user = userCredential.user;
@@ -32,25 +32,21 @@ onLogin(event: Event) {
           const userData = userDoc.data();
           const isSuperAdmin = userData['role'] === 'Super Admin';
           
+          // Check for approval status
           if (!isSuperAdmin && userData['status'] !== 'Approved') {
             await signOut(this.auth);
             alert("Your account is currently pending approval. Please contact a Super Admin.");
             return;
           }
 
-          if (userData['role'] === this.role) {
-            // Update last login and set online
-            await updateDoc(doc(this.firestore, 'users', user.uid), {
-              lastLogin: new Date().toISOString(),
-              isOnline: true
-            });
+          // Update last login and set online
+          await updateDoc(doc(this.firestore, 'users', user.uid), {
+            lastLogin: new Date().toISOString(),
+            isOnline: true
+          });
 
-            localStorage.setItem('isLoggedIn', 'true');
-            this.router.navigate(['/dash']);
-          } else {
-            await signOut(this.auth);
-            alert(`Access Denied: Your assigned role is ${userData['role']}, but you selected ${this.role}.`);
-          }
+          localStorage.setItem('isLoggedIn', 'true');
+          this.router.navigate(['/dash']);
         } else {
           await signOut(this.auth);
           alert("User record not found. Please contact support.");
@@ -62,4 +58,3 @@ onLogin(event: Event) {
       });
   }
 }
-
