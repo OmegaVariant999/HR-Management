@@ -18,6 +18,7 @@ export interface UserData {
   lastLogin?: string;
   lastLogout?: string;
   isOnline?: boolean;
+  approvedAt?: string;
 }
 
 @Injectable({

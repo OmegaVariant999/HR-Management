@@ -48,25 +48,29 @@
               </td>
               <td>
                 <div class="status-col">
-                  <!-- Activity Text -->
-                  <div class="activity-info">
-                    <span class="activity-indicator" [attr.data-status]="displayStatus(user)">
-                      {{ displayStatus(user) }}
-                    </span>
-                    <small class="last-seen">
-                      {{ user.lastLogin ? (user.lastLogin | date:'shortTime') : 'Never' }}
-                    </small>
-                  </div>
-                  <!-- Approval Status Badge -->
-                  <span class="approval-tag" [class]="(user.status || '').toLowerCase()">
-                    @if ((user.status || '').toLowerCase() === 'approved') {
+                  <!-- Conditional Status Display -->
+                  @if (isRecentlyApproved(user)) {
+                    <span class="approval-tag approved pulse">
                       Access Granted
-                    } @else if ((user.status || '').toLowerCase() === 'pending') {
-                      Pending Request
-                    } @else {
-                      {{ user.status }}
+                    </span>
+                  } @else {
+                    <!-- Activity Text -->
+                    <div class="activity-info">
+                      <span class="activity-indicator" [attr.data-status]="displayStatus(user)">
+                        {{ displayStatus(user) }}
+                      </span>
+                      <small class="last-seen">
+                        {{ user.lastLogin ? (user.lastLogin | date:'shortTime') : 'Never' }}
+                      </small>
+                    </div>
+
+                    <!-- Approval Status Badge (If not active) -->
+                    @if ((user.status || '').toLowerCase() !== 'approved') {
+                      <span class="approval-tag" [class]="(user.status || '').toLowerCase()">
+                        {{ (user.status || '').toLowerCase() === 'pending' ? 'Pending Request' : user.status }}
+                      </span>
                     }
-                  </span>
+                  }
                 </div>
               </td>
             </tr>

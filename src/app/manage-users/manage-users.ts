@@ -63,27 +63,50 @@ export class ManageUsers implements OnInit {
     return getUserActivityStatus(user);
   }
 
+  // Check if user was approved in the last 10 seconds
+  isRecentlyApproved(user: UserData): boolean {
+    if (!user.approvedAt) return false;
+    const approvedAt = new Date(user.approvedAt);
+    const diffSeconds = (new Date().getTime() - approvedAt.getTime()) / 1000;
+    return diffSeconds < 10;
+  }
+
   async openEditDialog(user: UserData) {
     const dialogRef = this.dialog.open(EditUserDialog, {
-      width: '400px',
+      width: '450px',
       data: { ...user },
       panelClass: 'dark-dialog-panel'
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
+        if (result.action === 'delete') {
+          await this.deleteUser(user.uid);
+          return;
+        }
+
         const userDocRef = doc(this.firestore, 'users', user.uid);
-        await updateDoc(userDocRef, { 
+        const updates: any = { 
           role: result.role,
           status: result.status 
-        });
+        };
+
+        // If status changed to Approved, set approvedAt
+        if (result.status === 'Approved' && user.status !== 'Approved') {
+          updates.approvedAt = new Date().toISOString();
+        }
+
+        await updateDoc(userDocRef, updates);
       }
     });
   }
 
   async approveUser(uid: string) {
     const userDocRef = doc(this.firestore, 'users', uid);
-    await updateDoc(userDocRef, { status: 'Approved' });
+    await updateDoc(userDocRef, { 
+      status: 'Approved',
+      approvedAt: new Date().toISOString()
+    });
   }
 
   async rejectUser(uid: string) {
@@ -92,7 +115,7 @@ export class ManageUsers implements OnInit {
   }
 
   async deleteUser(uid: string) {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (confirm(`Are you sure you want to permanently delete ${uid}? This action cannot be undone.`)) {
       const userDocRef = doc(this.firestore, 'users', uid);
       await deleteDoc(userDocRef);
     }

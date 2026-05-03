@@ -65,6 +65,8 @@ import { UserRole } from '../services/auth.service';
       </div>
 
       <div class="dialog-footer">
+        <button class="footer-btn delete" (click)="onDelete()">Delete Member</button>
+        <div class="spacer"></div>
         <button class="footer-btn ghost" (click)="onCancel()">Dismiss</button>
         <button class="footer-btn primary" (click)="onSave()">Update Account</button>
       </div>
@@ -143,14 +145,18 @@ import { UserRole } from '../services/auth.service';
 
     .dialog-footer {
       padding: 24px 32px; background: #1e293b; border-top: 1px solid #334155;
-      display: flex; justify-content: flex-end; gap: 12px;
+      display: flex; align-items: center; gap: 12px;
     }
+
+    .spacer { flex: 1; }
 
     .footer-btn { padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .footer-btn.ghost { background: transparent; border: 1px solid #334155; color: #94a3b8; }
     .footer-btn.ghost:hover { background: #0f172a; color: #f1f5f9; }
     .footer-btn.primary { background: #3b82f6; border: none; color: white; }
     .footer-btn.primary:hover { background: #2563eb; transform: translateY(-1px); }
+    .footer-btn.delete { background: transparent; border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
+    .footer-btn.delete:hover { background: #450a0a; border-color: #ef4444; color: white; }
 
     ::ng-deep .mat-mdc-dialog-container { padding: 0 !important; border-radius: 16px !important; }
   `]
@@ -168,5 +174,6 @@ export class EditUserDialog {
   }
 
   onCancel() { this.dialogRef.close(); }
+  onDelete() { this.dialogRef.close({ action: 'delete' }); }
   onSave() { this.dialogRef.close({ role: this.role, status: this.status }); }
 }

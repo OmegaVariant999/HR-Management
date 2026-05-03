@@ -198,6 +198,16 @@ td {
 .approval-tag.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
 .approval-tag.rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
 
+.pulse {
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); background: rgba(16, 185, 129, 0.2); }
+  100% { transform: scale(1); }
+}
+
 .empty-state {
   text-align: center;
   padding: 48px;
